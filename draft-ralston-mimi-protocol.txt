@@ -71,13 +71,14 @@ Table of Contents
 
    1.  Introduction
    2.  Rooms
-   3.  Participation
-   4.  Membership
-   5.  Transport
-   6.  Conventions and Definitions
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  Normative References
+   3.  TODO: Scenario content
+   4.  Participation
+   5.  Membership
+   6.  Transport
+   7.  Conventions and Definitions
+   8.  Security Considerations
+   9.  IANA Considerations
+   10. Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -87,11 +88,80 @@ Table of Contents
 
 2.  Rooms
 
-   *TODO*:
+   Described by [I-D.barnes-mimi-arch], rooms have state which track the
+   policy, user participation list, and other metadata.  The room
+   additionally contains an MLS group for actual conversation flows.
 
-   *  Persistence?
+   Everything in a room is described as a signaling event.  Room state
+   information is transmitted as a "state event".  Each event contains
+   exactly 1 datum.
 
-3.  Participation
+   *TODO*: Talk about history, event chaining, etc.
+
+   *TODO*: Talk about event format.
+
+   *TODO*: Talk about where rooms are persisted.
+
+3.  TODO: Scenario content
+
+   Incorporate scenario flows.
+
+   Alice adds Bob:
+
+   1.  Alice creates room.
+
+   2.  Alice signals invite for Bob.
+
+   3.  Hub server (Alice's) contacts Bob's server and sends invite.
+
+   4.  Bob's server checks that it is capable of participating.
+
+   5.  Bob's clients receive invite.
+
+   6.  Later: Bob's client accepts invite by sending a join signaling
+       event through the hub to all other participants.
+
+   7.  Bob's client retrieves GroupInfo.
+
+   8.  Bob creates and sends an external commit through the hub.
+
+   Alice adds Bob (alternative):
+
+   1.  Alice creates room.
+
+   2.  Alice discovers all of Bob's clients.
+
+   3.  Alice prepares Welcome messages, attaches them to a signaling
+       join event for Bob.
+
+   4.  That package is sent via the hub to Bob's server.
+
+   5.  Bob's server verifies it is capable of participating.
+
+   6.  Bob's server acks the request as OK, informs Bob that they're now
+       joined and delivers accompanying Welcome messages.
+
+   7.  Concurrent to the ack, hub fans out the join.
+
+   8.  Bob is now both a participant and a member.
+
+   Alice leaves:
+
+   1.  Alice proposes self-eviction via remove proposals.
+
+   2.  Alice leaves via signaling event.
+
+   3.  Hub requires Alice's proposals to be committed next.
+
+   Alice leaves (alternative):
+
+   1.  Alice leaves via signaling event.
+
+   2.  Hub (or any other member) generates remove proposals for Alice.
+
+   3.  Hub requires those proposals to be committed next.
+
+4.  Participation
 
    *TODO*:
 
@@ -99,17 +169,17 @@ Table of Contents
 
    *  Skip policy and consent for now
 
-4.  Membership
+5.  Membership
 
    *TODO*:
 
    *  MLS
 
-5.  Transport
+6.  Transport
 
    *TODO*: This section.  Or do we imply it throughout?
 
-6.  Conventions and Definitions
+7.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -117,17 +187,17 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-7.  Security Considerations
+8.  Security Considerations
 
    *TODO*: Probably more words. (or imply throughout)
 
-8.  IANA Considerations
+9.  IANA Considerations
 
    This document has no IANA actions.
 
    *TODO*: This needs content.
 
-9.  Normative References
+10.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
