@@ -70,10 +70,14 @@ Copyright Notice
 Table of Contents
 
    1.  Introduction
-   2.  Conventions and Definitions
-   3.  Security Considerations
-   4.  IANA Considerations
-   5.  Normative References
+   2.  Rooms
+   3.  Participation
+   4.  Membership
+   5.  Transport
+   6.  Conventions and Definitions
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  Normative References
    Acknowledgments
    Authors' Addresses
 
@@ -81,7 +85,31 @@ Table of Contents
 
    *TODO*: Introduction
 
-2.  Conventions and Definitions
+2.  Rooms
+
+   *TODO*:
+
+   *  Persistence?
+
+3.  Participation
+
+   *TODO*:
+
+   *  In general case, signaling leads encryption
+
+   *  Skip policy and consent for now
+
+4.  Membership
+
+   *TODO*:
+
+   *  MLS
+
+5.  Transport
+
+   *TODO*: This section.  Or do we imply it throughout?
+
+6.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
    "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
@@ -89,17 +117,17 @@ Table of Contents
    BCP 14 [RFC2119] [RFC8174] when, and only when, they appear in all
    capitals, as shown here.
 
-3.  Security Considerations
+7.  Security Considerations
 
-   *TODO*: Probably more words.
+   *TODO*: Probably more words. (or imply throughout)
 
-4.  IANA Considerations
+8.  IANA Considerations
 
    This document has no IANA actions.
 
    *TODO*: This needs content.
 
-5.  Normative References
+9.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
