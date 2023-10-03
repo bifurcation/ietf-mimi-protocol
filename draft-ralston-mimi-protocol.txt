@@ -5,8 +5,8 @@
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
 Intended status: Standards Track                                 R. Mahy
-Expires: 1 April 2024                                               Wire
-                                                       29 September 2023
+Expires: 5 April 2024                                               Wire
+                                                          3 October 2023
 
 
                              MIMI Protocol
@@ -14,10 +14,9 @@ Expires: 1 April 2024                                               Wire
 
 Abstract
 
-   This document describes the MIMI protocol, as defined by
-   [I-D.barnes-mimi-arch].
-
-   *TODO*: Probably more words.
+   This document describes the transport and messaging protocols
+   required for interoperable instant messaging using MLS [RFC9420], as
+   defined by [I-D.barnes-mimi-arch].
 
 About This Document
 
@@ -51,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 1 April 2024.
+   This Internet-Draft will expire on 5 April 2024.
 
 Copyright Notice
 
@@ -214,6 +213,11 @@ Table of Contents
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
               May 2017, <https://www.rfc-editor.org/rfc/rfc8174>.
+
+   [RFC9420]  Barnes, R., Beurdouche, B., Robert, R., Millican, J.,
+              Omara, E., and K. Cohn-Gordon, "The Messaging Layer
+              Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
+              July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
 Acknowledgments
 
