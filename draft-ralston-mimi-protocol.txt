@@ -5,8 +5,8 @@
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
 Intended status: Standards Track                                 R. Mahy
-Expires: 5 April 2024                                               Wire
-                                                          3 October 2023
+Expires: 6 April 2024                                               Wire
+                                                          4 October 2023
 
 
                              MIMI Protocol
@@ -50,7 +50,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 April 2024.
+   This Internet-Draft will expire on 6 April 2024.
 
 Copyright Notice
 
@@ -77,7 +77,9 @@ Table of Contents
    7.  Conventions and Definitions
    8.  Security Considerations
    9.  IANA Considerations
-   10. Normative References
+   10. References
+     10.1.  Normative References
+     10.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -196,7 +198,9 @@ Table of Contents
 
    *TODO*: This needs content.
 
-10.  Normative References
+10.  References
+
+10.1.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
@@ -219,9 +223,45 @@ Table of Contents
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
               July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
+10.2.  Informative References
+
+   [I-D.kohbrok-mimi-transport]
+              Kohbrok, K. and R. Robert, "MIMI Transport", Work in
+              Progress, Internet-Draft, draft-kohbrok-mimi-transport-01,
+              21 September 2023, <https://datatracker.ietf.org/doc/html/
+              draft-kohbrok-mimi-transport-01>.
+
+   [I-D.ralston-mimi-policy]
+              Ralston, T. and M. Hodgson, "MIMI Policy Envelope", Work
+              in Progress, Internet-Draft, draft-ralston-mimi-policy-00,
+              22 September 2023, <https://datatracker.ietf.org/doc/html/
+              draft-ralston-mimi-policy-00>.
+
+   [I-D.ralston-mimi-signaling]
+              Ralston, T. and M. Hodgson, "MIMI Signaling Protocol",
+              Work in Progress, Internet-Draft, draft-ralston-mimi-
+              signaling-00, 22 September 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ralston-mimi-
+              signaling-00>.
+
+   [I-D.robert-mimi-delivery-service]
+              Robert, R. and K. Kohbrok, "MIMI Delivery Service", Work
+              in Progress, Internet-Draft, draft-robert-mimi-delivery-
+              service-04, 21 September 2023,
+              <https://datatracker.ietf.org/doc/html/draft-robert-mimi-
+              delivery-service-04>.
+
 Acknowledgments
 
-   *TODO*: Acknowledge
+   This document is the consolidation of the following documents:
+
+   *  [I-D.robert-mimi-delivery-service]
+
+   *  [I-D.ralston-mimi-signaling]
+
+   *  [I-D.ralston-mimi-policy]
+
+   *  [I-D.kohbrok-mimi-transport]
 
 Authors' Addresses
 
