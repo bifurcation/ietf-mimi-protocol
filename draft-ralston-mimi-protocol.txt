@@ -84,15 +84,23 @@ Table of Contents
        3.2.3.  Signatures
      3.3.  Creation
        3.3.1.  m.room.create
-   4.  TODO: Sections
-     4.1.  m.room.redaction
-     4.2.  m.room.user
-   5.  TODO: Scenario content
-   6.  Security Considerations
-   7.  IANA Considerations
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   4.  User Participation and Client Membership
+     4.1.  Invites
+     4.2.  Joins
+     4.3.  Leaves/Kicks
+     4.4.  Knocks
+   5.  TODO: Sections
+     5.1.  m.room.redaction
+     5.2.  m.room.user
+     5.3.  Fanout
+     5.4.  Operation: Send Event
+     5.5.  Operation: Check Event
+   6.  TODO: Scenario content
+   7.  Security Considerations
+   8.  IANA Considerations
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -232,7 +240,7 @@ Table of Contents
    1.  When a mismatched content hash (Section 3.2.2) for an event is
        received.
 
-   2.  When an m.room.redaction (Section 4.1) message event is received,
+   2.  When an m.room.redaction (Section 5.1) message event is received,
        targeting an event.
 
    When applying a redaction, all fields described by Section 3.1 MUST
@@ -254,7 +262,7 @@ Table of Contents
    of a partial event to send.  The specific event types required to be
    referenced in this field are described by the room policy, but are
    typically the m.room.create (Section 3.3.1), and m.room.user
-   (Section 4.2) state events at a minimum.  If an event is missing a
+   (Section 5.2) state events at a minimum.  If an event is missing a
    required auth event, or contains a reference to an unknown/rejected
    event, the event is rejected.
 
@@ -356,7 +364,7 @@ Table of Contents
 
    *  A universally unique room ID (represented by the create event).
 
-   *  An m.room.user (Section 4.2) state event which points to the
+   *  An m.room.user (Section 5.2) state event which points to the
       create event as a parent for the create event's sender.
 
    *  An MLS group with a group ID matching the room ID, and contains a
@@ -395,18 +403,154 @@ Table of Contents
 
    *  The event MUST be the first event in the room.
 
-4.  TODO: Sections
+4.  User Participation and Client Membership
+
+   In a MIMI room, users are _participants_ with an associated
+   _participation state_ whereas clients of those users are _members_ of
+   the MLS group.  In most scenarios, the user's participation state is
+   updated first or simultaneously with the MLS group membership to
+   enforce membership more easily.
+
+   Users will always exist in one of the following participation states:
+
+   enum {
+      invite,  // "Invited" state.
+      join,    // "Joined" state.
+      leave,   // "Left" state (including Kicked).
+      ban,     // "Banned" state.
+      knock,   // "Knocking" state.
+      (65535)
+   } ParticipationState;
+
+   These states allow a user to remain logically "joined" to the
+   conversation when they have zero MLS-capable clients available.  The
+   user will not be able to see messages sent while they had no clients,
+   but can perform an external join at any time to get back into the MLS
+   group.  A user with zero clients in the MLS group is considered to be
+   an _inactive participant_. Users with one or more clients in the MLS
+   group are _active participants_.
+
+   All servers with at least one user of theirs in the "joined"
+   participation state are considered to be "in" or "participating" in
+   the room.  By default, all events sent to a room are distrubuted by
+   the hub to participating servers.  This is discussed further in
+   Section 5.3.
+
+4.1.  Invites
+
+   An _invite_ is when a user (or more specifically, a user's client) is
+   attempting to introduce _all_ of another user's clients to the room
+   and MLS group.  This is first done by updating the target user's
+   participation state through the hub server for the room.
+
+   Updating the target user's participation state is done using the
+   following steps, and is visualized in Figure 1.
+
+   1.  The inviter's server generates an m.room.user (Section 5.2) state
+       event to invite the target user.  Typically this begins with a
+       client-initiated request to the server using the provider-
+       specific API.
+
+   2.  The inviter's server sends (Section 5.4) the m.room.user event to
+       the hub server.  If the inviter's server is the hub server, it
+       does the steps described in Section 5.4 to complete the event.
+
+   3.  The hub server validates the event to ensure the following:
+
+       *  The target user of the invite MUST NOT already be in the
+          banned or joined states.
+
+       *  The sender of the invite MUST already be in the joined state.
+
+   4.  If the event is invalid, it is rejected.  Otherwise, it is
+       forwarded by the hub to the target user's server to give it the
+       opportunity to reject the invite early in the process.  This is
+       described by Section 5.5.
+
+   5.  If the target server rejected the event, the event is rejected by
+       the hub as well.  Otherwise, the event is fanned out
+       (Section 5.3) to all participating servers, plus the target
+       server if not already participating.
+
+   At this stage, the _user_ is now invited but their clients are not
+   members of the MLS group.  The invite is delivered to the target's
+   clients through relevant provider-specific API where the user can
+   then accept or decline the invite.
+
+   If the user declines the invite, they are transitioned to the leave
+   state described by Section 4.3.  Accepting is done by joining
+   (Section 4.2) the room.
+
+   +---+                            +-----+                         +---+
+   | A |                            | Hub |                         | B |
+   +---+                            +-----+                         +---+
+     |                                 |                              |
+     | Create m.room.user invite       |                              |
+     |--------------------------       |                              |
+     |                         |       |                              |
+     |<-------------------------       |                              |
+     |                                 |                              |
+     | Send event request initiated    |                              |
+     |-------------------------------->|                              |
+     |                                 |                              |
+     |                                 | Validate m.room.user event   |
+     |                                 |---------------------------   |
+     |                                 |                          |   |
+     |                                 |<--------------------------   |
+     |                                 |                              |
+     |    200 OK to send event request |                              |
+     |<--------------------------------|                              |
+     |                                 |                              |
+     |                                 | Check event request          |
+     |                                 |----------------------------->|
+     |                                 |                              |
+     |                                 |                       200 OK |
+     |                                 |<-----------------------------|
+     |                                 |                              |
+     |           Async fanout of event | Async fanout of event        |
+     |<--------------------------------|----------------------------->|
+     |                                 |                              |
+
+                        Figure 1: Invite happy path
+
+4.2.  Joins
+
+4.3.  Leaves/Kicks
+
+4.4.  Knocks
+
+   In this state, the sender of a knock is requesting an invite
+   (Section 4.1) to the room.  They do not have access to the MLS group.
+
+      *TODO*: Discuss if this participation state is desirable, and
+      figure out details for how it works.  It'd likely just be an
+      m.room.user state event with no MLS interaction, like invites are.
+
+5.  TODO: Sections
 
    _These headers exist as placeholder anchors._
 
       *TODO*: This placeholder section should be removed before first
       publish.
 
-4.1.  m.room.redaction
+5.1.  m.room.redaction
 
-4.2.  m.room.user
+5.2.  m.room.user
 
-5.  TODO: Scenario content
+5.3.  Fanout
+
+   _Reference Section 4_.
+
+5.4.  Operation: Send Event
+
+   _Reference "complete fields on event and resume further processing
+   before Section 5.3"_.
+
+5.5.  Operation: Check Event
+
+   _Ensure supports policy, encryption, and has consent_.
+
+6.  TODO: Scenario content
 
       *TODO*: This placeholder section should be removed before first
       publish.
@@ -468,19 +612,19 @@ Table of Contents
 
    3.  Hub requires those proposals to be committed next.
 
-6.  Security Considerations
+7.  Security Considerations
 
       *TODO*: Populate this section.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    This document has no IANA actions.
 
-      *TODO*: Populate this section.s
+      *TODO*: Populate this section.
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
@@ -518,7 +662,7 @@ Table of Contents
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
               July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
-8.2.  Informative References
+9.2.  Informative References
 
    [I-D.kohbrok-mimi-transport]
               Kohbrok, K. and R. Robert, "MIMI Transport", Work in
@@ -558,11 +702,11 @@ Acknowledgments
 
    *  [I-D.ralston-mimi-signaling]
 
-   *  [I-D.ralston-mimi-policy]
-
-         *TODO*: Verify this was consolidated/relevant.
-
    *  [I-D.kohbrok-mimi-transport]
+
+   Aspects of [I-D.ralston-mimi-policy] are additionally taken into
+   consideration in this document, but is largely unincorporated and may
+   require updates to match this document's specifics.
 
 Authors' Addresses
 
