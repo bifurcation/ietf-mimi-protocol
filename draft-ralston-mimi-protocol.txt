@@ -94,18 +94,20 @@ Table of Contents
      4.4.  Bans
      4.5.  Knocks
      4.6.  m.room.user
-   5.  TODO: Sections
-     5.1.  Fanout
-     5.2.  Operation: Send Event
-     5.3.  Operation: Check Event
-     5.4.  Operation: Information for External Commit
-     5.5.  Operation: Claim Key Packages
-   6.  Security Considerations
-   7.  IANA Considerations
-     7.1.  MIMI Event Types
-   8.  References
-     8.1.  Normative References
-     8.2.  Informative References
+   5.  Application Messages
+     5.1.  m.room.encrypted
+   6.  TODO: Sections
+     6.1.  Fanout
+     6.2.  Operation: Send Event
+     6.3.  Operation: Check Event
+     6.4.  Operation: Information for External Commit
+     6.5.  Operation: Claim Key Packages
+   7.  Security Considerations
+   8.  IANA Considerations
+     8.1.  MIMI Event Types
+   9.  References
+     9.1.  Normative References
+     9.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -429,7 +431,7 @@ Table of Contents
       server upon receipt.
 
    Redaction events are sent to the hub server for fanout with
-   Section 5.2.
+   Section 6.2.
 
 4.  User Participation and Client Membership
 
@@ -462,7 +464,7 @@ Table of Contents
    participation state are considered to be "in" or "participating" in
    the room.  By default, all events sent to a room are distrubuted by
    the hub to participating servers.  This is discussed further in
-   Section 5.1.
+   Section 6.1.
 
 4.1.  Invites
 
@@ -479,9 +481,9 @@ Table of Contents
        client-initiated request to the server using the provider-
        specific API.
 
-   2.  The inviter's server sends (Section 5.2) the m.room.user event to
+   2.  The inviter's server sends (Section 6.2) the m.room.user event to
        the hub server.  If the inviter's server is the hub server, it
-       does the steps described in Section 5.2 to complete the event.
+       does the steps described in Section 6.2 to complete the event.
 
    3.  The hub server validates the event to ensure the following:
 
@@ -493,11 +495,11 @@ Table of Contents
    4.  If the event is invalid, it is rejected.  Otherwise, it is
        forwarded by the hub to the target user's server to give it the
        opportunity to reject the invite early in the process.  This is
-       described by Section 5.3.
+       described by Section 6.3.
 
    5.  If the target server rejected the event, the event is rejected by
        the hub as well.  Otherwise, the event is fanned out
-       (Section 5.1) to all participating servers, plus the target
+       (Section 6.1) to all participating servers, plus the target
        server if not already participating.
 
    At this stage, the _user_ is now invited but their clients are not
@@ -570,8 +572,8 @@ Table of Contents
 
    The joining user's server first updates the user's participation
    state (an m.room.user state event, Section 4.6) and sends that to the
-   hub (Section 5.2) for validation.  If the joining user's server is
-   the hub server, it does the steps described in Section 5.2 to
+   hub (Section 6.2) for validation.  If the joining user's server is
+   the hub server, it does the steps described in Section 6.2 to
    complete the event.
 
    The join event is then validated by the hub as follows:
@@ -587,7 +589,7 @@ Table of Contents
       *TODO*: Incorporate public and invite-only room conditions from
       policy.
 
-   If the event is valid, it is fanned out (Section 5.1) to all
+   If the event is valid, it is fanned out (Section 6.1) to all
    participating servers in the room, which now includes the joining
    server (if not already).
 
@@ -596,7 +598,7 @@ Table of Contents
       maybe.
 
    The user's clients are then able to use external commits to join the
-   MLS group.  This is accomplished using Section 5.4.
+   MLS group.  This is accomplished using Section 6.4.
 
 4.2.2.  Welcome Flow
 
@@ -607,16 +609,16 @@ Table of Contents
    external commit.
 
    The inviting user's client first requests Key Packages for all of the
-   target user's client through Section 5.5.  The inviting client then
+   target user's client through Section 6.5.  The inviting client then
    uses the Key Packages to create Welcome MLS messages for the target
    user's clients.
 
    The Welcome messages are sent to the hub server alongside an
-   m.room.user (Section 4.6) invite event using Section 5.2.  If the
+   m.room.user (Section 4.6) invite event using Section 6.2.  If the
    inviting user's server is the hub server for the room, it completes
-   the event using the steps described by Section 5.2 instead.  The
+   the event using the steps described by Section 6.2 instead.  The
    event is validated according to Section 4.1 and fanned out
-   (Section 5.1) to all participating servers, plus the target user's
+   (Section 6.1) to all participating servers, plus the target user's
    server.  The target user's server also receives the Welcome messages
    to deliver to the relevant clients.
 
@@ -640,7 +642,7 @@ Table of Contents
 
    Like with other participation/membership operations, a user's leave
    is initiated by updating their participation state first.  This is
-   done by sending (Section 5.2) the relevant m.room.user (Section 4.6)
+   done by sending (Section 6.2) the relevant m.room.user (Section 4.6)
    state event to the hub, which validates it as follows:
 
    *  If the target and sender are the same, the user MUST be in the
@@ -656,7 +658,7 @@ Table of Contents
 
       *TODO*: Include special case permissions constraints.
 
-   If the event is valid, it is fanned out (Section 5.1) to all
+   If the event is valid, it is fanned out (Section 6.1) to all
    particpating servers, plus the target user's server.
 
    The next commit in the MLS group MUST remove _all_ of the target
@@ -729,41 +731,74 @@ Table of Contents
 
       *TODO*: Include auth rules for permissions.
 
-5.  TODO: Sections
+5.  Application Messages
+
+   Clients engage in messaging through use of a content format
+   ([I-D.ietf-mimi-content-format]) and MLS Application Messages.  The
+   resulting PrivateMessage is carried in an m.room.encrypted
+   (Section 5.1) event.
+
+   The client's server sends the event to the hub with Section 6.2.  If
+   the client's server is the room's hub server, it completes the events
+   with the steps described by Section 6.2 instead.  The event is then
+   fanned out (Section 6.1) by the hub to all participating servers in
+   the room, including the sender's.
+
+   How the event goes from client to server, and server to client, is
+   out of scope for this document.
+
+5.1.  m.room.encrypted
+
+   *Event type*: m.room.encrypted
+
+   *State key*: Not present.
+
+   *Additional event fields*:
+
+   struct {
+      // The PrivateMessage
+      MLSMessage message;
+   } EncryptedEvent;
+
+   *Additional authentication rules*:
+
+   *  message MUST be an MLS PrivateMessage.
+
+6.  TODO: Sections
 
    _These headers exist as placeholder anchors._
 
       *TODO*: This placeholder section should be removed before first
       publish.
 
-5.1.  Fanout
+6.1.  Fanout
 
    _Reference Section 4_.
 
-5.2.  Operation: Send Event
+6.2.  Operation: Send Event
 
    _Reference "complete fields on event and resume further processing
-   before Section 5.1"_.
+   before Section 6.1"_.
 
-5.3.  Operation: Check Event
+6.3.  Operation: Check Event
 
    _Ensure supports policy, encryption, and has consent_.
 
-5.4.  Operation: Information for External Commit
+6.4.  Operation: Information for External Commit
 
-5.5.  Operation: Claim Key Packages
+6.5.  Operation: Claim Key Packages
 
-6.  Security Considerations
+7.  Security Considerations
 
       *TODO*: Populate this section.
 
-7.  IANA Considerations
+8.  IANA Considerations
 
    IANA has created the following registries:
 
    *  MIMI Event Types
 
-7.1.  MIMI Event Types
+8.1.  MIMI Event Types
 
    An event type denotes the nature of a payload contained in an event,
    in the context of the MIMI protocol.  The event type is a string
@@ -778,9 +813,9 @@ Table of Contents
       *TODO*: Does IANA need any other information for legal event
       types?
 
-8.  References
+9.  References
 
-8.1.  Normative References
+9.1.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
@@ -818,7 +853,10 @@ Table of Contents
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
               July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
-8.2.  Informative References
+9.2.  Informative References
+
+   [I-D.ietf-mimi-content-format]
+              "*** BROKEN REFERENCE ***".
 
    [I-D.kohbrok-mimi-transport]
               Kohbrok, K. and R. Robert, "MIMI Transport", Work in
