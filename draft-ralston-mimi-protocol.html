@@ -1187,7 +1187,13 @@ interoperability.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
                 </ul>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.4">
-                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-mroomredaction" class="internal xref"><code>m.room.redaction</code></a></p>
+                <p id="section-toc.1-1.3.2.4.1"><a href="#section-3.4" class="auto internal xref">3.4</a>.  <a href="#name-hub-server-selection" class="internal xref">Hub Server Selection</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.5">
+                <p id="section-toc.1-1.3.2.5.1"><a href="#section-3.5" class="auto internal xref">3.5</a>.  <a href="#name-reinitialization" class="internal xref">ReInitialization</a></p>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.6">
+                <p id="section-toc.1-1.3.2.6.1"><a href="#section-3.6" class="auto internal xref">3.6</a>.  <a href="#name-mroomredaction" class="internal xref"><code>m.room.redaction</code></a></p>
 </li>
             </ul>
 </li>
@@ -1231,22 +1237,36 @@ interoperability.<a href="#section-abstract-1" class="pilcrow">¶</a></p>
             </ul>
 </li>
           <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6">
-            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-todo-sections" class="internal xref">TODO: Sections</a></p>
+            <p id="section-toc.1-1.6.1"><a href="#section-6" class="auto internal xref">6</a>.  <a href="#name-transport" class="internal xref">Transport</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.1">
-                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-fanout" class="internal xref">Fanout</a></p>
+                <p id="section-toc.1-1.6.2.1.1"><a href="#section-6.1" class="auto internal xref">6.1</a>.  <a href="#name-authentication-2" class="internal xref">Authentication</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.2">
-                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-operation-send-event" class="internal xref">Operation: Send Event</a></p>
+                <p id="section-toc.1-1.6.2.2.1"><a href="#section-6.2" class="auto internal xref">6.2</a>.  <a href="#name-endpoint-discovery" class="internal xref">Endpoint Discovery</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3">
-                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-operation-check-event" class="internal xref">Operation: Check Event</a></p>
+                <p id="section-toc.1-1.6.2.3.1"><a href="#section-6.3" class="auto internal xref">6.3</a>.  <a href="#name-rest-endpoints" class="internal xref">REST Endpoints</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.1">
+                    <p id="section-toc.1-1.6.2.3.2.1.1"><a href="#section-6.3.1" class="auto internal xref">6.3.1</a>.  <a href="#name-send-event" class="internal xref">Send Event</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.4">
-                <p id="section-toc.1-1.6.2.4.1"><a href="#section-6.4" class="auto internal xref">6.4</a>.  <a href="#name-operation-information-for-e" class="internal xref">Operation: Information for External Commit</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.2">
+                    <p id="section-toc.1-1.6.2.3.2.2.1"><a href="#section-6.3.2" class="auto internal xref">6.3.2</a>.  <a href="#name-check-invite-event" class="internal xref">Check Invite Event</a></p>
 </li>
-              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.5">
-                <p id="section-toc.1-1.6.2.5.1"><a href="#section-6.5" class="auto internal xref">6.5</a>.  <a href="#name-operation-claim-key-package" class="internal xref">Operation: Claim Key Packages</a></p>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.3">
+                    <p id="section-toc.1-1.6.2.3.2.3.1"><a href="#section-6.3.3" class="auto internal xref">6.3.3</a>.  <a href="#name-retrieve-event" class="internal xref">Retrieve Event</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.4">
+                    <p id="section-toc.1-1.6.2.3.2.4.1"><a href="#section-6.3.4" class="auto internal xref">6.3.4</a>.  <a href="#name-retrieve-keypackages" class="internal xref">Retrieve KeyPackages</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.5">
+                    <p id="section-toc.1-1.6.2.3.2.5.1"><a href="#section-6.3.5" class="auto internal xref">6.3.5</a>.  <a href="#name-external-group-join" class="internal xref">External Group Join</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.6.2.3.2.6">
+                    <p id="section-toc.1-1.6.2.3.2.6.1"><a href="#section-6.3.6" class="auto internal xref">6.3.6</a>.  <a href="#name-add-remove-and-update-mls-g" class="internal xref">Add, Remove, and Update MLS Group Clients</a></p>
+</li>
+                </ul>
 </li>
             </ul>
 </li>
@@ -1420,7 +1440,7 @@ the content format for application messages in MIMI.<a href="#section-3.2-2" cla
             <p id="section-3.2-4.1.1">When a mismatched content hash (<a href="#content-hash" class="auto internal xref">Section 3.2.2</a>) for an event is received.<a href="#section-3.2-4.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-3.2-4.2">
-            <p id="section-3.2-4.2.1">When an <code>m.room.redaction</code> (<a href="#ev-mroomredaction" class="auto internal xref">Section 3.4</a>) message event is received,
+            <p id="section-3.2-4.2.1">When an <code>m.room.redaction</code> (<a href="#ev-mroomredaction" class="auto internal xref">Section 3.6</a>) message event is received,
 targeting an event.<a href="#section-3.2-4.2.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
@@ -1609,33 +1629,60 @@ this new field from redaction.<a href="#section-3.3.1-6.1.1" class="pilcrow">¶<
 </div>
 </section>
 </div>
-<div id="ev-mroomredaction">
+<div id="hub-server-selection">
 <section id="section-3.4">
-        <h3 id="name-mroomredaction">
-<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-mroomredaction" class="section-name selfRef"><code>m.room.redaction</code></a>
+        <h3 id="name-hub-server-selection">
+<a href="#section-3.4" class="section-number selfRef">3.4. </a><a href="#name-hub-server-selection" class="section-name selfRef">Hub Server Selection</a>
         </h3>
-<p id="section-3.4-1"><strong>Event type</strong>: <code>m.room.redaction</code><a href="#section-3.4-1" class="pilcrow">¶</a></p>
-<p id="section-3.4-2"><strong>State key</strong>: Not present.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
-<p id="section-3.4-3"><strong>Additional event fields</strong>:<a href="#section-3.4-3" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.4-4">
+<p id="section-3.4-1">The hub server for a room is the origin server of the <code>m.room.create</code>
+(<a href="#ev-mroomcreate" class="auto internal xref">Section 3.3.1</a>) event.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.4-2.1">
+            <p id="section-3.4-2.1.1"><strong>TODO</strong>: More sophisticated selection, and possibly transfer of
+responsibility.<a href="#section-3.4-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="reinitialization">
+<section id="section-3.5">
+        <h3 id="name-reinitialization">
+<a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-reinitialization" class="section-name selfRef">ReInitialization</a>
+        </h3>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.5-1.1">
+            <p id="section-3.5-1.1.1"><strong>TODO</strong>: This topic requires further discussion around policy and lifecycle.<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+</section>
+</div>
+<div id="ev-mroomredaction">
+<section id="section-3.6">
+        <h3 id="name-mroomredaction">
+<a href="#section-3.6" class="section-number selfRef">3.6. </a><a href="#name-mroomredaction" class="section-name selfRef"><code>m.room.redaction</code></a>
+        </h3>
+<p id="section-3.6-1"><strong>Event type</strong>: <code>m.room.redaction</code><a href="#section-3.6-1" class="pilcrow">¶</a></p>
+<p id="section-3.6-2"><strong>State key</strong>: Not present.<a href="#section-3.6-2" class="pilcrow">¶</a></p>
+<p id="section-3.6-3"><strong>Additional event fields</strong>:<a href="#section-3.6-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.6-4">
 <pre>
 struct {
    // The event ID to redact.
    opaque redactedEventId;
 } RedactionEvent;
-</pre><a href="#section-3.4-4" class="pilcrow">¶</a>
+</pre><a href="#section-3.6-4" class="pilcrow">¶</a>
 </div>
-<p id="section-3.4-5"><strong>Additional authentication rules</strong>:<a href="#section-3.4-5" class="pilcrow">¶</a></p>
+<p id="section-3.6-5"><strong>Additional authentication rules</strong>:<a href="#section-3.6-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.4-6.1">
-            <p id="section-3.4-6.1.1">The <code>redactedEventId</code> <span class="bcp14">MUST</span> be an event in the room.<a href="#section-3.4-6.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.6-6.1">
+            <p id="section-3.6-6.1.1">The <code>redactedEventId</code> <span class="bcp14">MUST</span> be an event in the room.<a href="#section-3.6-6.1.1" class="pilcrow">¶</a></p>
 </li>
-          <li class="normal" id="section-3.4-6.2">
-            <p id="section-3.4-6.2.1">The affected <code>redactedEventId</code> is redacted (<a href="#event-auth" class="auto internal xref">Section 3.2</a>) by the server upon
-receipt.<a href="#section-3.4-6.2.1" class="pilcrow">¶</a></p>
+          <li class="normal" id="section-3.6-6.2">
+            <p id="section-3.6-6.2.1">The affected <code>redactedEventId</code> is redacted (<a href="#event-auth" class="auto internal xref">Section 3.2</a>) by the server upon
+receipt.<a href="#section-3.6-6.2.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.4-7">Redaction events are sent to the hub server for fanout with <a href="#op-send" class="auto internal xref">Section 6.2</a>.<a href="#section-3.4-7" class="pilcrow">¶</a></p>
+<p id="section-3.6-7">Redaction events are sent to the hub server for fanout with <a href="#op-send" class="auto internal xref">Section 6.3.1</a>.<a href="#section-3.6-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1658,7 +1705,6 @@ enum {
    leave,   // "Left" state (including Kicked).
    ban,     // "Banned" state.
    knock,   // "Knocking" state.
-   (65535)
 } ParticipationState;
 </pre><a href="#section-4-3" class="pilcrow">¶</a>
 </div>
@@ -1671,7 +1717,7 @@ in the MLS group are <em>active participants</em>.<a href="#section-4-4" class="
 <p id="section-4-5">All servers with at least one user of theirs in the "joined" participation state
 are considered to be "in" or "participating" in the room. By default, all events
 sent to a room are distrubuted by the hub to participating servers. This is
-discussed further in <a href="#fanout" class="auto internal xref">Section 6.1</a>.<a href="#section-4-5" class="pilcrow">¶</a></p>
+discussed further in <a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>.<a href="#section-4-5" class="pilcrow">¶</a></p>
 <div id="invites">
 <section id="section-4.1">
         <h3 id="name-invites">
@@ -1690,9 +1736,9 @@ event to invite the target user. Typically this begins with a
 client-initiated request to the server using the provider-specific API.<a href="#section-4.1-3.1.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-3.2">
-            <p id="section-4.1-3.2.1">The inviter's server sends (<a href="#op-send" class="auto internal xref">Section 6.2</a>) the <code>m.room.user</code> event to the hub
+            <p id="section-4.1-3.2.1">The inviter's server sends (<a href="#op-send" class="auto internal xref">Section 6.3.1</a>) the <code>m.room.user</code> event to the hub
 server. If the inviter's server is the hub server, it does the steps
-described in <a href="#op-send" class="auto internal xref">Section 6.2</a> to complete the event.<a href="#section-4.1-3.2.1" class="pilcrow">¶</a></p>
+described in <a href="#op-send" class="auto internal xref">Section 6.3.1</a> to complete the event.<a href="#section-4.1-3.2.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-3.3">
             <p id="section-4.1-3.3.1">The hub server validates the event to ensure the following:<a href="#section-4.1-3.3.1" class="pilcrow">¶</a></p>
@@ -1709,11 +1755,11 @@ states.<a href="#section-4.1-3.3.2.1.1" class="pilcrow">¶</a></p>
           <li id="section-4.1-3.4">
             <p id="section-4.1-3.4.1">If the event is invalid, it is rejected. Otherwise, it is forwarded by the
 hub to the target user's server to give it the opportunity to reject the
-invite early in the process. This is described by <a href="#op-check" class="auto internal xref">Section 6.3</a>.<a href="#section-4.1-3.4.1" class="pilcrow">¶</a></p>
+invite early in the process. This is described by <a href="#op-check" class="auto internal xref">Section 6.3.2</a>.<a href="#section-4.1-3.4.1" class="pilcrow">¶</a></p>
 </li>
           <li id="section-4.1-3.5">
             <p id="section-4.1-3.5.1">If the target server rejected the event, the event is rejected by the hub as
-well. Otherwise, the event is fanned out (<a href="#fanout" class="auto internal xref">Section 6.1</a>) to all participating
+well. Otherwise, the event is fanned out (<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>) to all participating
 servers, plus the target server if not already participating.<a href="#section-4.1-3.5.1" class="pilcrow">¶</a></p>
 </li>
         </ol>
@@ -1836,8 +1882,8 @@ after joining without issue, which may involve an external commit.<a href="#sect
           </h4>
 <p id="section-4.2.1-1">The joining user's server first updates the user's participation state (an
 <code>m.room.user</code> state event, <a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) and sends that to the hub
-(<a href="#op-send" class="auto internal xref">Section 6.2</a>) for validation. If the joining user's server is the hub server, it
-does the steps described in <a href="#op-send" class="auto internal xref">Section 6.2</a> to complete the event.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
+(<a href="#op-send" class="auto internal xref">Section 6.3.1</a>) for validation. If the joining user's server is the hub server, it
+does the steps described in <a href="#op-send" class="auto internal xref">Section 6.3.1</a> to complete the event.<a href="#section-4.2.1-1" class="pilcrow">¶</a></p>
 <p id="section-4.2.1-2">The join event is then validated by the hub as follows:<a href="#section-4.2.1-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.2.1-3.1">
@@ -1859,7 +1905,7 @@ to Add themselves?)<a href="#section-4.2.1-4.1.1" class="pilcrow">¶</a></p>
               <p id="section-4.2.1-5.1.1"><strong>TODO</strong>: Incorporate public and invite-only room conditions from policy.<a href="#section-4.2.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-4.2.1-6">If the event is valid, it is fanned out (<a href="#fanout" class="auto internal xref">Section 6.1</a>) to all participating
+<p id="section-4.2.1-6">If the event is valid, it is fanned out (<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>) to all participating
 servers in the room, which now includes the joining server (if not already).<a href="#section-4.2.1-6" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-4.2.1-7.1">
@@ -1868,10 +1914,10 @@ server provided information required to externally join, maybe.<a href="#section
 </li>
           </ul>
 <p id="section-4.2.1-8">The user's clients are then able to use external commits to join the MLS group.
-This is accomplished using <a href="#op-external-commit-info" class="auto internal xref">Section 6.4</a>.<a href="#section-4.2.1-8" class="pilcrow">¶</a></p>
+This is accomplished using <a href="#op-external-join" class="auto internal xref">Section 6.3.5</a>.<a href="#section-4.2.1-8" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="welcome-flow">
+<div id="join-welcome">
 <section id="section-4.2.2">
           <h4 id="name-welcome-flow">
 <a href="#section-4.2.2" class="section-number selfRef">4.2.2. </a><a href="#name-welcome-flow" class="section-name selfRef">Welcome Flow</a>
@@ -1884,14 +1930,14 @@ This is accomplished using <a href="#op-external-commit-info" class="auto intern
 <p id="section-4.2.2-2">This flow is more similar to an invite (<a href="#invites" class="auto internal xref">Section 4.1</a>), though provides the
 receiving user's clients with enough information to join without external
 commit.<a href="#section-4.2.2-2" class="pilcrow">¶</a></p>
-<p id="section-4.2.2-3">The inviting user's client first requests Key Packages for all of the target
-user's client through <a href="#op-claim" class="auto internal xref">Section 6.5</a>. The inviting client then uses the Key
-Packages to create Welcome MLS messages for the target user's clients.<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
+<p id="section-4.2.2-3">The inviting user's client first requests KeyPackages for all of the target
+user's client through <a href="#op-claim" class="auto internal xref">Section 6.3.4</a>. The inviting client then uses the
+KeyPackages to create Welcome MLS messages for the target user's clients.<a href="#section-4.2.2-3" class="pilcrow">¶</a></p>
 <p id="section-4.2.2-4">The Welcome messages are sent to the hub server alongside an <code>m.room.user</code>
-(<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) invite event using <a href="#op-send" class="auto internal xref">Section 6.2</a>. If the inviting user's server
+(<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) invite event using <a href="#op-send" class="auto internal xref">Section 6.3.1</a>. If the inviting user's server
 is the hub server for the room, it completes the event using the steps described
-by <a href="#op-send" class="auto internal xref">Section 6.2</a> instead. The event is validated according to <a href="#invites" class="auto internal xref">Section 4.1</a> and
-fanned out (<a href="#fanout" class="auto internal xref">Section 6.1</a>) to all participating servers, plus the target user's
+by <a href="#op-send" class="auto internal xref">Section 6.3.1</a> instead. The event is validated according to <a href="#invites" class="auto internal xref">Section 4.1</a> and
+fanned out (<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>) to all participating servers, plus the target user's
 server. The target user's server also receives the Welcome messages to deliver
 to the relevant clients.<a href="#section-4.2.2-4" class="pilcrow">¶</a></p>
 <p id="section-4.2.2-5">The user can then join the room by sending an <code>m.room.user</code> join event. The
@@ -1903,6 +1949,12 @@ use external commits instead.<a href="#section-4.2.2-5" class="pilcrow">¶</a></
 <li class="normal ulEmpty" id="section-4.2.2-6.1">
               <p id="section-4.2.2-6.1.1"><strong>TODO</strong>: Should we permit the join event to be accompanied by the client's
 Add commits?<a href="#section-4.2.2-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-4.2.2-7.1">
+              <p id="section-4.2.2-7.1.1"><strong>TODO</strong>: Is this Welcome flow correct, specifically the handling of Welcome
+MLS messages?<a href="#section-4.2.2-7.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 </section>
@@ -1921,7 +1973,7 @@ is being kicked. Otherwise the event represents a voluntary leave or declined
 invite (if the previous participation state was "invited").<a href="#section-4.3-1" class="pilcrow">¶</a></p>
 <p id="section-4.3-2">Like with other participation/membership operations, a user's leave is initiated
 by updating their participation state first. This is done by sending
-(<a href="#op-send" class="auto internal xref">Section 6.2</a>) the relevant <code>m.room.user</code> (<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) state event to the
+(<a href="#op-send" class="auto internal xref">Section 6.3.1</a>) the relevant <code>m.room.user</code> (<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) state event to the
 hub, which validates it as follows:<a href="#section-4.3-2" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-4.3-3.1">
@@ -1945,7 +1997,7 @@ joined, or knocking participation state.<a href="#section-4.3-3.1.1" class="pilc
             <p id="section-4.3-4.1.1"><strong>TODO</strong>: Include special case permissions constraints.<a href="#section-4.3-4.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-4.3-5">If the event is valid, it is fanned out (<a href="#fanout" class="auto internal xref">Section 6.1</a>) to all particpating
+<p id="section-4.3-5">If the event is valid, it is fanned out (<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>) to all particpating
 servers, plus the target user's server.<a href="#section-4.3-5" class="pilcrow">¶</a></p>
 <p id="section-4.3-6">The next commit in the MLS group <span class="bcp14">MUST</span> remove <em>all</em> of the target user's clients.
 If there are multiple users in the leave participation state, all of their
@@ -2046,9 +2098,9 @@ event.<a href="#section-4.6-6.1.1" class="pilcrow">¶</a></p>
 (<span>[<a href="#I-D.ietf-mimi-content-format" class="cite xref">I-D.ietf-mimi-content-format</a>]</span>) and MLS Application Messages. The resulting
 <code>PrivateMessage</code> is carried in an <code>m.room.encrypted</code> (<a href="#ev-mroomencrypted" class="auto internal xref">Section 5.1</a>)
 event.<a href="#section-5-1" class="pilcrow">¶</a></p>
-<p id="section-5-2">The client's server sends the event to the hub with <a href="#op-send" class="auto internal xref">Section 6.2</a>. If the client's
+<p id="section-5-2">The client's server sends the event to the hub with <a href="#op-send" class="auto internal xref">Section 6.3.1</a>. If the client's
 server is the room's hub server, it completes the events with the steps
-described by <a href="#op-send" class="auto internal xref">Section 6.2</a> instead. The event is then fanned out (<a href="#fanout" class="auto internal xref">Section 6.1</a>) by
+described by <a href="#op-send" class="auto internal xref">Section 6.3.1</a> instead. The event is then fanned out (<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a>) by
 the hub to all participating servers in the room, including the sender's.<a href="#section-5-2" class="pilcrow">¶</a></p>
 <p id="section-5-3">How the event goes from client to server, and server to client, is out of scope
 for this document.<a href="#section-5-3" class="pilcrow">¶</a></p>
@@ -2078,53 +2130,371 @@ struct {
 </div>
 </section>
 </div>
-<div id="todo-sections">
+<div id="transport">
 <section id="section-6">
-      <h2 id="name-todo-sections">
-<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-todo-sections" class="section-name selfRef">TODO: Sections</a>
+      <h2 id="name-transport">
+<a href="#section-6" class="section-number selfRef">6. </a><a href="#name-transport" class="section-name selfRef">Transport</a>
       </h2>
-<p id="section-6-1"><em>These headers exist as placeholder anchors.</em><a href="#section-6-1" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-6-2.1">
-          <p id="section-6-2.1.1"><strong>TODO</strong>: This placeholder section should be removed before first publish.<a href="#section-6-2.1.1" class="pilcrow">¶</a></p>
-</li>
-      </ul>
-<div id="fanout">
+<p id="section-6-1">Servers communicate with each other over HTTP <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>. Endpoints have the
+protocol version embedded into the path for simplified routing between physical
+servers.<a href="#section-6-1" class="pilcrow">¶</a></p>
+<div id="authentication">
 <section id="section-6.1">
-        <h3 id="name-fanout">
-<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-fanout" class="section-name selfRef">Fanout</a>
+        <h3 id="name-authentication-2">
+<a href="#section-6.1" class="section-number selfRef">6.1. </a><a href="#name-authentication-2" class="section-name selfRef">Authentication</a>
         </h3>
-<p id="section-6.1-1"><em>Reference <a href="#membership" class="auto internal xref">Section 4</a></em>.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.1-1">All endpoints, with the exception of <code>.well-known</code> endpoints use the mutually
+authenticated mode of TLS <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span>. This provides guarantees that each
+server is speaking to an expected party.<a href="#section-6.1-1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.1-2.1">
+            <p id="section-6.1-2.1.1"><strong>TODO</strong>: More information specific to how TLS should be used, i.e. mandate
+best practices that make sense in a mutually authenticated scenario that
+involves two WebPKI based certificates.<a href="#section-6.1-2.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-6.1-3">Individual events may transit between multiple servers. TLS provides
+point-to-point security properties while <a href="#event-auth" class="auto internal xref">Section 3.2</a> provides event security
+guarantees when transiting over multiple servers.<a href="#section-6.1-3" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="op-send">
+<div id="endpoint-discovery">
 <section id="section-6.2">
-        <h3 id="name-operation-send-event">
-<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-operation-send-event" class="section-name selfRef">Operation: Send Event</a>
+        <h3 id="name-endpoint-discovery">
+<a href="#section-6.2" class="section-number selfRef">6.2. </a><a href="#name-endpoint-discovery" class="section-name selfRef">Endpoint Discovery</a>
         </h3>
-<p id="section-6.2-1"><em>Reference "complete fields on event and resume further processing before <a href="#fanout" class="auto internal xref">Section 6.1</a>"</em>.<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-1">A messaging provider that wants to query the endpoint of another messaging
+provider first has to discover the fully qualified domain name it can use to
+communicate with that provider. It does so by performing a GET request to
+<code>https://example.org/.well-known/mimi/domain</code>. example.org could, for example,
+answer by providing the domain <code>mimi.example.org</code> (assuming that this is where
+it responds to the REST endpoints defined in <a href="#rest-api" class="auto internal xref">Section 6.3</a>).<a href="#section-6.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.2-2">The expected response format is simply a <code>text/plain</code> body containing the fully
+qualified domain name.<a href="#section-6.2-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.2-3">
+<pre>
+GET https://example.org/.well-known/mimi/domain
+
+Response
+mimi.example.org
+</pre><a href="#section-6.2-3" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="rest-api">
+<section id="section-6.3">
+        <h3 id="name-rest-endpoints">
+<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-rest-endpoints" class="section-name selfRef">REST Endpoints</a>
+        </h3>
+<p id="section-6.3-1">The following REST endpoints can be used to communicate with a MIMI server.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<p id="section-6.3-2">All operations rely on TLS-encoded structs and therefore requests and responses
+<span class="bcp14">SHOULD</span> use a <code>Content-Type</code> of <code>application/octet-stream</code>.<a href="#section-6.3-2" class="pilcrow">¶</a></p>
+<div id="op-send">
+<section id="section-6.3.1">
+          <h4 id="name-send-event">
+<a href="#section-6.3.1" class="section-number selfRef">6.3.1. </a><a href="#name-send-event" class="section-name selfRef">Send Event</a>
+          </h4>
+<p id="section-6.3.1-1">Asks the server to send an event (<a href="#event-schema" class="auto internal xref">Section 3.1</a>). Events can take two shapes
+over this endpoint, depending on whether a follower or hub server is doing the
+sending.<a href="#section-6.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-2">When a follower server is sending an event, it <span class="bcp14">MUST</span> only be attempting to send
+to the hub server for the room. Follower servers receiving an event from another
+follower server <span class="bcp14">MUST</span> reject the request with a <code>400</code> HTTP status code. The hub
+server <span class="bcp14">MUST</span> populate the <code>authEventIds</code> and <code>prevEventId</code> fields of the event,
+validate the resulting event, then reply with a <code>200</code> HTTP status code and the
+resulting event ID (<a href="#reference-hash" class="auto internal xref">Section 3.2.1</a>). The resulting event is then fanned out
+<a href="#fanout" class="auto internal xref">Section 6.3.1.1</a> to relevant servers in the room.<a href="#section-6.3.1-2" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-3">The hub server <span class="bcp14">MUST</span> validate events according to <a href="#event-auth" class="auto internal xref">Section 3.2</a> and any event
+type-specific validation rules. If the event is malformed in any way, or the
+room is unknown, the server <span class="bcp14">MUST</span> respond with a <code>400</code> HTTP status code.<a href="#section-6.3.1-3" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-4">Follower servers <span class="bcp14">SHOULD</span> apply the same validation as hub servers upon receiving
+a send request to identify potentially malicious hub servers.<a href="#section-6.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-5">Follower servers sending an event to the hub server will not include
+<code>authEventIds</code> or <code>prevEventId</code> because they are populated by the hub server.
+Hub servers <span class="bcp14">MUST</span> employ locking to ensure each event has exactly one child
+implied by <code>prevEventId</code>. This locking mechanism <span class="bcp14">MAY</span> cause another request to be
+rejected because the room state was mutated. For example, if the hub receives
+a ban event in one request and a message from the to-be-banned user in another,
+the message may be rejected if the ban is processed first. Hub servers <span class="bcp14">SHOULD</span>
+process requests in the order they were received.<a href="#section-6.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-6.3.1-6">If an event is rejected during processing, the event <span class="bcp14">MUST NOT</span> be fanned out.<a href="#section-6.3.1-6" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.1-7">
+<pre>
+struct {
+   // The resulting event ID that is about to be fanned out by the hub server.
+   // Not included if the called server is a follower server.
+   opaque [[eventId]];
+} SendEndpointResponse;
+</pre><a href="#section-6.3.1-7" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-6.3.1-8">
+<pre>
+POST /v1/send
+Content-Type: application/octet-stream
+
+Body
+TLS-serialized Event (including additional fields, such as CreateEvent)
+
+Response
+TLS-serialized SendEndpointResponse
+</pre><a href="#section-6.3.1-8" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3.1-9">Servers <span class="bcp14">SHOULD</span> retry this request with exponential backoff (to a limit) if they
+receive timeout/network errors.<a href="#section-6.3.1-9" class="pilcrow">¶</a></p>
+<div id="fanout">
+<section id="section-6.3.1.1">
+            <h5 id="name-fanout">
+<a href="#section-6.3.1.1" class="section-number selfRef">6.3.1.1. </a><a href="#name-fanout" class="section-name selfRef">Fanout</a>
+            </h5>
+<p id="section-6.3.1.1-1">A hub server fans an event out by using the send endpoint described above on all
+participating servers in the room. A server is considered "participating" if it
+has at least one user in the joined participation state, described by
+<a href="#membership" class="auto internal xref">Section 4</a>.<a href="#section-6.3.1.1-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.1.1-2">Additional servers <span class="bcp14">MAY</span> have the event sent to them if required by the steps
+leading up to fanout.<a href="#section-6.3.1.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
 </section>
 </div>
 <div id="op-check">
-<section id="section-6.3">
-        <h3 id="name-operation-check-event">
-<a href="#section-6.3" class="section-number selfRef">6.3. </a><a href="#name-operation-check-event" class="section-name selfRef">Operation: Check Event</a>
-        </h3>
-<p id="section-6.3-1"><em>Ensure supports policy, encryption, and has consent</em>.<a href="#section-6.3-1" class="pilcrow">¶</a></p>
+<section id="section-6.3.2">
+          <h4 id="name-check-invite-event">
+<a href="#section-6.3.2" class="section-number selfRef">6.3.2. </a><a href="#name-check-invite-event" class="section-name selfRef">Check Invite Event</a>
+          </h4>
+<p id="section-6.3.2-1">Used by the hub server to ensure a follower server can (and is willing to)
+process an incoming invite. The called server <span class="bcp14">MAY</span> use this opportunity to ensure
+the inviting user has general consent to invite the target user. For example,
+ensuring the invite does not appear spammy in nature and if the inviter already
+has a connection with the invitee.<a href="#section-6.3.2-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.2-2">If the server does not recognize the event format of the <code>m.room.create</code>
+(<a href="#ev-mroomcreate" class="auto internal xref">Section 3.3.1</a>) event, or does not understand the policy/encryption
+configuration contained within, it <span class="bcp14">MUST</span> reject the request.<a href="#section-6.3.2-2" class="pilcrow">¶</a></p>
+<p id="section-6.3.2-3">The request <span class="bcp14">MAY</span> be rejected with a <code>400</code> HTTP status code. If everything looks
+OK to the server, it responds with a <code>200</code> HTTP status code.<a href="#section-6.3.2-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.2-4">
+<pre>
+struct {
+   // The `m.room.user` invite event.
+   UserEvent invite;
+
+   // The `m.room.create` event for the room.
+   CreateEvent roomCreate;
+} CheckInviteRequest;
+</pre><a href="#section-6.3.2-4" class="pilcrow">¶</a>
+</div>
+<div class="alignLeft art-text artwork" id="section-6.3.2-5">
+<pre>
+POST /v1/check-invite
+Content-Type: application/octet-stream
+
+Body
+TLS-serialized CheckInviteRequest
+
+Response
+Any meaningful information. The pass/fail is identified by the HTTP response
+status code, not the response body.
+</pre><a href="#section-6.3.2-5" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3.2-6">The hub server <span class="bcp14">SHOULD</span> consider a network error as a rejection. It is expected
+that the original sender will attempt to re-send the invite once the server is
+reachable again.<a href="#section-6.3.2-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="op-external-commit-info">
-<section id="section-6.4">
-        <h3 id="name-operation-information-for-e">
-<a href="#section-6.4" class="section-number selfRef">6.4. </a><a href="#name-operation-information-for-e" class="section-name selfRef">Operation: Information for External Commit</a>
-      </h3>
+<div id="op-get-event">
+<section id="section-6.3.3">
+          <h4 id="name-retrieve-event">
+<a href="#section-6.3.3" class="section-number selfRef">6.3.3. </a><a href="#name-retrieve-event" class="section-name selfRef">Retrieve Event</a>
+          </h4>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.3.3-1.1">
+              <p id="section-6.3.3-1.1.1"><strong>TODO</strong>: What specific APIs does a follower server need to operate? Some
+options include:<a href="#section-6.3.3-1.1.1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-6.3.3-1.1.2.1">
+                  <p id="section-6.3.3-1.1.2.1.1"><code>GET /v1/event/:eventId</code><a href="#section-6.3.3-1.1.2.1.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.3.3-1.1.2.2">
+                  <p id="section-6.3.3-1.1.2.2.1"><code>GET /v1/room/:roomId/state</code> (current room state events)<a href="#section-6.3.3-1.1.2.2.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.3.3-1.1.2.3">
+                  <p id="section-6.3.3-1.1.2.3.1"><code>GET /v1/room/:roomId/state/:eventType/:stateKey</code><a href="#section-6.3.3-1.1.2.3.1" class="pilcrow">¶</a></p>
+</li>
+                <li class="normal" id="section-6.3.3-1.1.2.4">
+                  <p id="section-6.3.3-1.1.2.4.1"><code>GET /v1/event/:eventId/child</code><a href="#section-6.3.3-1.1.2.4.1" class="pilcrow">¶</a></p>
+</li>
+              </ul>
+</li>
+          </ul>
 </section>
 </div>
 <div id="op-claim">
-<section id="section-6.5">
-        <h3 id="name-operation-claim-key-package">
-<a href="#section-6.5" class="section-number selfRef">6.5. </a><a href="#name-operation-claim-key-package" class="section-name selfRef">Operation: Claim Key Packages</a>
-      </h3>
+<section id="section-6.3.4">
+          <h4 id="name-retrieve-keypackages">
+<a href="#section-6.3.4" class="section-number selfRef">6.3.4. </a><a href="#name-retrieve-keypackages" class="section-name selfRef">Retrieve KeyPackages</a>
+          </h4>
+<p id="section-6.3.4-1">Asks the server for KeyPackages belonging to a user's clients. Like with
+<a href="#op-check" class="auto internal xref">Section 6.3.2</a>, if the requesting user does not have general consent to invite the
+target user, the request is rejected.<a href="#section-6.3.4-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.4-2">To ensure requests do not fail while clients are offline or otherwise
+unreachable, KeyPackages <span class="bcp14">SHOULD</span> be uploaded by the generating client to their
+local server for later usage.<a href="#section-6.3.4-2" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.3.4-3.1">
+              <p id="section-6.3.4-3.1.1"><strong>TODO</strong>: Mark KeyPackages of last resort somehow.<a href="#section-6.3.4-3.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-6.3.4-4">This request is always sent to the hub server which then proxies the request
+directly to the relevant follower server.<a href="#section-6.3.4-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.4-5">
+<pre>
+struct {
+   // The user ID to retrieve KeyPackages for. This will download 1 KeyPackage
+   // for each of the user's clients.
+   opaque userId;
+
+   // The user ID requesting the KeyPackages for `userId`.
+   opaque requestingUserId;
+
+   // The room (group) ID where the KeyPackages are valid for.
+   opaque roomId;
+} GetKeyPackagesRequest;
+
+struct {
+   // One KeyPackage for each of the requested user's clients.
+   KeyPackage keyPackages&lt;V&gt;;
+} GetKeyPackagesResponse;
+</pre><a href="#section-6.3.4-5" class="pilcrow">¶</a>
+</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-6.3.4-6.1">
+              <p id="section-6.3.4-6.1.1"><strong>TODO</strong>: Do we need to sign or otherwise guarantee security on the
+<code>requestingUserId</code>? We do for invite events, so why not here?<a href="#section-6.3.4-6.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<div class="alignLeft art-text artwork" id="section-6.3.4-7">
+<pre>
+POST /v1/key_packages
+Content-Type: application/octet-stream
+
+Body
+TLS-serialized GetKeyPackagesRequest
+
+Response
+TLS-serialized GetKeyPackagesResponse
+</pre><a href="#section-6.3.4-7" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="op-external-join">
+<section id="section-6.3.5">
+          <h4 id="name-external-group-join">
+<a href="#section-6.3.5" class="section-number selfRef">6.3.5. </a><a href="#name-external-group-join" class="section-name selfRef">External Group Join</a>
+          </h4>
+<p id="section-6.3.5-1">When a client wishes to perform an external join to the MLS group, it may
+require assistance from the hub server in order to be successful. This endpoint
+is used by a follower server on a client's behalf to complete the external join.<a href="#section-6.3.5-1" class="pilcrow">¶</a></p>
+<p id="section-6.3.5-2">The hub server is able to provide this service to the requester because it keeps
+track of the information required to generate a GroupInfo object. The requester
+is still required to supply a <code>Signature</code> and relevant GroupInfo extensions,
+which are required to complete the GroupInfo object.<a href="#section-6.3.5-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.5-3">
+<pre>
+struct {
+   Extension group_info_extensions&lt;V&gt;;
+   opaque Signature&lt;V&gt;;
+} PartialGroupInfo;
+
+struct {
+   MLSMessage commit;
+   PartialGroupInfo partial_group_info;
+} MLSGroupUpdate;
+</pre><a href="#section-6.3.5-3" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3.5-4">The MLSMessage <span class="bcp14">MUST</span> contain a PublicMessage which contains a commit with sender
+type NewMemberCommit.<a href="#section-6.3.5-4" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.5-5">
+<pre>
+POST /v1/external_join
+Content-Type: application/octet-stream
+
+Body
+TLS-serialized MLSGroupUpdate
+
+Response
+Any meaningful information. The pass/fail is identified by the HTTP response
+status code, not the response body.
+</pre><a href="#section-6.3.5-5" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
+<div id="op-mls-add">
+<section id="section-6.3.6">
+          <h4 id="name-add-remove-and-update-mls-g">
+<a href="#section-6.3.6" class="section-number selfRef">6.3.6. </a><a href="#name-add-remove-and-update-mls-g" class="section-name selfRef">Add, Remove, and Update MLS Group Clients</a>
+          </h4>
+<p id="section-6.3.6-1">As described by <a href="#joins" class="auto internal xref">Section 4.2</a>, users which are joined participants are able to add
+their clients at any time to the MLS group. Clients which do not belong to a
+joined user <span class="bcp14">MUST</span> be rejected from joining the group. Similarly, clients may
+elect to leave the MLS group at any time, as per <a href="#leaves" class="auto internal xref">Section 4.3</a>.<a href="#section-6.3.6-1" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.6-2">
+<pre>
+struct {
+   // MUST be a PublicMessage with a commit that only contains Add proposals
+   // for a joined user's clients.
+   //
+   // MUST NOT change the sending client's credential.
+   MLSGroupUpdate group_update;
+   MLSMessage welcome_messages&lt;V&gt;;
+} AddClientsRequest;
+
+struct {
+   // MUST NOT change the sending client's credential.
+   MLSGroupUpdate group_update;
+} RemoveClientsRequest;
+
+struct {
+   // MUST contain a PublicMessage which contains a commit with an UpdatePath,
+   // but not other proposals by value.
+   MLSGroupUpdate group_update;
+} UpdateClientRequest;
+
+enum {
+   add,
+   remove,
+   update,
+} MLSOperation;
+
+struct {
+   MLSOperation operation;
+
+   select (GroupUpdateRequest.operation) {
+      case add:
+         AddClientsRequest request;
+      case remove:
+         RemoveClientsRequest request;
+      case update:
+         UpdateClientRequest request;
+   }
+} GroupUpdateRequest;
+</pre><a href="#section-6.3.6-2" class="pilcrow">¶</a>
+</div>
+<p id="section-6.3.6-3">The group update contained within <code>RemoveClientsRequest</code> is additionally subject
+to the requirements of <a href="#leaves" class="auto internal xref">Section 4.3</a>.<a href="#section-6.3.6-3" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-6.3.6-4">
+<pre>
+POST /v1/group_update
+Content-Type: application/octet-stream
+
+Body
+TLS-serialized GroupUpdateRequest
+
+Response
+Any meaningful information. The pass/fail is identified by the HTTP response
+status code, not the response body.
+</pre><a href="#section-6.3.6-4" class="pilcrow">¶</a>
+</div>
+</section>
+</div>
 </section>
 </div>
 </section>
@@ -2134,9 +2504,11 @@ struct {
       <h2 id="name-security-considerations">
 <a href="#section-7" class="section-number selfRef">7. </a><a href="#name-security-considerations" class="section-name selfRef">Security Considerations</a>
       </h2>
+<p id="section-7-1">Overall, the user participation state leads any possible MLS group state to
+ensure malicious clients are not able to easily get access to messages.<a href="#section-7-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-7-1.1">
-          <p id="section-7-1.1.1"><strong>TODO</strong>: Populate this section.<a href="#section-7-1.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-7-2.1">
+          <p id="section-7-2.1.1"><strong>TODO</strong>: Other security guarantees? Consensus may be required here.<a href="#section-7-2.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 </section>
