@@ -84,6 +84,7 @@ Table of Contents
        3.2.3.  Signatures
      3.3.  Creation
        3.3.1.  m.room.create
+     3.4.  m.room.redaction
    4.  User Participation and Client Membership
      4.1.  Invites
      4.2.  Joins
@@ -92,20 +93,19 @@ Table of Contents
      4.3.  Leaves/Kicks
      4.4.  Bans
      4.5.  Knocks
+     4.6.  m.room.user
    5.  TODO: Sections
-     5.1.  m.room.redaction
-     5.2.  m.room.user
-     5.3.  Fanout
-     5.4.  Operation: Send Event
-     5.5.  Operation: Check Event
-     5.6.  Operation: Information for External Commit
-     5.7.  Operation: Claim Key Packages
-   6.  TODO: Scenario content
-   7.  Security Considerations
-   8.  IANA Considerations
-   9.  References
-     9.1.  Normative References
-     9.2.  Informative References
+     5.1.  Fanout
+     5.2.  Operation: Send Event
+     5.3.  Operation: Check Event
+     5.4.  Operation: Information for External Commit
+     5.5.  Operation: Claim Key Packages
+   6.  Security Considerations
+   7.  IANA Considerations
+     7.1.  MIMI Event Types
+   8.  References
+     8.1.  Normative References
+     8.2.  Informative References
    Acknowledgments
    Authors' Addresses
 
@@ -245,7 +245,7 @@ Table of Contents
    1.  When a mismatched content hash (Section 3.2.2) for an event is
        received.
 
-   2.  When an m.room.redaction (Section 5.1) message event is received,
+   2.  When an m.room.redaction (Section 3.4) message event is received,
        targeting an event.
 
    When applying a redaction, all fields described by Section 3.1 MUST
@@ -267,7 +267,7 @@ Table of Contents
    of a partial event to send.  The specific event types required to be
    referenced in this field are described by the room policy, but are
    typically the m.room.create (Section 3.3.1), and m.room.user
-   (Section 5.2) state events at a minimum.  If an event is missing a
+   (Section 4.6) state events at a minimum.  If an event is missing a
    required auth event, or contains a reference to an unknown/rejected
    event, the event is rejected.
 
@@ -369,7 +369,7 @@ Table of Contents
 
    *  A universally unique room ID (represented by the create event).
 
-   *  An m.room.user (Section 5.2) state event which points to the
+   *  An m.room.user (Section 4.6) state event which points to the
       create event as a parent for the create event's sender.
 
    *  An MLS group with a group ID matching the room ID, and contains a
@@ -408,6 +408,29 @@ Table of Contents
 
    *  The event MUST be the first event in the room.
 
+3.4.  m.room.redaction
+
+   *Event type*: m.room.redaction
+
+   *State key*: Not present.
+
+   *Additional event fields*:
+
+   struct {
+      // The event ID to redact.
+      opaque redactedEventId;
+   } RedactionEvent;
+
+   *Additional authentication rules*:
+
+   *  The redactedEventId MUST be an event in the room.
+
+   *  The affected redactedEventId is redacted (Section 3.2) by the
+      server upon receipt.
+
+   Redaction events are sent to the hub server for fanout with
+   Section 5.2.
+
 4.  User Participation and Client Membership
 
    In a MIMI room, users are _participants_ with an associated
@@ -439,7 +462,7 @@ Table of Contents
    participation state are considered to be "in" or "participating" in
    the room.  By default, all events sent to a room are distrubuted by
    the hub to participating servers.  This is discussed further in
-   Section 5.3.
+   Section 5.1.
 
 4.1.  Invites
 
@@ -451,14 +474,14 @@ Table of Contents
    Updating the target user's participation state is done using the
    following steps, and is visualized in Figure 1.
 
-   1.  The inviter's server generates an m.room.user (Section 5.2) state
+   1.  The inviter's server generates an m.room.user (Section 4.6) state
        event to invite the target user.  Typically this begins with a
        client-initiated request to the server using the provider-
        specific API.
 
-   2.  The inviter's server sends (Section 5.4) the m.room.user event to
+   2.  The inviter's server sends (Section 5.2) the m.room.user event to
        the hub server.  If the inviter's server is the hub server, it
-       does the steps described in Section 5.4 to complete the event.
+       does the steps described in Section 5.2 to complete the event.
 
    3.  The hub server validates the event to ensure the following:
 
@@ -470,11 +493,11 @@ Table of Contents
    4.  If the event is invalid, it is rejected.  Otherwise, it is
        forwarded by the hub to the target user's server to give it the
        opportunity to reject the invite early in the process.  This is
-       described by Section 5.5.
+       described by Section 5.3.
 
    5.  If the target server rejected the event, the event is rejected by
        the hub as well.  Otherwise, the event is fanned out
-       (Section 5.3) to all participating servers, plus the target
+       (Section 5.1) to all participating servers, plus the target
        server if not already participating.
 
    At this stage, the _user_ is now invited but their clients are not
@@ -527,7 +550,7 @@ Table of Contents
    2.  Receiving a Welcome message from a joined member of the MLS
        group.
 
-   In both cases, a join m.room.user (Section 5.2) state event is also
+   In both cases, a join m.room.user (Section 4.6) state event is also
    sent.
 
    Typically, a client will use the first option when joining a public
@@ -546,9 +569,9 @@ Table of Contents
 4.2.1.  External Commit Flow
 
    The joining user's server first updates the user's participation
-   state (an m.room.user state event, Section 5.2) and sends that to the
-   hub (Section 5.4) for validation.  If the joining user's server is
-   the hub server, it does the steps described in Section 5.4 to
+   state (an m.room.user state event, Section 4.6) and sends that to the
+   hub (Section 5.2) for validation.  If the joining user's server is
+   the hub server, it does the steps described in Section 5.2 to
    complete the event.
 
    The join event is then validated by the hub as follows:
@@ -564,7 +587,7 @@ Table of Contents
       *TODO*: Incorporate public and invite-only room conditions from
       policy.
 
-   If the event is valid, it is fanned out (Section 5.3) to all
+   If the event is valid, it is fanned out (Section 5.1) to all
    participating servers in the room, which now includes the joining
    server (if not already).
 
@@ -573,7 +596,7 @@ Table of Contents
       maybe.
 
    The user's clients are then able to use external commits to join the
-   MLS group.  This is accomplished using Section 5.6.
+   MLS group.  This is accomplished using Section 5.4.
 
 4.2.2.  Welcome Flow
 
@@ -584,16 +607,16 @@ Table of Contents
    external commit.
 
    The inviting user's client first requests Key Packages for all of the
-   target user's client through Section 5.7.  The inviting client then
+   target user's client through Section 5.5.  The inviting client then
    uses the Key Packages to create Welcome MLS messages for the target
    user's clients.
 
    The Welcome messages are sent to the hub server alongside an
-   m.room.user (Section 5.2) invite event using Section 5.4.  If the
+   m.room.user (Section 4.6) invite event using Section 5.2.  If the
    inviting user's server is the hub server for the room, it completes
-   the event using the steps described by Section 5.4 instead.  The
+   the event using the steps described by Section 5.2 instead.  The
    event is validated according to Section 4.1 and fanned out
-   (Section 5.3) to all participating servers, plus the target user's
+   (Section 5.1) to all participating servers, plus the target user's
    server.  The target user's server also receives the Welcome messages
    to deliver to the relevant clients.
 
@@ -610,14 +633,14 @@ Table of Contents
 
    Leaving a room can signal a user declining an invite, voluntarily
    leaving the room, or being kicked (removed) from the room.  When the
-   sender and target of an m.room.user (Section 5.2) leave event are
+   sender and target of an m.room.user (Section 4.6) leave event are
    different, the target user is being kicked.  Otherwise the event
    represents a voluntary leave or declined invite (if the previous
    participation state was "invited").
 
    Like with other participation/membership operations, a user's leave
    is initiated by updating their participation state first.  This is
-   done by sending (Section 5.4) the relevant m.room.user (Section 5.2)
+   done by sending (Section 5.2) the relevant m.room.user (Section 4.6)
    state event to the hub, which validates it as follows:
 
    *  If the target and sender are the same, the user MUST be in the
@@ -633,7 +656,7 @@ Table of Contents
 
       *TODO*: Include special case permissions constraints.
 
-   If the event is valid, it is fanned out (Section 5.3) to all
+   If the event is valid, it is fanned out (Section 5.1) to all
    particpating servers, plus the target user's server.
 
    The next commit in the MLS group MUST remove _all_ of the target
@@ -659,8 +682,12 @@ Table of Contents
 4.4.  Bans
 
    Bans imply kick, and are operated the same way as Section 4.3, though
-   with the m.room.user (Section 5.2) state event using a ban
+   with the m.room.user (Section 4.6) state event using a ban
    participation state.
+
+   An added exception on the validation is also applied to permit
+   preemptive bans: the target user is not required to be in the joined
+   state to allow the participation state change.
 
    Unbans can be performed by transitioning a user from the banned
    participation state to leave with Section 4.3.
@@ -674,6 +701,34 @@ Table of Contents
       figure out details for how it works.  It'd likely just be an
       m.room.user state event with no MLS interaction, like invites are.
 
+4.6.  m.room.user
+
+   *Event type*: m.room.user
+
+   *State key*: ID of target user.
+
+   *Additional event fields*:
+
+   struct {
+      // The new participation state for the target user.
+      ParticipationState state;
+
+      // Optional human-readable reason for the change. Typically most
+      // useful on bans and knocks.
+      opaque [[reason]];
+   } UserEvent;
+
+   *Additional authentication rules*:
+
+   *  The event's authEventIds MUST include a reference to the sender's
+      most recent m.room.user event, if one exists, and the room's
+      m.room.create event.
+
+   *  Rules described by Section 4.1, Section 4.2, Section 4.3,
+      Section 4.4, Section 4.5.
+
+      *TODO*: Include auth rules for permissions.
+
 5.  TODO: Sections
 
    _These headers exist as placeholder anchors._
@@ -681,102 +736,51 @@ Table of Contents
       *TODO*: This placeholder section should be removed before first
       publish.
 
-5.1.  m.room.redaction
-
-5.2.  m.room.user
-
-5.3.  Fanout
+5.1.  Fanout
 
    _Reference Section 4_.
 
-5.4.  Operation: Send Event
+5.2.  Operation: Send Event
 
    _Reference "complete fields on event and resume further processing
-   before Section 5.3"_.
+   before Section 5.1"_.
 
-5.5.  Operation: Check Event
+5.3.  Operation: Check Event
 
    _Ensure supports policy, encryption, and has consent_.
 
-5.6.  Operation: Information for External Commit
+5.4.  Operation: Information for External Commit
 
-5.7.  Operation: Claim Key Packages
+5.5.  Operation: Claim Key Packages
 
-6.  TODO: Scenario content
-
-      *TODO*: This placeholder section should be removed before first
-      publish.
-
-      *TODO*: Incorporate these scenario flows.
-
-   Alice adds Bob:
-
-   1.  Alice creates room.
-
-   2.  Alice signals invite for Bob.
-
-   3.  Hub server (Alice's) contacts Bob's server and sends invite.
-
-   4.  Bob's server checks that it is capable of participating.
-
-   5.  Bob's clients receive invite.
-
-   6.  Later: Bob's client accepts invite by sending a join signaling
-       event through the hub to all other participants.
-
-   7.  Bob's client retrieves GroupInfo.
-
-   8.  Bob creates and sends an external commit through the hub.
-
-   Alice adds Bob (alternative):
-
-   1.  Alice creates room.
-
-   2.  Alice discovers all of Bob's clients.
-
-   3.  Alice prepares Welcome messages, attaches them to a signaling
-       join event for Bob.
-
-   4.  That package is sent via the hub to Bob's server.
-
-   5.  Bob's server verifies it is capable of participating.
-
-   6.  Bob's server acks the request as OK, informs Bob that they're now
-       joined and delivers accompanying Welcome messages.
-
-   7.  Concurrent to the ack, hub fans out the join.
-
-   8.  Bob is now both a participant and a member.
-
-   Alice leaves:
-
-   1.  Alice proposes self-eviction via remove proposals.
-
-   2.  Alice leaves via signaling event.
-
-   3.  Hub requires Alice's proposals to be committed next.
-
-   Alice leaves (alternative):
-
-   1.  Alice leaves via signaling event.
-
-   2.  Hub (or any other member) generates remove proposals for Alice.
-
-   3.  Hub requires those proposals to be committed next.
-
-7.  Security Considerations
+6.  Security Considerations
 
       *TODO*: Populate this section.
 
-8.  IANA Considerations
+7.  IANA Considerations
 
-   This document has no IANA actions.
+   IANA has created the following registries:
 
-      *TODO*: Populate this section.
+   *  MIMI Event Types
 
-9.  References
+7.1.  MIMI Event Types
 
-9.1.  Normative References
+   An event type denotes the nature of a payload contained in an event,
+   in the context of the MIMI protocol.  The event type is a string
+   composed of substrings separated by dots.
+
+   The first substring is "m", followed by the logical container being
+   affected (typically just "room"), then a number of descriptor
+   strings.
+
+   Example: m.room.create
+
+      *TODO*: Does IANA need any other information for legal event
+      types?
+
+8.  References
+
+8.1.  Normative References
 
    [I-D.barnes-mimi-arch]
               Barnes, R., "An Architecture for More Instant Messaging
@@ -814,7 +818,7 @@ Table of Contents
               Security (MLS) Protocol", RFC 9420, DOI 10.17487/RFC9420,
               July 2023, <https://www.rfc-editor.org/rfc/rfc9420>.
 
-9.2.  Informative References
+8.2.  Informative References
 
    [I-D.kohbrok-mimi-transport]
               Kohbrok, K. and R. Robert, "MIMI Transport", Work in
