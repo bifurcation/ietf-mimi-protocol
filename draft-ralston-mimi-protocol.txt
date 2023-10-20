@@ -5,11 +5,11 @@
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
 Intended status: Standards Track                              K. Kohbrok
-Expires: 21 April 2024                                         R. Robert
+Expires: 22 April 2024                                         R. Robert
                                                              Phoenix R&D
                                                               M. Hodgson
                                         The Matrix.org Foundation C.I.C.
-                                                         19 October 2023
+                                                         20 October 2023
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -56,7 +56,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 21 April 2024.
+   This Internet-Draft will expire on 22 April 2024.
 
 Copyright Notice
 
@@ -87,6 +87,8 @@ Table of Contents
    4.  User Participation and Client Membership
      4.1.  Invites
      4.2.  Joins
+       4.2.1.  External Commit Flow
+       4.2.2.  Welcome Flow
      4.3.  Leaves/Kicks
      4.4.  Bans
      4.5.  Knocks
@@ -96,6 +98,8 @@ Table of Contents
      5.3.  Fanout
      5.4.  Operation: Send Event
      5.5.  Operation: Check Event
+     5.6.  Operation: Information for External Commit
+     5.7.  Operation: Claim Key Packages
    6.  TODO: Scenario content
    7.  Security Considerations
    8.  IANA Considerations
@@ -516,6 +520,92 @@ Table of Contents
 
 4.2.  Joins
 
+   A user can join a room in two ways:
+
+   1.  Using an external commit to Add themselves to the MLS group.
+
+   2.  Receiving a Welcome message from a joined member of the MLS
+       group.
+
+   In both cases, a join m.room.user (Section 5.2) state event is also
+   sent.
+
+   Typically, a client will use the first option when joining a public
+   room or responding to an invite because the hub server can assist
+   them in the join.  Option 2 is generally used as a form of invite,
+   though skipping the explicit m.room.user invite described by
+   Section 4.1.
+
+   The hub server MUST allow proposals and commits to add a user's own
+   clients if they're in the joined participation state.  Similarly, the
+   hub server MUST NOT allow proposals or commits to add clients which
+   are not in the joined participation state.  These conditions permit
+   the user to add their own clients after joining without issue, which
+   may involve an external commit.
+
+4.2.1.  External Commit Flow
+
+   The joining user's server first updates the user's participation
+   state (an m.room.user state event, Section 5.2) and sends that to the
+   hub (Section 5.4) for validation.  If the joining user's server is
+   the hub server, it does the steps described in Section 5.4 to
+   complete the event.
+
+   The join event is then validated by the hub as follows:
+
+   *  The target and sending user of the event MUST be the same.
+
+   *  The target user MUST NOT be banned from the room.
+
+      *TODO*: Does requiring the sender and state key to be the same
+      prohibit the Welcome flow from working?  (I don't believe so
+      because they still need to Add themselves?)
+
+      *TODO*: Incorporate public and invite-only room conditions from
+      policy.
+
+   If the event is valid, it is fanned out (Section 5.3) to all
+   participating servers in the room, which now includes the joining
+   server (if not already).
+
+      *TODO*: It would be helpful if in response to the send request the
+      hub server provided information required to externally join,
+      maybe.
+
+   The user's clients are then able to use external commits to join the
+   MLS group.  This is accomplished using Section 5.6.
+
+4.2.2.  Welcome Flow
+
+      *TODO*: Is this better phrased as an invite rather than join?
+
+   This flow is more similar to an invite (Section 4.1), though provides
+   the receiving user's clients with enough information to join without
+   external commit.
+
+   The inviting user's client first requests Key Packages for all of the
+   target user's client through Section 5.7.  The inviting client then
+   uses the Key Packages to create Welcome MLS messages for the target
+   user's clients.
+
+   The Welcome messages are sent to the hub server alongside an
+   m.room.user (Section 5.2) invite event using Section 5.4.  If the
+   inviting user's server is the hub server for the room, it completes
+   the event using the steps described by Section 5.4 instead.  The
+   event is validated according to Section 4.1 and fanned out
+   (Section 5.3) to all participating servers, plus the target user's
+   server.  The target user's server also receives the Welcome messages
+   to deliver to the relevant clients.
+
+   The user can then join the room by sending an m.room.user join event.
+   The process and applied validation are the same as Section 4.2.1.
+   The user's clients can then Add themselves to the MLS group using the
+   Welcome messages they received earlier.  If the Welcome messages are
+   no longer valid, the clients can use external commits instead.
+
+      *TODO*: Should we permit the join event to be accompanied by the
+      client's Add commits?
+
 4.3.  Leaves/Kicks
 
 4.4.  Bans
@@ -552,6 +642,10 @@ Table of Contents
 5.5.  Operation: Check Event
 
    _Ensure supports policy, encryption, and has consent_.
+
+5.6.  Operation: Information for External Commit
+
+5.7.  Operation: Claim Key Packages
 
 6.  TODO: Scenario content
 
