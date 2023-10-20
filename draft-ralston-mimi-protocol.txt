@@ -752,6 +752,8 @@ Table of Contents
 
       *TODO*: Include auth rules for permissions.
 
+      *TODO*: Somehow link the event to a client identity? (or several)
+
 5.  Application Messages
 
    Clients engage in messaging through use of a content format
