@@ -2100,7 +2100,7 @@ event.<a href="#section-4.6-6.1.1" class="pilcrow">¶</a></p>
 <a href="#section-5" class="section-number selfRef">5. </a><a href="#name-application-messages" class="section-name selfRef">Application Messages</a>
       </h2>
 <p id="section-5-1">Clients engage in messaging through use of a content format
-(<span>[<a href="#I-D.mimi-content-format" class="cite xref">I-D.mimi-content-format</a>]</span>) and MLS Application Messages. The resulting
+(<span>[<a href="#I-D.ietf-mimi-content" class="cite xref">I-D.ietf-mimi-content</a>]</span>) and MLS Application Messages. The resulting
 <code>PrivateMessage</code> is carried in an <code>m.room.encrypted</code> (<a href="#ev-mroomencrypted" class="auto internal xref">Section 5.1</a>)
 event.<a href="#section-5-1" class="pilcrow">¶</a></p>
 <p id="section-5-2">The client's server sends the event to the hub with <a href="#op-send" class="auto internal xref">Section 6.3.1</a>. If the client's
@@ -2596,13 +2596,13 @@ separated by dots.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <a href="#section-9.2" class="section-number selfRef">9.2. </a><a href="#name-informative-references" class="section-name selfRef">Informative References</a>
         </h3>
 <dl class="references">
+<dt id="I-D.ietf-mimi-content">[I-D.ietf-mimi-content]</dt>
+        <dd>
+<span class="refAuthor">Mahy, R.</span>, <span class="refTitle">"More Instant Messaging Interoperability (MIMI) message content"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ietf-mimi-content-00</span>, <time datetime="2023-06-20" class="refDate">20 June 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-00">https://datatracker.ietf.org/doc/html/draft-ietf-mimi-content-00</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="I-D.kohbrok-mimi-transport">[I-D.kohbrok-mimi-transport]</dt>
         <dd>
 <span class="refAuthor">Kohbrok, K.</span> and <span class="refAuthor">R. Robert</span>, <span class="refTitle">"MIMI Transport"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-kohbrok-mimi-transport-01</span>, <time datetime="2023-09-21" class="refDate">21 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-kohbrok-mimi-transport-01">https://datatracker.ietf.org/doc/html/draft-kohbrok-mimi-transport-01</a>&gt;</span>. </dd>
-<dd class="break"></dd>
-<dt id="I-D.mimi-content-format">[I-D.mimi-content-format]</dt>
-        <dd>
-<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
 <dd class="break"></dd>
 <dt id="I-D.ralston-mimi-policy">[I-D.ralston-mimi-policy]</dt>
         <dd>
@@ -2632,18 +2632,20 @@ separated by dots.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-A-1">This document is the consolidation of the following documents:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1"><span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span><a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1"><span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span> - Used primarily for <a href="#membership" class="auto internal xref">Section 4</a> and
+subsections of <a href="#rest-api" class="auto internal xref">Section 6.3</a>.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span><a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> - Used primarily for <a href="#event-schema" class="auto internal xref">Section 3.1</a>.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.kohbrok-mimi-transport" class="cite xref">I-D.kohbrok-mimi-transport</a>]</span><a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.kohbrok-mimi-transport" class="cite xref">I-D.kohbrok-mimi-transport</a>]</span> - Used primarily for <a href="#transport" class="auto internal xref">Section 6</a>.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">Aspects of <span>[<a href="#I-D.ralston-mimi-policy" class="cite xref">I-D.ralston-mimi-policy</a>]</span> are additionally taken into
-consideration in this document, but is largely unincorporated and may require
-updates to match this document's specifics.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+consideration in this document through subsections of <a href="#membership" class="auto internal xref">Section 4</a>, but is
+largely unincorporated and may require updates to match this document's
+specifics.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

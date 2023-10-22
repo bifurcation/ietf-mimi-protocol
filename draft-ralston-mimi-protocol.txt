@@ -757,7 +757,7 @@ Table of Contents
 5.  Application Messages
 
    Clients engage in messaging through use of a content format
-   ([I-D.mimi-content-format]) and MLS Application Messages.  The
+   ([I-D.ietf-mimi-content]) and MLS Application Messages.  The
    resulting PrivateMessage is carried in an m.room.encrypted
    (Section 5.1) event.
 
@@ -1163,14 +1163,18 @@ status code, not the response body.
 
 9.2.  Informative References
 
+   [I-D.ietf-mimi-content]
+              Mahy, R., "More Instant Messaging Interoperability (MIMI)
+              message content", Work in Progress, Internet-Draft, draft-
+              ietf-mimi-content-00, 20 June 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-mimi-
+              content-00>.
+
    [I-D.kohbrok-mimi-transport]
               Kohbrok, K. and R. Robert, "MIMI Transport", Work in
               Progress, Internet-Draft, draft-kohbrok-mimi-transport-01,
               21 September 2023, <https://datatracker.ietf.org/doc/html/
               draft-kohbrok-mimi-transport-01>.
-
-   [I-D.mimi-content-format]
-              "*** BROKEN REFERENCE ***".
 
    [I-D.ralston-mimi-policy]
               Ralston, T. and M. Hodgson, "MIMI Policy Envelope", Work
@@ -1200,15 +1204,17 @@ Acknowledgments
 
    This document is the consolidation of the following documents:
 
-   *  [I-D.robert-mimi-delivery-service]
+   *  [I-D.robert-mimi-delivery-service] - Used primarily for Section 4
+      and subsections of Section 6.3.
 
-   *  [I-D.ralston-mimi-signaling]
+   *  [I-D.ralston-mimi-signaling] - Used primarily for Section 3.1.
 
-   *  [I-D.kohbrok-mimi-transport]
+   *  [I-D.kohbrok-mimi-transport] - Used primarily for Section 6.
 
    Aspects of [I-D.ralston-mimi-policy] are additionally taken into
-   consideration in this document, but is largely unincorporated and may
-   require updates to match this document's specifics.
+   consideration in this document through subsections of Section 4, but
+   is largely unincorporated and may require updates to match this
+   document's specifics.
 
 Authors' Addresses
 
