@@ -1644,14 +1644,16 @@ responsibility.<a href="#section-3.4-2.1.1" class="pilcrow">¶</a></p>
         </ul>
 </section>
 </div>
-<div id="reinitialization">
+<div id="reinit">
 <section id="section-3.5">
         <h3 id="name-reinitialization">
 <a href="#section-3.5" class="section-number selfRef">3.5. </a><a href="#name-reinitialization" class="section-name selfRef">ReInitialization</a>
         </h3>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-3.5-1.1">
-            <p id="section-3.5-1.1.1"><strong>TODO</strong>: This topic requires further discussion around policy and lifecycle.<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.5-1.1.1"><strong>TODO</strong>: This topic requires further discussion around policy and lifecycle.
+See also: Section 3.11 and Section 10.15 of
+<span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>.<a href="#section-3.5-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2563,6 +2565,10 @@ separated by dots.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Barnes, R.</span>, <span class="refTitle">"An Architecture for More Instant Messaging Interoperability (MIMI)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-barnes-mimi-arch-01</span>, <time datetime="2023-09-22" class="refDate">22 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-barnes-mimi-arch-01">https://datatracker.ietf.org/doc/html/draft-barnes-mimi-arch-01</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.barnes-mimi-architecture">[I-D.barnes-mimi-architecture]</dt>
+        <dd>
+<span class="refTitle">"*** BROKEN REFERENCE ***"</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2632,20 +2638,25 @@ separated by dots.<a href="#section-8.1-1" class="pilcrow">¶</a></p>
 <p id="appendix-A-1">This document is the consolidation of the following documents:<a href="#appendix-A-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="appendix-A-2.1">
-          <p id="appendix-A-2.1.1"><span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span> - Used primarily for <a href="#membership" class="auto internal xref">Section 4</a> and
-subsections of <a href="#rest-api" class="auto internal xref">Section 6.3</a>.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.1.1"><span>[<a href="#I-D.kohbrok-mimi-transport" class="cite xref">I-D.kohbrok-mimi-transport</a>]</span> forms the majority of <a href="#transport" class="auto internal xref">Section 6</a>.<a href="#appendix-A-2.1.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.2">
-          <p id="appendix-A-2.2.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> - Used primarily for <a href="#event-schema" class="auto internal xref">Section 3.1</a>.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.2.1"><span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span> describes details for <a href="#membership" class="auto internal xref">Section 4</a>,
+subsections of <a href="#rest-api" class="auto internal xref">Section 6.3</a> (per transport draft), <a href="#reinit" class="auto internal xref">Section 3.5</a>, and
+considerations for <a href="#ev-mroomencrypted" class="auto internal xref">Section 5.1</a>.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.kohbrok-mimi-transport" class="cite xref">I-D.kohbrok-mimi-transport</a>]</span> - Used primarily for <a href="#transport" class="auto internal xref">Section 6</a>.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> describes details for <a href="#event-schema" class="auto internal xref">Section 3.1</a>,
+<a href="#event-auth" class="auto internal xref">Section 3.2</a>, <a href="#room-creation" class="auto internal xref">Section 3.3</a>, parts of <a href="#membership" class="auto internal xref">Section 4</a>, and subsections
+of <a href="#rest-api" class="auto internal xref">Section 6.3</a>.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">Aspects of <span>[<a href="#I-D.ralston-mimi-policy" class="cite xref">I-D.ralston-mimi-policy</a>]</span> are additionally taken into
 consideration in this document through subsections of <a href="#membership" class="auto internal xref">Section 4</a>, but is
 largely unincorporated and may require updates to match this document's
 specifics.<a href="#appendix-A-3" class="pilcrow">¶</a></p>
+<p id="appendix-A-4"><span>[<a href="#I-D.barnes-mimi-architecture" class="cite xref">I-D.barnes-mimi-architecture</a>]</span> was additionally used throughout the writing
+of this document.<a href="#appendix-A-4" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="authors-addresses">

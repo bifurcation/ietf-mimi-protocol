@@ -427,7 +427,8 @@ Table of Contents
 3.5.  ReInitialization
 
       *TODO*: This topic requires further discussion around policy and
-      lifecycle.
+      lifecycle.  See also: Section 3.11 and Section 10.15 of
+      [I-D.robert-mimi-delivery-service].
 
 3.6.  m.room.redaction
 
@@ -1132,6 +1133,9 @@ status code, not the response body.
               <https://datatracker.ietf.org/doc/html/draft-barnes-mimi-
               arch-01>.
 
+   [I-D.barnes-mimi-architecture]
+              "*** BROKEN REFERENCE ***".
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1204,17 +1208,23 @@ Acknowledgments
 
    This document is the consolidation of the following documents:
 
-   *  [I-D.robert-mimi-delivery-service] - Used primarily for Section 4
-      and subsections of Section 6.3.
+   *  [I-D.kohbrok-mimi-transport] forms the majority of Section 6.
 
-   *  [I-D.ralston-mimi-signaling] - Used primarily for Section 3.1.
+   *  [I-D.robert-mimi-delivery-service] describes details for
+      Section 4, subsections of Section 6.3 (per transport draft),
+      Section 3.5, and considerations for Section 5.1.
 
-   *  [I-D.kohbrok-mimi-transport] - Used primarily for Section 6.
+   *  [I-D.ralston-mimi-signaling] describes details for Section 3.1,
+      Section 3.2, Section 3.3, parts of Section 4, and subsections of
+      Section 6.3.
 
    Aspects of [I-D.ralston-mimi-policy] are additionally taken into
    consideration in this document through subsections of Section 4, but
    is largely unincorporated and may require updates to match this
    document's specifics.
+
+   [I-D.barnes-mimi-architecture] was additionally used throughout the
+   writing of this document.
 
 Authors' Addresses
 
