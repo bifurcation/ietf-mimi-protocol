@@ -1329,6 +1329,12 @@ room and MLS group states.<a href="#section-1-3" class="pilcrow">¶</a></p>
 <span>[<a href="#RFC5246" class="cite xref">RFC5246</a>]</span> over HTTP <span>[<a href="#RFC9110" class="cite xref">RFC9110</a>]</span>. This document does not describe a protocol
 for clients to communicate with a server. Instead, clients use provider-specific
 APIs to accomplish "last mile" delivery of events and messages.<a href="#section-1-4" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-1-5.1">
+          <p id="section-1-5.1.1"><strong>TODO</strong>: Describe notion of consent, similar to "connection KeyPackages" in
+Section 6 of <span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>.<a href="#section-1-5.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 </section>
 </div>
 <div id="conventions-and-definitions">
@@ -1364,6 +1370,13 @@ user participation events for users who are in the <code>leave</code> state. The
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-3-4.1">
           <p id="section-3-4.1.1"><strong>TODO</strong>: Check that this history requirement matches agreed semantics.<a href="#section-3-4.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3-5.1">
+          <p id="section-3-5.1.1"><strong>TODO</strong>: Describe where room state is persisted. With this document's
+transport, it's stored adjacent to the MLS group. See
+<span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span> for possible in-MLS persistence.<a href="#section-3-5.1.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <div id="event-schema">
@@ -2009,7 +2022,8 @@ clients.<a href="#section-4.3-6" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-4.3-7.1">
             <p id="section-4.3-7.1.1"><strong>TODO</strong>: Describe how hub server generates proposals? Or do we just require
-some member in the group to do it?<a href="#section-4.3-7.1.1" class="pilcrow">¶</a></p>
+some member in the group to do it? See also: Section 3.5 of
+<span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>.<a href="#section-4.3-7.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 <p id="section-4.3-8">Prior to a voluntary <code>m.room.user</code> leave event, the sender <span class="bcp14">SHOULD</span> send proposals
@@ -2089,7 +2103,8 @@ event.<a href="#section-4.6-6.1.1" class="pilcrow">¶</a></p>
         </ul>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-4.6-8.1">
-            <p id="section-4.6-8.1.1"><strong>TODO</strong>: Somehow link the event to a client identity? (or several)<a href="#section-4.6-8.1.1" class="pilcrow">¶</a></p>
+            <p id="section-4.6-8.1.1"><strong>TODO</strong>: Somehow link the event to a client identity? (or several clients)
+See also: Section 3.8 of <span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>.<a href="#section-4.6-8.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -2646,9 +2661,8 @@ subsections of <a href="#rest-api" class="auto internal xref">Section 6.3</a> (p
 considerations for <a href="#ev-mroomencrypted" class="auto internal xref">Section 5.1</a>.<a href="#appendix-A-2.2.1" class="pilcrow">¶</a></p>
 </li>
         <li class="normal" id="appendix-A-2.3">
-          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> describes details for <a href="#event-schema" class="auto internal xref">Section 3.1</a>,
-<a href="#event-auth" class="auto internal xref">Section 3.2</a>, <a href="#room-creation" class="auto internal xref">Section 3.3</a>, parts of <a href="#membership" class="auto internal xref">Section 4</a>, and subsections
-of <a href="#rest-api" class="auto internal xref">Section 6.3</a>.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
+          <p id="appendix-A-2.3.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> describes <a href="#event-schema" class="auto internal xref">Section 3.1</a>, <a href="#event-auth" class="auto internal xref">Section 3.2</a>,
+<a href="#room-creation" class="auto internal xref">Section 3.3</a>, details of <a href="#membership" class="auto internal xref">Section 4</a>, and subsections of <a href="#rest-api" class="auto internal xref">Section 6.3</a>.<a href="#appendix-A-2.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-3">Aspects of <span>[<a href="#I-D.ralston-mimi-policy" class="cite xref">I-D.ralston-mimi-policy</a>]</span> are additionally taken into

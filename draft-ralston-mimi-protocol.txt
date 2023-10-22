@@ -149,6 +149,9 @@ Table of Contents
    Instead, clients use provider-specific APIs to accomplish "last mile"
    delivery of events and messages.
 
+      *TODO*: Describe notion of consent, similar to "connection
+      KeyPackages" in Section 6 of [I-D.robert-mimi-delivery-service].
+
 2.  Conventions and Definitions
 
    The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
@@ -182,6 +185,11 @@ Table of Contents
 
       *TODO*: Check that this history requirement matches agreed
       semantics.
+
+      *TODO*: Describe where room state is persisted.  With this
+      document's transport, it's stored adjacent to the MLS group.  See
+      [I-D.robert-mimi-delivery-service] for possible in-MLS
+      persistence.
 
 3.1.  Event Schema
 
@@ -690,7 +698,8 @@ Table of Contents
    however the commit MUST at a minimum remove the affected clients.
 
       *TODO*: Describe how hub server generates proposals?  Or do we
-      just require some member in the group to do it?
+      just require some member in the group to do it?  See also:
+      Section 3.5 of [I-D.robert-mimi-delivery-service].
 
    Prior to a voluntary m.room.user leave event, the sender SHOULD send
    proposals to remove their own clients from the MLS group.  Where
@@ -753,7 +762,9 @@ Table of Contents
 
       *TODO*: Include auth rules for permissions.
 
-      *TODO*: Somehow link the event to a client identity? (or several)
+      *TODO*: Somehow link the event to a client identity? (or several
+      clients) See also: Section 3.8 of
+      [I-D.robert-mimi-delivery-service].
 
 5.  Application Messages
 
@@ -1214,9 +1225,8 @@ Acknowledgments
       Section 4, subsections of Section 6.3 (per transport draft),
       Section 3.5, and considerations for Section 5.1.
 
-   *  [I-D.ralston-mimi-signaling] describes details for Section 3.1,
-      Section 3.2, Section 3.3, parts of Section 4, and subsections of
-      Section 6.3.
+   *  [I-D.ralston-mimi-signaling] describes Section 3.1, Section 3.2,
+      Section 3.3, details of Section 4, and subsections of Section 6.3.
 
    Aspects of [I-D.ralston-mimi-policy] are additionally taken into
    consideration in this document through subsections of Section 4, but
