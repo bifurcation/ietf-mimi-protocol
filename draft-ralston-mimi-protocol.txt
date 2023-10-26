@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         23 October 2023
-Expires: 25 April 2024
+Intended status: Standards Track                         26 October 2023
+Expires: 28 April 2024
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -52,7 +52,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 25 April 2024.
+   This Internet-Draft will expire on 28 April 2024.
 
 Copyright Notice
 
@@ -1140,9 +1140,6 @@ status code, not the response body.
               <https://datatracker.ietf.org/doc/html/draft-barnes-mimi-
               arch-02>.
 
-   [I-D.barnes-mimi-architecture]
-              "*** BROKEN REFERENCE ***".
-
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
@@ -1229,8 +1226,8 @@ Acknowledgments
    is largely unincorporated and may require updates to match this
    document's specifics.
 
-   [I-D.barnes-mimi-architecture] was additionally used throughout the
-   writing of this document.
+   [I-D.barnes-mimi-arch] was additionally used throughout the writing
+   of this document.
 
 Author's Address
 
