@@ -1,7 +1,7 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-26T00:03:17.603548+00:00",
-  "repo": "turt2live/ietf-mimi-protocol",
+  "timestamp": "2023-10-29T00:03:34.026513+00:00",
+  "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
       "name": "bug",
@@ -50,5 +50,93 @@
     }
   ],
   "issues": [],
-  "pulls": []
+  "pulls": [
+    {
+      "number": 1,
+      "id": "PR_kwDOKZ8QO85d62SL",
+      "title": "[WIP] Cut out excess signaling components",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/1",
+      "state": "MERGED",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "[Rendered](https://turt2live.github.io/ietf-mimi-protocol/travis/refactor-1/draft-ralston-mimi-protocol.html)",
+      "createdAt": "2023-10-26T23:19:14Z",
+      "updatedAt": "2023-10-27T14:06:02Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "688fdcfeee972630881d4535b305fb80def1c658",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "travis/refactor-1",
+      "headRefOid": "1e7fb575a9f5bce35e0edfc13cc897873734a878",
+      "closedAt": "2023-10-27T14:05:58Z",
+      "mergedAt": "2023-10-27T14:05:58Z",
+      "mergedBy": "turt2live",
+      "mergeCommit": {
+        "oid": "f0422982ac7e16a31ff320843b6af8f082278e46"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85lZFrL",
+          "commit": {
+            "abbreviatedOid": "1e7fb57"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-27T06:28:54Z",
+          "updatedAt": "2023-10-27T06:49:18Z",
+          "comments": [
+            {
+              "originalPosition": 300,
+              "body": "What kind of guarantee are we aiming for here?",
+              "createdAt": "2023-10-27T06:28:54Z",
+              "updatedAt": "2023-10-27T06:49:18Z"
+            },
+            {
+              "originalPosition": 309,
+              "body": "I think those fields are gone now.",
+              "createdAt": "2023-10-27T06:29:35Z",
+              "updatedAt": "2023-10-27T06:49:18Z"
+            },
+            {
+              "originalPosition": 314,
+              "body": "We might want to define the set of relevant servers a little more clearly. I think somewhere else in the doc, you define them as the servers who have users in the `join` state. Maybe we should have some terminology for the servers involved in the room. Guest/follower servers?",
+              "createdAt": "2023-10-27T06:31:22Z",
+              "updatedAt": "2023-10-27T06:49:18Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 2,
+      "id": "PR_kwDOKZ8QO85eA0jT",
+      "title": "Remove major MLS/DS components; Update event approach",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/2",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-27T22:37:55Z",
+      "updatedAt": "2023-10-27T22:38:35Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "travis/events-pt2",
+      "headRefOid": "0b4a3ed65f9692cffe80b42466e3f0a868364450",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": []
+    }
+  ]
 }
