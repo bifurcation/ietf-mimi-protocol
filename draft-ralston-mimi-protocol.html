@@ -1161,10 +1161,24 @@ interoperability.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
                 <p id="section-toc.1-1.3.2.1.1" class="keepWithNext"><a href="#section-3.1" class="auto internal xref">3.1</a>.  <a href="#name-event-schema" class="internal xref">Event Schema</a></p>
 </li>
               <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2">
-                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-creation" class="internal xref">Creation</a></p>
+                <p id="section-toc.1-1.3.2.2.1"><a href="#section-3.2" class="auto internal xref">3.2</a>.  <a href="#name-cryptographic-room-represen" class="internal xref">Cryptographic Room Representation</a></p>
 <ul class="compact toc ulBare ulEmpty">
 <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.1">
-                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-mroomcreate" class="internal xref"><code>m.room.create</code></a></p>
+                    <p id="section-toc.1-1.3.2.2.2.1.1"><a href="#section-3.2.1" class="auto internal xref">3.2.1</a>.  <a href="#name-proposal-commit-paradigm" class="internal xref">Proposal-commit paradigm</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.2">
+                    <p id="section-toc.1-1.3.2.2.2.2.1"><a href="#section-3.2.2" class="auto internal xref">3.2.2</a>.  <a href="#name-cryptographically-anchoring" class="internal xref">Cryptographically anchoring room state</a></p>
+</li>
+                  <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.2.2.3">
+                    <p id="section-toc.1-1.3.2.2.2.3.1"><a href="#section-3.2.3" class="auto internal xref">3.2.3</a>.  <a href="#name-dsevents" class="internal xref">DSEvents</a></p>
+</li>
+                </ul>
+</li>
+              <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3">
+                <p id="section-toc.1-1.3.2.3.1"><a href="#section-3.3" class="auto internal xref">3.3</a>.  <a href="#name-creation" class="internal xref">Creation</a></p>
+<ul class="compact toc ulBare ulEmpty">
+<li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.1">
+                    <p id="section-toc.1-1.3.2.3.2.1.1"><a href="#section-3.3.1" class="auto internal xref">3.3.1</a>.  <a href="#name-mroomcreate" class="internal xref"><code>m.room.create</code></a></p>
 </li>
                 </ul>
 </li>
@@ -1308,8 +1322,8 @@ appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶<
 <a href="#section-3" class="section-number selfRef">3. </a><a href="#name-rooms-and-events" class="section-name selfRef">Rooms and Events</a>
       </h2>
 <p id="section-3-1">Rooms, described by <span>[<a href="#I-D.barnes-mimi-arch" class="cite xref">I-D.barnes-mimi-arch</a>]</span>, consist of a user participation
-list, any relevant cryptographic state (such as an MLS group), policy, and other
-metadata as needed.<a href="#section-3-1" class="pilcrow">¶</a></p>
+list, a cryptographic representation of the room as defined by
+<span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>, policy, and other metadata as needed.<a href="#section-3-1" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-3-2.1">
           <p id="section-3-2.1.1"><strong>TODO</strong>: Consider renaming "event" to something else.<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
@@ -1322,11 +1336,12 @@ a follower server, through a hub, and onwards onto another follower server are
 signed to ensure authenticity over all network hops.<a href="#section-3-3" class="pilcrow">¶</a></p>
 <p id="section-3-4">This document defines events to track and manage user-level participation in a
 room. The cryptographic security layer defines additional events as needed to
-manage and track its operations. For example, adding clients to an MLS group or
-requesting single-use keys for another user.<a href="#section-3-4" class="pilcrow">¶</a></p>
-<p id="section-3-5">Events are used to carry information, and are not required to be persisted. The
-current participation and policy state is confirmed by the cryptographic
-security layer rather than being confirmed in events specifically.<a href="#section-3-5" class="pilcrow">¶</a></p>
+manage and track its operations. For example, adding clients to a room's
+underlying MLS group or requesting single-use key material for another user's
+clients.<a href="#section-3-4" class="pilcrow">¶</a></p>
+<p id="section-3-5">Events carry information, and are not required to be persisted. The current
+participation and policy state is confirmed by the cryptographic security layer
+rather than being confirmed in events specifically.<a href="#section-3-5" class="pilcrow">¶</a></p>
 <div id="event-schema">
 <section id="section-3.1">
         <h3 id="name-event-schema">
@@ -1370,6 +1385,8 @@ struct {
          UserEvent content; // see later in doc
       case "m.room.participant_list":
          ParticipantListEvent content; // see later in doc
+      case "ds.group":
+         DSEvent ds_event; // see later in doc
       // more cases as required by registry
    }
 } Event;
@@ -1391,64 +1408,249 @@ by a consistent identifier.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
 <p id="section-3.1-6">The "origin server" of an event is the server implied by the <code>sender</code> field.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="room-creation">
+<div id="mimi-ds">
 <section id="section-3.2">
-        <h3 id="name-creation">
-<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-creation" class="section-name selfRef">Creation</a>
+        <h3 id="name-cryptographic-room-represen">
+<a href="#section-3.2" class="section-number selfRef">3.2. </a><a href="#name-cryptographic-room-represen" class="section-name selfRef">Cryptographic Room Representation</a>
         </h3>
-<p id="section-3.2-1">Rooms (and therefore MLS groups) are first created within the provider, out of
-scope from MIMI. When the room is exposed to another server over the MIMI
-protocol, such as with an explicit invite to another user, the creating server
-<span class="bcp14">MUST</span> produce the following details:<a href="#section-3.2-1" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.2-2.1">
-            <p id="section-3.2-2.1.1">An <code>m.room.create</code> (<a href="#ev-mroomcreate" class="auto internal xref">Section 3.2.1</a>) event describing the encryption
-and policy details for the room.<a href="#section-3.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.2-2.2">
-            <p id="section-3.2-2.2.1">A universally unique room ID (represented by the create event).<a href="#section-3.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.2-2.3">
-            <p id="section-3.2-2.3.1">An <code>m.room.user</code> (<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) event which invites the desired user.<a href="#section-3.2-2.3.1" class="pilcrow">¶</a></p>
-</li>
-          <li class="normal" id="section-3.2-2.4">
-            <p id="section-3.2-2.4.1">Any relevant cryptographic state needed to verify the invite is legitimate.
-For example, the ciphersuite used by the cryptographic security layer.<a href="#section-3.2-2.4.1" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.2-1.1">
+            <p id="section-3.2-1.1.1"><strong>TODO</strong>: Decide on terminology on how to reference the cryptographic building
+block throughout the document.
+<strong>TODO</strong>: We might want to move this section elsewhere.<a href="#section-3.2-1.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<p id="section-3.2-3">This is the minimum state required by a MIMI room. Room creators <span class="bcp14">MAY</span> wish to
-include additional details in the initial state, such as configuration of the
-room's policy, adding the creator's other clients to the MLS group state, etc.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
-<div id="ev-mroomcreate">
+<p id="section-3.2-2">Each room is represented cryptographically by an MLS group and the Hub that
+manages the room acts as the DS as defined in the MIMI DS protocol specified in
+<span>[<a href="#I-D.robert-mimi-delivery-service" class="cite xref">I-D.robert-mimi-delivery-service</a>]</span>.<a href="#section-3.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.2-3">In particular, the cryptographic room state holds the list of clients currently
+in the room.<a href="#section-3.2-3" class="pilcrow">¶</a></p>
+<div id="proposal-commit-paradigm">
 <section id="section-3.2.1">
-          <h4 id="name-mroomcreate">
-<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-mroomcreate" class="section-name selfRef"><code>m.room.create</code></a>
+          <h4 id="name-proposal-commit-paradigm">
+<a href="#section-3.2.1" class="section-number selfRef">3.2.1. </a><a href="#name-proposal-commit-paradigm" class="section-name selfRef">Proposal-commit paradigm</a>
           </h4>
-<p id="section-3.2.1-1"><strong>Event type</strong>: <code>m.room.create</code><a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-2"><strong>Additional event fields</strong>:<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
-<div class="alignLeft art-text artwork" id="section-3.2.1-3">
+<p id="section-3.2.1-1">MLS follows a proposal-commit paradigm, which means that any party involved in a
+room (follower server, Hub or clients) can send proposals (e.g. to
+add/remove/update clients of a user or to re-initialize the group with different
+parameters). However, only clients can send commits, which contain all valid
+previously sent proposals and apply them to the MLS group state. All proposals
+are initially sent to the Hub, which verifies that they are valid in the context
+of the current room state and any previously received proposals.<a href="#section-3.2.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.1-2">The MIMI DS protocol ensures that the Hub, all follower servers and the clients
+of all participants agree on the same room state, which specifically includes
+the participant list, the client list and the key material used for message
+encryption (the last of which is only available to clients).<a href="#section-3.2.1-2" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="anchoring">
+<section id="section-3.2.2">
+          <h4 id="name-cryptographically-anchoring">
+<a href="#section-3.2.2" class="section-number selfRef">3.2.2. </a><a href="#name-cryptographically-anchoring" class="section-name selfRef">Cryptographically anchoring room state</a>
+          </h4>
+<p id="section-3.2.2-1">To allow all parties involved to agree on the state of the room, the room state
+is anchored in the MLS group via a GroupContext extension.<a href="#section-3.2.2-1" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.2.2-2">
+<pre>
+struct {
+   opaque user_id;
+   opaque role;
+   ParticipationState state;
+} ParticipantData
+
+struct {
+  opaque room_id;
+  UserData participants&lt;V&gt;;
+  // TODO: Add any remaining room data
+} RoomState;
+</pre><a href="#section-3.2.2-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2.2-3">Whenever a client creates a commit, it includes an UpdateRoom proposal that
+contains all events since the preceeding commit and updates the ParticipantData
+extension accordingly as part of the commit.<a href="#section-3.2.2-3" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.2.2-4">
+<pre>
+struct {
+  UserEvent user_event&lt;V&gt;;
+  // TODO: Other events that change room state
+} UpdateRoom;
+</pre><a href="#section-3.2.2-4" class="pilcrow">¶</a>
+</div>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.2.2-5.1">
+              <p id="section-3.2.2-5.1.1"><strong>TODO</strong>: This is a new proposal type that would have to be specified as part
+of an extension by the MLS WG.<a href="#section-3.2.2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+<p id="section-3.2.2-6">The Hub is the arbiter of which event is sent in which epoch and verifies that
+the UpdateRoom proposal in each commit is complete.<a href="#section-3.2.2-6" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.2.2-7.1">
+              <p id="section-3.2.2-7.1.1"><strong>TODO</strong>: Client should be able to staple events to a commit to create an
+atomically processable message.<a href="#section-3.2.2-7.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
+</section>
+</div>
+<div id="dsevents">
+<section id="section-3.2.3">
+          <h4 id="name-dsevents">
+<a href="#section-3.2.3" class="section-number selfRef">3.2.3. </a><a href="#name-dsevents" class="section-name selfRef">DSEvents</a>
+          </h4>
+<p id="section-3.2.3-1">All events that pertain to the MLS group that underlies a room are wrapped into
+a DSEvent and sent as an Event of type <code>ds.group</code>.<a href="#section-3.2.3-1" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.2.3-2">
+<pre>
+struct {
+   DSRequest ds_request;
+} DSEvent
+</pre><a href="#section-3.2.3-2" class="pilcrow">¶</a>
+</div>
+<p id="section-3.2.3-3">The MIMI DS protocol deals with authentication and upon successful processing
+returns a DSResponse to be sent to the sender of the DSEvent, optionally an
+MLSMessage for full fan-out and optionally one or more Welcome messages for
+delivery to new group members.<a href="#section-3.2.3-3" class="pilcrow">¶</a></p>
+<p id="section-3.2.3-4">TODO: Integrate DSResponse into the MIMI Response type<a href="#section-3.2.3-4" class="pilcrow">¶</a></p>
+<div id="client-and-group-state-management">
+<section id="section-3.2.3.1">
+            <h5 id="name-client-and-group-state-mana">
+<a href="#section-3.2.3.1" class="section-number selfRef">3.2.3.1. </a><a href="#name-client-and-group-state-mana" class="section-name selfRef">Client and group state management</a>
+            </h5>
+<p id="section-3.2.3.1-1">The MIMI DS protocol allows parties to update the state of the MLS group, either
+through proposals or commits.<a href="#section-3.2.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.2.3.1-2">Through proposals, parties involved in the group can change the members of the
+group by:<a href="#section-3.2.3.1-2" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.3.1-3.1">
+                <p id="section-3.2.3.1-3.1.1">adding a client,<a href="#section-3.2.3.1-3.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2.3.1-3.2">
+                <p id="section-3.2.3.1-3.2.1">removing a client, or<a href="#section-3.2.3.1-3.2.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2.3.1-3.3">
+                <p id="section-3.2.3.1-3.3.1">updating a client.<a href="#section-3.2.3.1-3.3.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<p id="section-3.2.3.1-4">Note that proposing the addition of a client requires the KeyPackage of said
+client (see <a href="#state-provisioning" class="auto internal xref">Section 3.2.3.2</a>).<a href="#section-3.2.3.1-4" class="pilcrow">¶</a></p>
+<p id="section-3.2.3.1-5">Additionally, parties can propose to re-initialize a group (e.g. to change the
+version or ciphersuite of the group).<a href="#section-3.2.3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.2.3.1-6">Clients can create commits, which have to include all valid proposals sent since
+the last commit. In the commit, clients can include additional proposals
+corresponding to the group state changes described above.<a href="#section-3.2.3.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.2.3.1-7">In addition to those state changes, a client can also use a commit to add itself
+to a group without being added through the commit of an existing group member.
+For such a commit, the client first needs the current group information (see
+<a href="#state-provisioning" class="auto internal xref">Section 3.2.3.2</a>).<a href="#section-3.2.3.1-7" class="pilcrow">¶</a></p>
+<p id="section-3.2.3.1-8">For both proposals and commits (and the proposals therein), all recipients
+including the Hub <span class="bcp14">MUST</span> verify that the following hold.<a href="#section-3.2.3.1-8" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.3.1-9.1">
+                <p id="section-3.2.3.1-9.1.1">The room's policy allows the sender to perform the corresponding operation.<a href="#section-3.2.3.1-9.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2.3.1-9.2">
+                <p id="section-3.2.3.1-9.2.1">The resulting client list is consistent with the participant list of the room.<a href="#section-3.2.3.1-9.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+<div id="state-provisioning">
+<section id="section-3.2.3.2">
+            <h5 id="name-provisioning-of-cryptograph">
+<a href="#section-3.2.3.2" class="section-number selfRef">3.2.3.2. </a><a href="#name-provisioning-of-cryptograph" class="section-name selfRef">Provisioning of cryptographic state and key material</a>
+            </h5>
+<p id="section-3.2.3.2-1">The MIMI DS protocol also allows parties to send DSRequests that do not change
+the state of the MLS group underlying the state of a given room. A party can
+thus request<a href="#section-3.2.3.2-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.2.3.2-2.1">
+                <p id="section-3.2.3.2-2.1.1">Key material required to add one or more new clients to a group<a href="#section-3.2.3.2-2.1.1" class="pilcrow">¶</a></p>
+</li>
+              <li class="normal" id="section-3.2.3.2-2.2">
+                <p id="section-3.2.3.2-2.2.1">Information required to join a group (via external commit)<a href="#section-3.2.3.2-2.2.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.2.3.2-3.1">
+                <p id="section-3.2.3.2-3.1.1"><strong>TODO</strong>: Maybe emphasise that since we store the whole room information in a
+group context extension, the group info is enough to bootstrap the entire
+room.<a href="#section-3.2.3.2-3.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
+</section>
+</div>
+<div id="message-encryption">
+<section id="section-3.2.3.3">
+            <h5 id="name-message-encryption">
+<a href="#section-3.2.3.3" class="section-number selfRef">3.2.3.3. </a><a href="#name-message-encryption" class="section-name selfRef">Message encryption</a>
+            </h5>
+<p id="section-3.2.3.3-1">The MIMI DS protocol also deals with the sending of encrypted (application)
+messages. Due to the encryption, MIMI DS will only verify the message's header
+data and return a fan-out request.<a href="#section-3.2.3.3-1" class="pilcrow">¶</a></p>
+</section>
+</div>
+</section>
+</div>
+</section>
+</div>
+<div id="room-creation">
+<section id="section-3.3">
+        <h3 id="name-creation">
+<a href="#section-3.3" class="section-number selfRef">3.3. </a><a href="#name-creation" class="section-name selfRef">Creation</a>
+        </h3>
+<p id="section-3.3-1">Rooms (and the underlying MLS groups) are first created within the provider, out
+of scope from MIMI. When the room is exposed to another server over the MIMI
+protocol, such as with an explicit invite to another user, the creating server
+<span class="bcp14">MUST</span> produce the following details:<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<ul class="normal">
+<li class="normal" id="section-3.3-2.1">
+            <p id="section-3.3-2.1.1">An <code>m.room.create</code> (<a href="#ev-mroomcreate" class="auto internal xref">Section 3.3.1</a>) event describing the encryption
+and policy details for the room.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.2">
+            <p id="section-3.3-2.2.1">A universally unique room ID (represented by the create event).<a href="#section-3.3-2.2.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.3">
+            <p id="section-3.3-2.3.1">An <code>m.room.user</code> (<a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a>) event which invites the desired user.<a href="#section-3.3-2.3.1" class="pilcrow">¶</a></p>
+</li>
+          <li class="normal" id="section-3.3-2.4">
+            <p id="section-3.3-2.4.1">Any relevant cryptographic state needed to verify the invite is legitimate.
+For example, the ciphersuite used by the cryptographic security layer.<a href="#section-3.3-2.4.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
+<p id="section-3.3-3">This is the minimum state required by a MIMI room. Room creators <span class="bcp14">MAY</span> wish to
+include additional details in the initial state, such as configuration of the
+room's policy, adding the creator's other clients to the MLS group state, etc.<a href="#section-3.3-3" class="pilcrow">¶</a></p>
+<div id="ev-mroomcreate">
+<section id="section-3.3.1">
+          <h4 id="name-mroomcreate">
+<a href="#section-3.3.1" class="section-number selfRef">3.3.1. </a><a href="#name-mroomcreate" class="section-name selfRef"><code>m.room.create</code></a>
+          </h4>
+<p id="section-3.3.1-1"><strong>Event type</strong>: <code>m.room.create</code><a href="#section-3.3.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-2"><strong>Additional event fields</strong>:<a href="#section-3.3.1-2" class="pilcrow">¶</a></p>
+<div class="alignLeft art-text artwork" id="section-3.3.1-3">
 <pre>
 struct {
    // TODO
 } CreateEvent;
-</pre><a href="#section-3.2.1-3" class="pilcrow">¶</a>
+</pre><a href="#section-3.3.1-3" class="pilcrow">¶</a>
 </div>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.2.1-4.1">
-              <p id="section-3.2.1-4.1.1"><strong>TODO</strong>: Include fields for policy information (previously called a "policy
-ID" in ralston-mimi-signaling).<a href="#section-3.2.1-4.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-3.3.1-4.1">
+              <p id="section-3.3.1-4.1.1"><strong>TODO</strong>: Include fields for policy information (previously called a "policy
+ID" in ralston-mimi-signaling).<a href="#section-3.3.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.2.1-5.1">
-              <p id="section-3.2.1-5.1.1"><strong>TODO</strong>: Include fields for encryption information. Possibly ciphersuite and
-similar so a server can check to ensure it supports the MLS dialect?<a href="#section-3.2.1-5.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-3.3.1-5.1">
+              <p id="section-3.3.1-5.1.1"><strong>TODO</strong>: Include fields for encryption information. Possibly ciphersuite and
+similar so a server can check to ensure it supports the MLS dialect?<a href="#section-3.3.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
           </ul>
-<p id="section-3.2.1-6"><strong>Fanout considerations</strong>:<a href="#section-3.2.1-6" class="pilcrow">¶</a></p>
-<p id="section-3.2.1-7"><code>CreateEvent</code> is <em>unsigned</em> in all cases it is used. The create event is used
+<p id="section-3.3.1-6"><strong>Fanout considerations</strong>:<a href="#section-3.3.1-6" class="pilcrow">¶</a></p>
+<p id="section-3.3.1-7"><code>CreateEvent</code> is <em>unsigned</em> in all cases it is used. The create event is used
 during invites to ensure the server is capable of participating in the room and
-is not fanned out more generally. See <a href="#op-check" class="auto internal xref">Section 5.3.2</a> for usage.<a href="#section-3.2.1-7" class="pilcrow">¶</a></p>
+is not fanned out more generally. See <a href="#op-check" class="auto internal xref">Section 5.3.2</a> for usage.<a href="#section-3.3.1-7" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
@@ -1486,10 +1688,8 @@ in the cryptographic state are <em>active participants</em>.<a href="#section-4-
 are considered to be "in" or "participating" in the room. Events which require
 full fanout (<a href="#fanout" class="auto internal xref">Section 5.3.1.1</a>) are sent to all participating servers by default. Some
 events <span class="bcp14">MAY</span> be sent to additional servers as needed by their fanout considerations.<a href="#section-4-5" class="pilcrow">¶</a></p>
-<p id="section-4-6">After any participation state change, the cryptographic state for a room <span class="bcp14">MUST</span>
-confirm that the participation state change happened. For example, by committing
-a hash of the current user participation list alongside the addition of a user's
-clients.<a href="#section-4-6" class="pilcrow">¶</a></p>
+<p id="section-4-6">The participant list is anchored in the cryptographic state of the room as
+described in <a href="#anchoring" class="auto internal xref">Section 3.2.2</a>.<a href="#section-4-6" class="pilcrow">¶</a></p>
 <div id="invites">
 <section id="section-4.1">
         <h3 id="name-invites">
@@ -1956,7 +2156,7 @@ the inviting user has general consent to invite the target user. For example,
 ensuring the invite does not appear spammy in nature and if the inviter already
 has a connection with the invitee.<a href="#section-5.3.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-3">If the server does not recognize the event format of the <code>CreateEvent</code>
-(<a href="#ev-mroomcreate" class="auto internal xref">Section 3.2.1</a>) event, or does not understand the policy/encryption
+(<a href="#ev-mroomcreate" class="auto internal xref">Section 3.3.1</a>) event, or does not understand the policy/encryption
 configuration contained within, it <span class="bcp14">MUST</span> reject the request.<a href="#section-5.3.2-3" class="pilcrow">¶</a></p>
 <p id="section-5.3.2-4">The request <span class="bcp14">MAY</span> be rejected with a <code>400</code> HTTP status code. If everything looks
 OK to the server, it responds with a <code>200</code> HTTP status code.<a href="#section-5.3.2-4" class="pilcrow">¶</a></p>
@@ -2058,6 +2258,10 @@ separated by dots.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Barnes, R.</span>, <span class="refTitle">"An Architecture for More Instant Messaging Interoperability (MIMI)"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-barnes-mimi-arch-02</span>, <time datetime="2023-10-23" class="refDate">23 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-barnes-mimi-arch-02">https://datatracker.ietf.org/doc/html/draft-barnes-mimi-arch-02</a>&gt;</span>. </dd>
 <dd class="break"></dd>
+<dt id="I-D.robert-mimi-delivery-service">[I-D.robert-mimi-delivery-service]</dt>
+        <dd>
+<span class="refAuthor">Robert, R.</span> and <span class="refAuthor">K. Kohbrok</span>, <span class="refTitle">"MIMI Delivery Service"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-robert-mimi-delivery-service-05</span>, <time datetime="2023-10-23" class="refDate">23 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-robert-mimi-delivery-service-05">https://datatracker.ietf.org/doc/html/draft-robert-mimi-delivery-service-05</a>&gt;</span>. </dd>
+<dd class="break"></dd>
 <dt id="RFC2119">[RFC2119]</dt>
         <dd>
 <span class="refAuthor">Bradner, S.</span>, <span class="refTitle">"Key words for use in RFCs to Indicate Requirement Levels"</span>, <span class="seriesInfo">BCP 14</span>, <span class="seriesInfo">RFC 2119</span>, <span class="seriesInfo">DOI 10.17487/RFC2119</span>, <time datetime="1997-03" class="refDate">March 1997</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc2119">https://www.rfc-editor.org/rfc/rfc2119</a>&gt;</span>. </dd>
@@ -2099,10 +2303,6 @@ separated by dots.<a href="#section-7.1-1" class="pilcrow">¶</a></p>
         <dd>
 <span class="refAuthor">Ralston, T.</span> and <span class="refAuthor">M. Hodgson</span>, <span class="refTitle">"MIMI Signaling Protocol"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-ralston-mimi-signaling-00</span>, <time datetime="2023-09-22" class="refDate">22 September 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-ralston-mimi-signaling-00">https://datatracker.ietf.org/doc/html/draft-ralston-mimi-signaling-00</a>&gt;</span>. </dd>
 <dd class="break"></dd>
-<dt id="I-D.robert-mimi-delivery-service">[I-D.robert-mimi-delivery-service]</dt>
-        <dd>
-<span class="refAuthor">Robert, R.</span> and <span class="refAuthor">K. Kohbrok</span>, <span class="refTitle">"MIMI Delivery Service"</span>, <span class="refContent">Work in Progress</span>, <span class="seriesInfo">Internet-Draft, draft-robert-mimi-delivery-service-05</span>, <time datetime="2023-10-23" class="refDate">23 October 2023</time>, <span>&lt;<a href="https://datatracker.ietf.org/doc/html/draft-robert-mimi-delivery-service-05">https://datatracker.ietf.org/doc/html/draft-robert-mimi-delivery-service-05</a>&gt;</span>. </dd>
-<dd class="break"></dd>
 <dt id="RFC8446">[RFC8446]</dt>
       <dd>
 <span class="refAuthor">Rescorla, E.</span>, <span class="refTitle">"The Transport Layer Security (TLS) Protocol Version 1.3"</span>, <span class="seriesInfo">RFC 8446</span>, <span class="seriesInfo">DOI 10.17487/RFC8446</span>, <time datetime="2018-08" class="refDate">August 2018</time>, <span>&lt;<a href="https://www.rfc-editor.org/rfc/rfc8446">https://www.rfc-editor.org/rfc/rfc8446</a>&gt;</span>. </dd>
@@ -2132,7 +2332,7 @@ subsections of <a href="#rest-api" class="auto internal xref">Section 5.3</a> (p
 </li>
         <li class="normal" id="appendix-A-3.3">
           <p id="appendix-A-3.3.1"><span>[<a href="#I-D.ralston-mimi-signaling" class="cite xref">I-D.ralston-mimi-signaling</a>]</span> describes <a href="#event-schema" class="auto internal xref">Section 3.1</a>,
-<a href="#room-creation" class="auto internal xref">Section 3.2</a>, details of <a href="#membership" class="auto internal xref">Section 4</a>, and subsections of <a href="#rest-api" class="auto internal xref">Section 5.3</a>.<a href="#appendix-A-3.3.1" class="pilcrow">¶</a></p>
+<a href="#room-creation" class="auto internal xref">Section 3.3</a>, details of <a href="#membership" class="auto internal xref">Section 4</a>, and subsections of <a href="#rest-api" class="auto internal xref">Section 5.3</a>.<a href="#appendix-A-3.3.1" class="pilcrow">¶</a></p>
 </li>
       </ul>
 <p id="appendix-A-4">Aspects of <span>[<a href="#I-D.ralston-mimi-policy" class="cite xref">I-D.ralston-mimi-policy</a>]</span> are additionally taken into
