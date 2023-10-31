@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-29T00:03:34.026513+00:00",
+  "timestamp": "2023-10-31T00:03:25.877034+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -117,26 +117,516 @@
       "id": "PR_kwDOKZ8QO85eA0jT",
       "title": "Remove major MLS/DS components; Update event approach",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/2",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "turt2live",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-10-27T22:37:55Z",
-      "updatedAt": "2023-10-27T22:38:35Z",
+      "updatedAt": "2023-10-30T18:20:56Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
       "headRepository": "bifurcation/ietf-mimi-protocol",
       "headRefName": "travis/events-pt2",
       "headRefOid": "0b4a3ed65f9692cffe80b42466e3f0a868364450",
+      "closedAt": "2023-10-30T18:20:56Z",
+      "mergedAt": "2023-10-30T18:20:56Z",
+      "mergedBy": "turt2live",
+      "mergeCommit": {
+        "oid": "48c2527f52abbd1d65cd9a6ba7da4679197a7864"
+      },
+      "comments": [
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Hi Travis,\r\n\r\nI don't think this particular list of events is helping us move forward. \r\n\r\nThe m.room.create event is out of scope of MIMI.\r\n\r\nIn the MLS case, I think we had strong consensus to use an MLS Proposal to update the participant list. So, we don't need the m.room.user event.  \r\n\r\nSending an application message does not require a signature, and sending an MLS handshake (and therefore participant list modification) in MLS does not require a signature. Therefore, we should remove them from every event. We can add a signature to the specific events that need them (ex: consent).",
+          "createdAt": "2023-10-29T16:43:21Z",
+          "updatedAt": "2023-10-30T00:15:28Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Why do other mimi providers need to be notified about a created? It doesn't\r\nseem actionable by a remote provider. Can't they just become aware of a\r\nroom the first time one of their users is added to it?\r\n\r\nOn Sun, Oct 29, 2023, 10:06 Travis Ralston ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In draft-ralston-mimi-protocol.md\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375474716>\r\n> :\r\n>\r\n> > @@ -200,12 +217,18 @@ struct {\r\n>  > **TODO**: Include fields for encryption information. Possibly ciphersuite and\r\n>  > similar so a server can check to ensure it supports the MLS dialect?\r\n>\r\n> +**Fanout considerations**:\r\n> +\r\n> +`CreateEvent` is *unsigned* in all cases it is used. The create event is used\r\n>\r\n> This is not being used as an advertisement to other providers. It's used\r\n> to carry information over the API because the framing is an Event. See\r\n> \"check invite\" API.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375474716>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AVXAIJZS7XRGONEZ7QRD62DYB2EHVAVCNFSM6AAAAAA6TONZUOVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMYTOMBSHE4TMNJXGA>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2023-10-29T20:41:38Z",
+          "updatedAt": "2023-10-30T00:15:18Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Your statement is about *users*. Users of a MIMI-capable provider can\r\ncertainly create rooms and MLS groups as they like. Why is this\r\ncontroversial? By the time users on foreign providers start to get involved\r\nthere will be a room and a group, but we need to ne clear about how users\r\nend up in groups because the other users need to authorize them.\r\n-r\r\n\r\n\r\nOn Sun, Oct 29, 2023, 10:06 Travis Ralston ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> In draft-ralston-mimi-protocol.md\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375474774>\r\n> :\r\n>\r\n> > @@ -304,84 +331,47 @@ described by {{leaves}}. Accepting is done by joining ({{joins}}) the room.\r\n>  ~~~\r\n>  {: #fig-invites title=\"Invite happy path\" }\r\n>\r\n> -## Joins {#joins}\r\n> -\r\n> -A user can join a room in two ways:\r\n> -\r\n> -1. Using an external commit to Add themselves to the MLS group.\r\n> -2. Receiving a Welcome message from a joined member of the MLS group.\r\n> -\r\n>\r\n> MIMI requires signaling, which does not permit the creation of an MLS\r\n> group outside of a room.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375474774>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AVXAIJY23BCAC4HNHCCVB6DYB2EJRAVCNFSM6AAAAAA6TONZUOVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMYTOMBSHE4TMNRSG4>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2023-10-29T23:45:11Z",
+          "updatedAt": "2023-10-30T00:18:51Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Regardless what protocol you use, you will need some binding between\r\nparticipant list changes and the e2e encryption protocol. For MLS, Konrad\r\nand Raphael suggested a proposal, Tom chimed in that they do that too, and\r\nRichard and I both responded favorably. Nobody raised any objection or gave\r\na reason why we would should not.\r\nThanks,\r\n-rohan\r\n\r\nOn Sun, Oct 29, 2023, 10:10 Travis Ralston ***@***.***> wrote:\r\n\r\n> ***@***.**** commented on this pull request.\r\n> ------------------------------\r\n>\r\n> On draft-ralston-mimi-protocol.md\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375475447>\r\n> :\r\n>\r\n> The m.room.create event is out of scope of MIMI.\r\n>\r\n> See\r\n> https://github.com/bifurcation/ietf-mimi-protocol/pull/2/files#r1375474716\r\n>\r\n> In the MLS case, I think we had strong consensus to use an MLS Proposal to\r\n> update the participant list. So, we don't need the m.room.user event.\r\n>\r\n> I don't agree that we had consensus on using MLS Proposals for participant\r\n> list changes. This document is shaped independently of MLS though, so\r\n> events *could* run over MLS Proposals in a different document if desired.\r\n> We should discuss this as a Design Team.\r\n>\r\n> Sending an application message does not require a signature, and sending\r\n> an MLS handshake (and therefore participant list modification) in MLS does\r\n> not require a signature. Therefore, we should remove them from every event.\r\n> We can add a signature to the specific events that need them (ex: consent).\r\n>\r\n> The application message is not signed by the protocol document (in fact,\r\n> it's been removed in this PR). Participant list events are required to be\r\n> signed because they transit multiple hops, however redactions and hash\r\n> chaining were removed in an earlier PR already.\r\n>\r\n> \u2014\r\n> Reply to this email directly, view it on GitHub\r\n> <https://github.com/bifurcation/ietf-mimi-protocol/pull/2#discussion_r1375475447>,\r\n> or unsubscribe\r\n> <https://github.com/notifications/unsubscribe-auth/AVXAIJ3JRMCI42ZDL5EXLC3YB2EYVAVCNFSM6AAAAAA6TONZUOVHI2DSMVQWIX3LMV43YUDVNRWFEZLROVSXG5CSMV3GSZLXHMYTOMBSHE4TONBXG4>\r\n> .\r\n> You are receiving this because you were mentioned.Message ID:\r\n> ***@***.***>\r\n>\r\n",
+          "createdAt": "2023-10-29T23:56:02Z",
+          "updatedAt": "2023-10-30T00:25:17Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85lgZ3u",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T16:46:09Z",
+          "updatedAt": "2023-10-29T16:46:09Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "We don't require other providers to be notified when a new room is created. I don't see why we have a create event.",
+              "createdAt": "2023-10-29T16:46:09Z",
+              "updatedAt": "2023-10-29T16:46:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgZ5K",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T16:46:46Z",
+          "updatedAt": "2023-10-29T16:46:47Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "3. Create a group and add others to it.",
+              "createdAt": "2023-10-29T16:46:47Z",
+              "updatedAt": "2023-10-29T16:46:47Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgafM",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T17:04:29Z",
+          "updatedAt": "2023-10-29T17:04:30Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "(moving to a thread for replies)\r\n\r\n@rohan-wire says:\r\n\r\n> Hi Travis,\r\n> \r\n> I don't think this particular list of events is helping us move forward.\r\n> \r\n> The m.room.create event is out of scope of MIMI.\r\n> \r\n> In the MLS case, I think we had strong consensus to use an MLS Proposal to update the participant list. So, we don't need the m.room.user event.\r\n> \r\n> Sending an application message does not require a signature, and sending an MLS handshake (and therefore participant list modification) in MLS does not require a signature. Therefore, we should remove them from every event. We can add a signature to the specific events that need them (ex: consent).\r\n\r\n",
+              "createdAt": "2023-10-29T17:04:30Z",
+              "updatedAt": "2023-10-29T17:04:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgapa",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T17:05:51Z",
+          "updatedAt": "2023-10-29T17:05:51Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "This is not being used as an advertisement to other providers. It's used to carry information over the API because the framing is an Event. See \"check invite\" API.",
+              "createdAt": "2023-10-29T17:05:51Z",
+              "updatedAt": "2023-10-29T17:05:51Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgaqT",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T17:06:21Z",
+          "updatedAt": "2023-10-29T17:06:22Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "MIMI requires signaling, which does not permit the creation of an MLS group outside of a room.",
+              "createdAt": "2023-10-29T17:06:21Z",
+              "updatedAt": "2023-10-29T17:06:22Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lga3l",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-29T17:10:23Z",
+          "updatedAt": "2023-10-29T17:10:23Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "> The m.room.create event is out of scope of MIMI.\r\n\r\nSee https://github.com/bifurcation/ietf-mimi-protocol/pull/2/files#r1375474716\r\n\r\n> In the MLS case, I think we had strong consensus to use an MLS Proposal to update the participant list. So, we don't need the m.room.user event.\r\n\r\nI don't agree that we had consensus on using MLS Proposals for participant list changes. This document is shaped independently of MLS though, so events *could* run over MLS Proposals in a different document if desired. We should discuss this as a Design Team.\r\n\r\n> Sending an application message does not require a signature, and sending an MLS handshake (and therefore participant list modification) in MLS does not require a signature. Therefore, we should remove them from every event. We can add a signature to the specific events that need them (ex: consent).\r\n\r\nThe application message is not signed by the protocol document (in fact, it's been removed in this PR). Participant list events are required to be signed because they transit multiple hops, however redactions and hash chaining were removed in an earlier PR already.",
+              "createdAt": "2023-10-29T17:10:23Z",
+              "updatedAt": "2023-10-29T17:10:23Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgxif",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:14:24Z",
+          "updatedAt": "2023-10-30T00:14:24Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "(looks like replying via email doesn't work with threads)\r\n\r\n@rohan-wire says:\r\n> Why do other mimi providers need to be notified about a created room? It doesn't seem actionable by a remote provider. Can't they just become aware of a room the first time one of their users is added to it?\r\n\r\n",
+              "createdAt": "2023-10-30T00:14:24Z",
+              "updatedAt": "2023-10-30T18:12:04Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgxl8",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:15:07Z",
+          "updatedAt": "2023-10-30T00:15:07Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "Other providers are *not* notified. This is how they become aware of the room - there's still more work to be done on the create event contents before this is ready for review.",
+              "createdAt": "2023-10-30T00:15:07Z",
+              "updatedAt": "2023-10-30T00:15:07Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgxrQ",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:16:12Z",
+          "updatedAt": "2023-10-30T00:16:12Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "@rohan-wire says:\r\n\r\n> Your statement is about *users*. Users of a MIMI-capable provider can certainly create rooms and MLS groups as they like. Why is this controversial? By the time users on foreign providers start to get involved there will be a room and a group, but we need to ne clear about how users end up in groups because the other users need to authorize them. -r\r\n\r\n",
+              "createdAt": "2023-10-30T00:16:12Z",
+              "updatedAt": "2023-10-30T00:16:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgx3N",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:18:37Z",
+          "updatedAt": "2023-10-30T00:18:37Z",
+          "comments": [
+            {
+              "originalPosition": 225,
+              "body": "I wouldn't say it's controversial yet, but I'm having trouble understanding the motivation for the initial comment. It's on a deleted line, and doesn't include much detail. \r\n\r\nMLS groups can of course be created, but joins (where this comment is placed) happen within signaling. There's already text to permit/allow the addition of clients without user signaling messages.",
+              "createdAt": "2023-10-30T00:18:37Z",
+              "updatedAt": "2023-10-30T00:18:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgx7o",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:19:31Z",
+          "updatedAt": "2023-10-30T00:19:32Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "@rohan-wire says:\r\n\r\n> Regardless what protocol you use, you will need some binding between participant list changes and the e2e encryption protocol. For MLS, Konrad and Raphael suggested [using an MLS `Proposal`], Tom chimed in that they do that too, and Richard and I both responded favorably. Nobody raised any objection or gave a reason why we would should not. Thanks, -rohan\r\n\r\n",
+              "createdAt": "2023-10-30T00:19:31Z",
+              "updatedAt": "2023-10-30T18:13:44Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lgyVI",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-30T00:25:10Z",
+          "updatedAt": "2023-10-30T00:25:10Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "There is still a binding between participant list and MLS group, though not in this document specifically. We've talked several times as a design team about how this could be done, and Konrad and I are working on formalizing that in the DS and protocol documents. We should have something up for review on Tuesday by the design team.\r\n\r\nWhat specific proposal are you speaking to? Thursday's design meeting is the state of decisions this PR is based upon (pending a re-review on Tuesday with the whole design team).",
+              "createdAt": "2023-10-30T00:25:10Z",
+              "updatedAt": "2023-10-30T00:25:10Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lh49T",
+          "commit": {
+            "abbreviatedOid": "0b4a3ed"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Thanks for the PR! I think this is fine to merge for now. I'll put any changes I'd propose into a follow up PR.",
+          "createdAt": "2023-10-30T07:05:28Z",
+          "updatedAt": "2023-10-30T07:46:44Z",
+          "comments": [
+            {
+              "originalPosition": 136,
+              "body": "I think the name is a bit misleading at this point, as it's a bit of a vestige from when room state was event based. Now, the \"CreateEvent\" contains the static information of the room required for a new provider/user to join the room. Since the provider also needs the GroupInfo and the participant list, I think we'll condense this down to one or maybe two events.",
+              "createdAt": "2023-10-30T07:05:28Z",
+              "updatedAt": "2023-10-30T07:46:44Z"
+            },
+            {
+              "originalPosition": 276,
+              "body": "While it's fine to link limitations to MLS, we should probably not allude to non-MLS versions in this doc. ",
+              "createdAt": "2023-10-30T07:09:03Z",
+              "updatedAt": "2023-10-30T07:46:44Z"
+            },
+            {
+              "originalPosition": 1,
+              "body": "I'm working on the next set of changes that will ensure the participant list is anchored in the room's underlying MLS group state.",
+              "createdAt": "2023-10-30T07:45:44Z",
+              "updatedAt": "2023-10-30T07:46:44Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 3,
+      "id": "PR_kwDOKZ8QO85eDRbJ",
+      "title": "Add Basic Operations section with Alice and Bob flow.",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/3",
+      "state": "OPEN",
+      "author": "rohan-wire",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-29T16:25:57Z",
+      "updatedAt": "2023-10-30T20:45:45Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "rohan/basic-operations",
+      "headRefOid": "1036847db58ca0c1280cad69a9b4a948e06e140a",
       "closedAt": null,
       "mergedAt": null,
       "mergedBy": null,
       "mergeCommit": null,
+      "comments": [
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For the record: a lot of this PR's content may be different or superceded by what Konrad and I are working on in preparation for the Design Team meeting in a couple of days.",
+          "createdAt": "2023-10-29T16:31:48Z",
+          "updatedAt": "2023-10-29T16:31:48Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> For the record: a lot of this PR's content may be different or superceded by what Konrad and I are working on in preparation for the Design Team meeting in a couple of days.\r\n\r\nFair enough. I just wanted to have two things from this PR:\r\n\r\n- a narrative/example walkthrough of the Alice and Bob case (which can point to things defined elsewhere)\r\n- an existence proof that we can make this work for the MLS case, and that the boundary between MLS and everything is a relatively clean boundary.\r\n\r\n",
+          "createdAt": "2023-10-30T18:10:30Z",
+          "updatedAt": "2023-10-30T18:11:06Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85loF2h",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "Thanks for putting this together. I do think there's value in an \"Alice adds Bob then Cathy\" flow, though I'm concerned that this PR goes into details not appropriate for this document (or already handled by other PRs/plans).\r\n\r\nIn the meantime, I've put some suggestions down to match editorial style more than anything. Very happy to discuss what's in and out of scope for the document at the design team meeting tomorrow.",
+          "createdAt": "2023-10-30T20:28:18Z",
+          "updatedAt": "2023-10-30T20:45:45Z",
+          "comments": [
+            {
+              "originalPosition": 16,
+              "body": "```suggestion\r\nThroughout this document, the examples use the TLS Presentation Language\r\n{{!RFC8446}} and the semantics of HTTP {{!RFC7231}}. \r\n\r\n> **TODO**: Decide on binary encoding and set of transport semantics.\r\n```",
+              "createdAt": "2023-10-30T20:28:18Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 25,
+              "body": "This is out of scope for the design team's considerations, for now. We assume going into this document that an internal identifier has already been discovered through some means.\r\n\r\nLater we may incorporate discovery, after the working group adopts a suitable document (or set of documents).",
+              "createdAt": "2023-10-30T20:29:18Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 41,
+              "body": "I don't think we need to highlight the design team's decisions like this in the doc. For consistency, let's use the `> **TODO**: Words` syntax.",
+              "createdAt": "2023-10-30T20:30:35Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "This is just one possible flow: Alice can also create the room and *invite* Bob to it without ever requesting key material.",
+              "createdAt": "2023-10-30T20:31:23Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 32,
+              "body": "The participation changes are additionally fanned out, as is Alice's message. Which message is \"the\" message here?",
+              "createdAt": "2023-10-30T20:32:17Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 46,
+              "body": "As discussed, this is out of scope for now. Let's remove it until we have an agreed working group item to work from.",
+              "createdAt": "2023-10-30T20:32:49Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 116,
+              "body": "```suggestion\r\n> **TODO**: Add mechanism to achieve this. See Section 6.1 \r\nof {{?I-D.mahy-mimi-transport-design-reqs}} for thoughts.\r\n```",
+              "createdAt": "2023-10-30T20:34:35Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 118,
+              "body": "This feels overly specific for this document. It's covered by MIMI-DS, and referenced by https://github.com/bifurcation/ietf-mimi-protocol/pull/4 per the agreed document layout.\r\n\r\nThis section should be removed.",
+              "createdAt": "2023-10-30T20:35:32Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 209,
+              "body": "Room creation is covered elsewhere in the document. Can we add relevant detail to that instead, please?",
+              "createdAt": "2023-10-30T20:36:12Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            },
+            {
+              "originalPosition": 234,
+              "body": "I'm not sure this needs to be a dedicated section, but much/all of the text contained within feels overly specified compared to the rest of the document. Can we merge relevant details into the other sections, please?\r\n\r\nThis comment applies to the section headers below as well.",
+              "createdAt": "2023-10-30T20:37:04Z",
+              "updatedAt": "2023-10-30T20:45:45Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 4,
+      "id": "PR_kwDOKZ8QO85eJMJY",
+      "title": "Describe how MIMI protocol interacts with MIMI DS",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/4",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-10-30T16:40:36Z",
+      "updatedAt": "2023-10-30T20:27:01Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/mls_integration",
+      "headRefOid": "edf04deb328b29cdf555331865bc51a871ae9fa6",
+      "closedAt": "2023-10-30T18:59:58Z",
+      "mergedAt": "2023-10-30T18:59:58Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "1036c881ded6fcf48fa724e1f83516e925818b13"
+      },
       "comments": [],
-      "reviews": []
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85lnl5l",
+          "commit": {
+            "abbreviatedOid": "edf04de"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I still have issues with the text, but it is substantially better.\r\n\r\nOne suggestion, is we rename the \"user\" in `m.room.user` to \"invite\"",
+          "createdAt": "2023-10-30T18:59:45Z",
+          "updatedAt": "2023-10-30T18:59:45Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85ln9s5",
+          "commit": {
+            "abbreviatedOid": "edf04de"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "from a first pass of review",
+          "createdAt": "2023-10-30T20:03:57Z",
+          "updatedAt": "2023-10-30T20:27:01Z",
+          "comments": [
+            {
+              "originalPosition": 118,
+              "body": "From an API design perspective, ideally we split `DSRequest` out to individual events.",
+              "createdAt": "2023-10-30T20:03:57Z",
+              "updatedAt": "2023-10-30T20:27:01Z"
+            },
+            {
+              "originalPosition": 94,
+              "body": "All events sounds like a lot. Do we just need specific event types here? `m.room.user` primarily. ",
+              "createdAt": "2023-10-30T20:06:16Z",
+              "updatedAt": "2023-10-30T20:27:01Z"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
