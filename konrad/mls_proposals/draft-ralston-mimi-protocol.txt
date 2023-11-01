@@ -80,7 +80,8 @@ Table of Contents
      3.3.  Cryptographic room representation
        3.3.1.  Proposal-commit paradigm
        3.3.2.  Cryptographically anchoring room state
-       3.3.3.  DSEvents
+       3.3.3.  Authenticating proposals
+       3.3.4.  DSEvents
      3.4.  Creation
        3.4.1.  m.room.create
    4.  User Participation and Client Membership
@@ -325,7 +326,24 @@ Table of Contents
    even if the commits that carry the event information have not yet
    been committed.
 
-3.3.3.  DSEvents
+3.3.3.  Authenticating proposals
+
+   The MLS specification [RFC9420] requires that MLS proposals from the
+   Hub and from follower servers (external senders in MLS terminology)
+   be authenticated using key material contained in the external_senders
+   extension of the MLS group.  Each MLS group associated with a MIMI
+   room MUST therefore contain an external_senders extension.  That
+   extension MUST contain at least the Certificate of the Hub.
+
+   When a user from a follower server becomes a participant in the room,
+   the Certificate of the follower server MAY be added to the extension.
+   When the last participant belonging to a follower server leaves the
+   room, the certificate of that user MUST be removed from the list.
+   Changes to the external_senders extension only take effect when the
+   MLS proposal containing the event is committed by a MIMI DS commit.
+   See Section 4.6 for more information.
+
+3.3.4.  DSEvents
 
    All events that pertain to the MLS group that underlies a room are
    wrapped into a DSEvent and sent as an Event of type ds.group.
@@ -341,7 +359,7 @@ Table of Contents
 
       *TODO*: Integrate DSResponse into the MIMI Response type
 
-3.3.3.1.  Client and group state management
+3.3.4.1.  Client and group state management
 
    The MIMI DS protocol allows parties to update the state of the MLS
    group, either through proposals or commits.
@@ -356,7 +374,7 @@ Table of Contents
    *  updating a client.
 
    Note that proposing the addition of a client requires the KeyPackage
-   of said client (see Section 3.3.3.2).
+   of said client (see Section 3.3.4.2).
 
    Additionally, parties can propose to re-initialize a group (e.g. to
    change the version or ciphersuite of the group).
@@ -369,7 +387,7 @@ Table of Contents
    In addition to those state changes, a client can also use a commit to
    add itself to a group without being added through the commit of an
    existing group member.  For such a commit, the client first needs the
-   current group information (see Section 3.3.3.2).
+   current group information (see Section 3.3.4.2).
 
    For both proposals and commits (and the proposals therein), all
    recipients including the Hub MUST verify that the following hold.
@@ -380,7 +398,7 @@ Table of Contents
    *  The resulting client list is consistent with the participant list
       of the room.
 
-3.3.3.2.  Provisioning of cryptographic state and key material
+3.3.4.2.  Provisioning of cryptographic state and key material
 
    The MIMI DS protocol also allows parties to send DSRequests that do
    not change the state of the MLS group underlying the state of a given
@@ -394,7 +412,7 @@ Table of Contents
       information in a group context extension, the group info is enough
       to bootstrap the entire room.
 
-3.3.3.3.  Message encryption
+3.3.4.3.  Message encryption
 
    The MIMI DS protocol also deals with the sending of encrypted
    (application) messages.  Due to the encryption, MIMI DS will only
@@ -681,7 +699,17 @@ Table of Contents
       *TODO*: Do we also want this to be able to change a participant's
       role?
 
-   It is transported via an MLS proposal of type UserEvent.
+   It is transported via an MLS proposal of type UserEvent.  If the
+   event adds a user to the room and it is the first user in the room
+   that belongs to the sending follower server, the UserEvent MAY
+   contain the Certificate that can be used to validate external
+   proposals from that follower server.  If it does, the commit that
+   contains the proposal adds the Certificate to external_senders
+   extension of the underlying MLS group.
+
+   If the event removes the last user of a follower server from a room,
+   the commit that contains the MLS proposal that carries the event
+   removes the Certificate of that follower server from the extension.
 
       *TODO*: This proposal needs to be added to the IANA proposal list,
       or specified as an extension proposal as specified in the MLS
@@ -698,12 +726,16 @@ Table of Contents
       // Optional human-readable reason for the change. Typically most
       // useful on bans and knocks.
       opaque [[reason]];
+      optional<Certificate> follower_server_certificate;
    } UserEvent;
 
    *Additional validation rules*:
 
    *  Rules described by Section 4.1, Section 4.2, Section 4.3,
       Section 4.4, Section 4.5.
+
+   *  The proposal MUST be authenticated as an MLS message based on the
+      room's underlying MLS group.
 
       *TODO*: Include validation rules for permissions.
 
