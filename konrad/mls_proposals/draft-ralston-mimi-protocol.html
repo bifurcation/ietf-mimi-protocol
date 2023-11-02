@@ -1176,7 +1176,7 @@ interoperability.<a href="#section-abstract-2" class="pilcrow">¶</a></p>
                     <p id="section-toc.1-1.3.2.3.2.3.1"><a href="#section-3.3.3" class="auto internal xref">3.3.3</a>.  <a href="#name-authenticating-proposals" class="internal xref">Authenticating proposals</a></p>
 </li>
                   <li class="compact toc ulBare ulEmpty" id="section-toc.1-1.3.2.3.2.4">
-                    <p id="section-toc.1-1.3.2.3.2.4.1"><a href="#section-3.3.4" class="auto internal xref">3.3.4</a>.  <a href="#name-dsevents" class="internal xref">DSEvents</a></p>
+                    <p id="section-toc.1-1.3.2.3.2.4.1"><a href="#section-3.3.4" class="auto internal xref">3.3.4</a>.  <a href="#name-mimi-ds-events" class="internal xref">MIMI DS events</a></p>
 </li>
                 </ul>
 </li>
@@ -1384,11 +1384,19 @@ struct {
    select (Event.type) {
       case "m.room.user":
          // MLSMessage containing a UserEvent proposal
-         MLSMessage user_event_proposal; // see later in doc
+         MLSMessage user_event_proposal;
       case "m.room.participant_list":
-         ParticipantListEvent content; // see later in doc
-      case "ds.group":
-         DSEvent ds_event; // see later in doc
+         ParticipantListEvent content;
+      case "ds.proposal":
+         DSRequest ds_proposal;
+      case "ds.commit":
+         DSRequest ds_commit;
+      case "ds.fetch_key_package":
+         DSRequest fetch_key_package;
+      case "ds.fetch_group_info":
+         DSRequest fetch_group_info;
+      case "ds.send_message":
+         DSRequest send_message;
       // more cases as required by registry
    }
 } Event;
@@ -1401,19 +1409,14 @@ struct {
         </ul>
 <ul class="normal ulEmpty">
 <li class="normal ulEmpty" id="section-3.1-4.1">
-            <p id="section-3.1-4.1.1"><strong>TODO</strong>: Determine server signing key details (Ed25519?)<a href="#section-3.1-4.1.1" class="pilcrow">¶</a></p>
+            <p id="section-3.1-4.1.1"><strong>TODO</strong>: The <code>sender</code> field might be a bit redundant now that signaling is
+largely handled through MLS proposals.<a href="#section-3.1-4.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.1-5.1">
-            <p id="section-3.1-5.1.1"><strong>TODO</strong>: The <code>sender</code> field might be a bit redundant now that signaling is
-largely handled through MLS proposals.<a href="#section-3.1-5.1.1" class="pilcrow">¶</a></p>
-</li>
-        </ul>
-<p id="section-3.1-6">Note an "event ID" is not specified on the struct. Events are sent ephemerally
+<p id="section-3.1-5">Note an "event ID" is not specified on the struct. Events are sent ephemerally
 and confirmed by the underlying cryptographic group state rather than referenced
-by a consistent identifier.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
-<p id="section-3.1-7">The "origin server" of an event is the server implied by the <code>sender</code> field.<a href="#section-3.1-7" class="pilcrow">¶</a></p>
+by a consistent identifier.<a href="#section-3.1-5" class="pilcrow">¶</a></p>
+<p id="section-3.1-6">The "origin server" of an event is the server implied by the <code>sender</code> field.<a href="#section-3.1-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="room-state">
@@ -1522,105 +1525,144 @@ extension only take effect when the MLS proposal containing the event is
 committed by a MIMI DS commit. See <a href="#ev-mroomuser" class="auto internal xref">Section 4.6</a> for more information.<a href="#section-3.3.3-2" class="pilcrow">¶</a></p>
 </section>
 </div>
-<div id="dsevents">
+<div id="mimi-ds-events">
 <section id="section-3.3.4">
-          <h4 id="name-dsevents">
-<a href="#section-3.3.4" class="section-number selfRef">3.3.4. </a><a href="#name-dsevents" class="section-name selfRef">DSEvents</a>
+          <h4 id="name-mimi-ds-events">
+<a href="#section-3.3.4" class="section-number selfRef">3.3.4. </a><a href="#name-mimi-ds-events" class="section-name selfRef">MIMI DS events</a>
           </h4>
-<p id="section-3.3.4-1">All events that pertain to the MLS group that underlies a room are wrapped into
-a DSEvent and sent as an Event of type <code>ds.group</code>.<a href="#section-3.3.4-1" class="pilcrow">¶</a></p>
-<div class="lang-tls sourcecode" id="section-3.3.4-2">
+<p id="section-3.3.4-1">The MIMI DS protocol operations are encapsulated in DSRequest structs and
+contain a <code>request_type</code> field that details the operation in question. To
+disambiguate MIMI DS operations on the event-level, each operation is assigned
+its own distinct event type.<a href="#section-3.3.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4-2">The MIMI DS protocol deals with authentication of each request and upon
+successful processing returns a DSResponse to be sent to the sender of the
+event, optionally an MLSMessage for full fan-out and optionally one or more
+Welcome messages for fan-out to individual follower servers.<a href="#section-3.3.4-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.4-3">Depending on the event, a DSResponse either indicates successful processing, the
+requested data (e.g. group information required for joins), or an error message.<a href="#section-3.3.4-3" class="pilcrow">¶</a></p>
+<p id="section-3.3.4-4">Messages meant for fan-out are DSFanoutRequests, which contain an MLS message,
+as well as information to which clients messages should be fanned out to.<a href="#section-3.3.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.3.4-5">TODO: Update the MIMI DS doc to allow for messages to contain more than one
+proposal and a generic "commit" action.<a href="#section-3.3.4-5" class="pilcrow">¶</a></p>
+<div id="ev-proposeupdate">
+<section id="section-3.3.4.1">
+            <h5 id="name-propose-group-update">
+<a href="#section-3.3.4.1" class="section-number selfRef">3.3.4.1. </a><a href="#name-propose-group-update" class="section-name selfRef">Propose group update</a>
+            </h5>
+<p id="section-3.3.4.1-1"><strong>Event type</strong>: <code>ds.proposal</code><a href="#section-3.3.4.1-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.1-2">Group members, the Hub, and follower servers can use this event to propose
+updates to the group. Each such event contains one or more proposals that can be
+committed to update the state of the MLS group associated with the room. In
+particular, this event can be used to add, remove or update clients in the
+group.<a href="#section-3.3.4.1-2" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.3.4.1-3">
 <pre>
 struct {
-   DSRequest ds_request;
-} DSEvent
-</pre><a href="#section-3.3.4-2" class="pilcrow">¶</a>
+  DSRequest proposal;
+} DSProposal
+</pre><a href="#section-3.3.4.1-3" class="pilcrow">¶</a>
 </div>
-<p id="section-3.3.4-3">The MIMI DS protocol deals with authentication and upon successful processing
-returns a DSResponse to be sent to the sender of the DSEvent, optionally an
-MLSMessage for full fan-out and optionally one or more Welcome messages for
-delivery to new group members.<a href="#section-3.3.4-3" class="pilcrow">¶</a></p>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.3.4-4.1">
-              <p id="section-3.3.4-4.1.1"><strong>TODO</strong>: Integrate DSResponse into the MIMI Response type<a href="#section-3.3.4-4.1.1" class="pilcrow">¶</a></p>
-</li>
-          </ul>
-<div id="client-and-group-state-management">
-<section id="section-3.3.4.1">
-            <h5 id="name-client-and-group-state-mana">
-<a href="#section-3.3.4.1" class="section-number selfRef">3.3.4.1. </a><a href="#name-client-and-group-state-mana" class="section-name selfRef">Client and group state management</a>
-            </h5>
-<p id="section-3.3.4.1-1">The MIMI DS protocol allows parties to update the state of the MLS group, either
-through proposals or commits.<a href="#section-3.3.4.1-1" class="pilcrow">¶</a></p>
-<p id="section-3.3.4.1-2">Through proposals, parties involved in the group can change the members of the
-group by:<a href="#section-3.3.4.1-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.1-4"><strong>Additional validation rules</strong>:<a href="#section-3.3.4.1-4" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.4.1-3.1">
-                <p id="section-3.3.4.1-3.1.1">adding a client,<a href="#section-3.3.4.1-3.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.4.1-3.2">
-                <p id="section-3.3.4.1-3.2.1">removing a client, or<a href="#section-3.3.4.1-3.2.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.4.1-3.3">
-                <p id="section-3.3.4.1-3.3.1">updating a client.<a href="#section-3.3.4.1-3.3.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<p id="section-3.3.4.1-4">Note that proposing the addition of a client requires the KeyPackage of said
-client (see <a href="#state-provisioning" class="auto internal xref">Section 3.3.4.2</a>).<a href="#section-3.3.4.1-4" class="pilcrow">¶</a></p>
-<p id="section-3.3.4.1-5">Additionally, parties can propose to re-initialize a group (e.g. to change the
-version or ciphersuite of the group).<a href="#section-3.3.4.1-5" class="pilcrow">¶</a></p>
-<p id="section-3.3.4.1-6">Clients can create commits, which have to include all valid proposals sent since
-the last commit. In the commit, clients can include additional proposals
-corresponding to the group state changes described above.<a href="#section-3.3.4.1-6" class="pilcrow">¶</a></p>
-<p id="section-3.3.4.1-7">In addition to those state changes, a client can also use a commit to add itself
-to a group without being added through the commit of an existing group member.
-For such a commit, the client first needs the current group information (see
-<a href="#state-provisioning" class="auto internal xref">Section 3.3.4.2</a>).<a href="#section-3.3.4.1-7" class="pilcrow">¶</a></p>
-<p id="section-3.3.4.1-8">For both proposals and commits (and the proposals therein), all recipients
-including the Hub <span class="bcp14">MUST</span> verify that the following hold.<a href="#section-3.3.4.1-8" class="pilcrow">¶</a></p>
-<ul class="normal">
-<li class="normal" id="section-3.3.4.1-9.1">
-                <p id="section-3.3.4.1-9.1.1">The room's policy allows the sender to perform the corresponding operation.<a href="#section-3.3.4.1-9.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.4.1-9.2">
-                <p id="section-3.3.4.1-9.2.1">The resulting client list is consistent with the participant list of the room.<a href="#section-3.3.4.1-9.2.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.4.1-5.1">
+                <p id="section-3.3.4.1-5.1.1">Clients can only be added to the group if the associated user is on the
+participant list and in the <code>join</code> state.<a href="#section-3.3.4.1-5.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </section>
 </div>
-<div id="state-provisioning">
+<div id="ev-commitupdate">
 <section id="section-3.3.4.2">
-            <h5 id="name-provisioning-of-cryptograph">
-<a href="#section-3.3.4.2" class="section-number selfRef">3.3.4.2. </a><a href="#name-provisioning-of-cryptograph" class="section-name selfRef">Provisioning of cryptographic state and key material</a>
+            <h5 id="name-commit-group-update">
+<a href="#section-3.3.4.2" class="section-number selfRef">3.3.4.2. </a><a href="#name-commit-group-update" class="section-name selfRef">Commit group update</a>
             </h5>
-<p id="section-3.3.4.2-1">The MIMI DS protocol also allows parties to send DSRequests that do not change
-the state of the MLS group underlying the state of a given room. A party can
-thus request<a href="#section-3.3.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.2-1"><strong>Event type</strong>: <code>ds.commit</code><a href="#section-3.3.4.2-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.2-2">Group members can use this event to commit any pending proposals (including both
+group updates and room updates). The sender of this event can include additional
+group updates without proposing them separately through the <code>ds.proposal</code>
+event.<a href="#section-3.3.4.2-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.2-3">Note that this event can also be used by a client to add itself to the group. To
+do that, the sender requires the current group information (see
+{ev-fetchgroupinfo}).<a href="#section-3.3.4.2-3" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.3.4.2-4">
+<pre>
+struct {
+  DSRequest commitBundle;
+} DSCommit
+</pre><a href="#section-3.3.4.2-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.4.2-5"><strong>Additional validation rules</strong>:<a href="#section-3.3.4.2-5" class="pilcrow">¶</a></p>
 <ul class="normal">
-<li class="normal" id="section-3.3.4.2-2.1">
-                <p id="section-3.3.4.2-2.1.1">Key material required to add one or more new clients to a group<a href="#section-3.3.4.2-2.1.1" class="pilcrow">¶</a></p>
-</li>
-              <li class="normal" id="section-3.3.4.2-2.2">
-                <p id="section-3.3.4.2-2.2.1">Information required to join a group (via external commit)<a href="#section-3.3.4.2-2.2.1" class="pilcrow">¶</a></p>
-</li>
-            </ul>
-<ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.3.4.2-3.1">
-                <p id="section-3.3.4.2-3.1.1"><strong>TODO</strong>: Maybe emphasise that since we store the whole room information in a
-group context extension, the group info is enough to bootstrap the entire
-room.<a href="#section-3.3.4.2-3.1.1" class="pilcrow">¶</a></p>
+<li class="normal" id="section-3.3.4.2-6.1">
+                <p id="section-3.3.4.2-6.1.1">Clients can only be added to the group if the associated user is on the
+participant list and in the <code>join</code> state.<a href="#section-3.3.4.2-6.1.1" class="pilcrow">¶</a></p>
 </li>
             </ul>
 </section>
 </div>
-<div id="message-encryption">
+<div id="ev-fetchkeypackage">
 <section id="section-3.3.4.3">
-            <h5 id="name-message-encryption">
-<a href="#section-3.3.4.3" class="section-number selfRef">3.3.4.3. </a><a href="#name-message-encryption" class="section-name selfRef">Message encryption</a>
+            <h5 id="name-fetch-keypackage">
+<a href="#section-3.3.4.3" class="section-number selfRef">3.3.4.3. </a><a href="#name-fetch-keypackage" class="section-name selfRef">Fetch KeyPackage</a>
             </h5>
-<p id="section-3.3.4.3-1">The MIMI DS protocol also deals with the sending of encrypted (application)
-messages. Due to the encryption, MIMI DS will only verify the message's header
-data and return a fan-out request.<a href="#section-3.3.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.3-1"><strong>Event type</strong>: <code>ds.fetch_key_package</code><a href="#section-3.3.4.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.3-2">TODO: For now, we assume that KeyPackages are fetched directly, i.e. not in the
+context of a room and via a Hub. This might change in the future. If it does
+change, this event needs an additional authentication mechanism.<a href="#section-3.3.4.3-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.3-3">Group members can use this event to request a
+KeyPackage from the Hub or another follower server.<a href="#section-3.3.4.3-3" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.3.4.3-4">
+<pre>
+struct {
+  DSRequest fetch_key_package;
+} DSFetchKeyPackage
+</pre><a href="#section-3.3.4.3-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.4.3-5"><strong>Additional validation rules</strong>:<a href="#section-3.3.4.3-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.3-6">None<a href="#section-3.3.4.3-6" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ev-fetchgroupinfo">
+<section id="section-3.3.4.4">
+            <h5 id="name-fetch-group-information">
+<a href="#section-3.3.4.4" class="section-number selfRef">3.3.4.4. </a><a href="#name-fetch-group-information" class="section-name selfRef">Fetch group information</a>
+            </h5>
+<p id="section-3.3.4.4-1"><strong>Event type</strong>: <code>ds.fetch_group_info</code><a href="#section-3.3.4.4-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.4-2">Group members or follower servers can use this event to request group
+information from the Hub. Up-to-date group information is required for clients
+to be able to add themselves to a group via the <code>ds.commit</code> event. The
+group info returned to the sender includes any pending proposals.<a href="#section-3.3.4.4-2" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.3.4.4-3">
+<pre>
+struct {
+  DSRequest fetch_group_info;
+} DSFetchGroupInfo
+</pre><a href="#section-3.3.4.4-3" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.4.4-4"><strong>Additional validation rules</strong>:<a href="#section-3.3.4.4-4" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.4-5">None<a href="#section-3.3.4.4-5" class="pilcrow">¶</a></p>
+</section>
+</div>
+<div id="ev-sendmessage">
+<section id="section-3.3.4.5">
+            <h5 id="name-send-message">
+<a href="#section-3.3.4.5" class="section-number selfRef">3.3.4.5. </a><a href="#name-send-message" class="section-name selfRef">Send Message</a>
+            </h5>
+<p id="section-3.3.4.5-1"><strong>Event type</strong>: <code>ds.send_message</code><a href="#section-3.3.4.5-1" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.5-2">TODO: This is not a proposal and there is no way for the Hub or follower servers
+to authenticate this event at the moment. We might want to a way to do that
+later.<a href="#section-3.3.4.5-2" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.5-3">Group members can use this event to request to send an encrypted (application)
+message to the other group members.<a href="#section-3.3.4.5-3" class="pilcrow">¶</a></p>
+<div class="lang-tls sourcecode" id="section-3.3.4.5-4">
+<pre>
+struct {
+  DSRequest send_message;
+} DSSendMessage
+</pre><a href="#section-3.3.4.5-4" class="pilcrow">¶</a>
+</div>
+<p id="section-3.3.4.5-5"><strong>Additional validation rules</strong>:<a href="#section-3.3.4.5-5" class="pilcrow">¶</a></p>
+<p id="section-3.3.4.5-6">None<a href="#section-3.3.4.5-6" class="pilcrow">¶</a></p>
 </section>
 </div>
 </section>
