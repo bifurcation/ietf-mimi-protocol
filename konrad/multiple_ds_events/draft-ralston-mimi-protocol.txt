@@ -423,8 +423,8 @@ Table of Contents
    future.  If it does change, this event needs an additional
    authentication mechanism.
 
-   Group members, the Hub or follower servers can use this event to
-   request a KeyPackage from the Hub or another follower server.
+   Group members can use this event to request a KeyPackage from the Hub
+   or another follower server.
 
    struct {
      DSRequest fetch_key_package;
