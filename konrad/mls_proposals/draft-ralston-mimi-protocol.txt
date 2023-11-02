@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         1 November 2023
-Expires: 4 May 2024
+Intended status: Standards Track                         2 November 2023
+Expires: 5 May 2024
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 4 May 2024.
+   This Internet-Draft will expire on 5 May 2024.
 
 Copyright Notice
 
@@ -321,7 +321,7 @@ Table of Contents
    proposals sent as part of MIMI DS events.
 
    Note that the validity of a proposal depend on the current room
-   state, which may change during anepoch based on room-state changing
+   state, which may change during an epoch based on room-state changing
    events.  The changes of these events are applied to the room state
    even if the commits that carry the event information have not yet
    been committed.
@@ -694,7 +694,7 @@ Table of Contents
    *Event type*: m.room.user
 
    An m.room.user event can be used to change the participation state of
-   a room's participant.
+   a user.
 
       *TODO*: Do we also want this to be able to change a participant's
       role?
@@ -721,7 +721,7 @@ Table of Contents
       opaque targetUserId;
 
       // The new participation state for the target user.
-      Participan state;
+      ParticipationState state;
 
       // Optional human-readable reason for the change. Typically most
       // useful on bans and knocks.
