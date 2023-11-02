@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-10-31T00:03:25.877034+00:00",
+  "timestamp": "2023-11-02T00:03:36.671382+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -49,7 +49,42 @@
       "color": "ffffff"
     }
   ],
-  "issues": [],
+  "issues": [
+    {
+      "number": 6,
+      "id": "I_kwDOKZ8QO851kCPb",
+      "title": "Prepare document for IETF 118",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/6",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "Tasks:\r\n\r\n- [ ] #7\r\n- [ ] Split MIMI DS operations into multiple events\r\n- [ ] Go over introduction and abstract\r\n- [ ] Change event naming scheme away from `m.xxx.yyy`?\r\n- [ ] Merge m.room.create event and m.room.participant_list into single event?\r\n- [ ] Change language in Section on \"Invites\" to reflect that atomic operations are possible\r\n- [ ] Define struct to use for fan-out messages, or better even a general MIMI message struct, which can contain an event or a fan-out message\r\n- [ ] Update #3 by replacing the individual structs with links to various parts of the document\r\n\r\nMaybe move to after IETF 118\r\n- [ ] Add section on Adds (representing a \"forced join\")\r\n- [ ] Allow patch-style operation instead of the current one-change-at-a time mechanism in m.room.user event\r\n- [ ] Figure out if KeyPackage retrieval should be tied to a room (at least optionally)",
+      "createdAt": "2023-11-01T13:26:46Z",
+      "updatedAt": "2023-11-01T14:01:54Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 7,
+      "id": "I_kwDOKZ8QO851kCSU",
+      "title": "Move to MLS proposals as struct for room-state changing events",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/7",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-01T13:26:53Z",
+      "updatedAt": "2023-11-01T13:26:53Z",
+      "closedAt": null,
+      "comments": []
+    }
+  ],
   "pulls": [
     {
       "number": 1,
@@ -454,7 +489,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-10-29T16:25:57Z",
-      "updatedAt": "2023-10-30T20:45:45Z",
+      "updatedAt": "2023-10-31T19:30:54Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
@@ -479,6 +514,13 @@
           "body": "> For the record: a lot of this PR's content may be different or superceded by what Konrad and I are working on in preparation for the Design Team meeting in a couple of days.\r\n\r\nFair enough. I just wanted to have two things from this PR:\r\n\r\n- a narrative/example walkthrough of the Alice and Bob case (which can point to things defined elsewhere)\r\n- an existence proof that we can make this work for the MLS case, and that the boundary between MLS and everything is a relatively clean boundary.\r\n\r\n",
           "createdAt": "2023-10-30T18:10:30Z",
           "updatedAt": "2023-10-30T18:11:06Z"
+        },
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "for the public record: Konrad is working on a PR which proposes an Alice adds Bob flow using the newly-decided MLS Proposal-framed signaling approach. It may be different from this PR, but should also be relatively similar.",
+          "createdAt": "2023-10-31T19:30:54Z",
+          "updatedAt": "2023-10-31T19:30:54Z"
         }
       ],
       "reviews": [
@@ -555,6 +597,46 @@
               "updatedAt": "2023-10-30T20:45:45Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85luo0g",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "bifurcation",
+          "authorAssociation": "OWNER",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-31T16:12:11Z",
+          "updatedAt": "2023-10-31T16:12:12Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "Just documenting one flow seems fine for this document, for now.",
+              "createdAt": "2023-10-31T16:12:11Z",
+              "updatedAt": "2023-10-31T16:12:12Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lwEix",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-31T19:29:41Z",
+          "updatedAt": "2023-10-31T19:29:41Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "(we should at least mention that there's other possible flows though, if we still have them after our latest Alice and Bob discussions)",
+              "createdAt": "2023-10-31T19:29:41Z",
+              "updatedAt": "2023-10-31T19:29:41Z"
+            }
+          ]
         }
       ]
     },
@@ -572,7 +654,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-10-30T16:40:36Z",
-      "updatedAt": "2023-10-30T20:27:01Z",
+      "updatedAt": "2023-10-31T06:10:11Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
@@ -623,6 +705,119 @@
               "body": "All events sounds like a lot. Do we just need specific event types here? `m.room.user` primarily. ",
               "createdAt": "2023-10-30T20:06:16Z",
               "updatedAt": "2023-10-30T20:27:01Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lqAPo",
+          "commit": {
+            "abbreviatedOid": "846143a"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-31T06:09:41Z",
+          "updatedAt": "2023-10-31T06:09:41Z",
+          "comments": [
+            {
+              "originalPosition": 118,
+              "body": "Not a strong opinion, but I thought this was a good way of maintaining the abstraction of a cryptographic building block.",
+              "createdAt": "2023-10-31T06:09:41Z",
+              "updatedAt": "2023-10-31T06:09:41Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85lqAXL",
+          "commit": {
+            "abbreviatedOid": "846143a"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-10-31T06:10:10Z",
+          "updatedAt": "2023-10-31T06:10:11Z",
+          "comments": [
+            {
+              "originalPosition": 94,
+              "body": "It should probably be \"all events that change the room state\", which currently is only m.room.user.",
+              "createdAt": "2023-10-31T06:10:10Z",
+              "updatedAt": "2023-10-31T06:10:11Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 5,
+      "id": "PR_kwDOKZ8QO85eVXVp",
+      "title": "events via MLS proposals",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/5",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-01T13:19:55Z",
+      "updatedAt": "2023-11-01T17:45:19Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "1036c881ded6fcf48fa724e1f83516e925818b13",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/mls_proposals",
+      "headRefOid": "ddfa7814f1f926762bf9fb458cf040cab8e71c20",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85l2M0X",
+          "commit": {
+            "abbreviatedOid": "ddfa781"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "Overall this is looking good. We should probably spin up a plausible DoubleRatchet implementation of this document to ensure compatibility, but that doesn't need to happen for working group purposes. ",
+          "createdAt": "2023-11-01T17:32:53Z",
+          "updatedAt": "2023-11-01T17:45:19Z",
+          "comments": [
+            {
+              "originalPosition": 158,
+              "body": "```suggestion\r\nchange during an epoch based on room-state changing events. The changes of these\r\n```",
+              "createdAt": "2023-11-01T17:32:54Z",
+              "updatedAt": "2023-11-01T17:45:19Z"
+            },
+            {
+              "originalPosition": 182,
+              "body": "Is this to provide the follower an ability to propose removal of their own users' clients? It feels like a path towards hub portability, which I'm very happy to include, though not sure if we want to open that can of worms yet.",
+              "createdAt": "2023-11-01T17:39:59Z",
+              "updatedAt": "2023-11-01T17:45:19Z"
+            },
+            {
+              "originalPosition": 211,
+              "body": "Role and participation are very different concepts imo. They could be part of the atomic operations though, where we add a user, their clients, and promote them to admin in a single transaction/frame. \r\n\r\nDefinitely worth leaving as a TODO for now \ud83d\ude07 ",
+              "createdAt": "2023-11-01T17:41:46Z",
+              "updatedAt": "2023-11-01T17:45:19Z"
+            },
+            {
+              "originalPosition": 209,
+              "body": "```suggestion\r\nAn `m.room.user` event can be used to change the participation state of a user.\r\n```\r\n\r\nto avoid \"participation\" appearing twice.",
+              "createdAt": "2023-11-01T17:42:23Z",
+              "updatedAt": "2023-11-01T17:45:19Z"
+            },
+            {
+              "originalPosition": 236,
+              "body": "accidental edit?\r\n```suggestion\r\n   ParticipationState state;\r\n```",
+              "createdAt": "2023-11-01T17:43:08Z",
+              "updatedAt": "2023-11-01T17:45:20Z"
             }
           ]
         }
