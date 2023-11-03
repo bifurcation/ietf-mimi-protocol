@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         2 November 2023
-Expires: 5 May 2024
+Intended status: Standards Track                         3 November 2023
+Expires: 6 May 2024
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 5 May 2024.
+   This Internet-Draft will expire on 6 May 2024.
 
 Copyright Notice
 
@@ -85,13 +85,13 @@ Table of Contents
      3.4.  Creation
        3.4.1.  m.room.create
    4.  User Participation and Client Membership
-     4.1.  Invites
-     4.2.  Joins
-     4.3.  Leaves/Kicks
-     4.4.  Bans
-     4.5.  Knocks
-     4.6.  m.room.user
-     4.7.  m.room.participant_list
+     4.1.  Adds
+     4.2.  Invites
+     4.3.  Joins
+     4.4.  Leaves/Kicks
+     4.5.  Bans
+     4.6.  Knocks
+     4.7.  m.room.user
    5.  Transport
      5.1.  Authentication
      5.2.  Endpoint Discovery
@@ -347,7 +347,7 @@ Table of Contents
    room, the certificate of that user MUST be removed from the list.
    Changes to the external_senders extension only take effect when the
    MLS proposal containing the event is committed by a MIMI DS commit.
-   See Section 4.6 for more information.
+   See Section 4.7 for more information.
 
 3.3.4.  MIMI DS events
 
@@ -484,7 +484,7 @@ Table of Contents
 
    *  A universally unique room ID (represented by the create event).
 
-   *  An m.room.user (Section 4.6) event which invites the desired user.
+   *  An m.room.user (Section 4.7) event which invites the desired user.
 
    *  Any relevant cryptographic state needed to verify the invite is
       legitimate.  For example, the ciphersuite used by the
@@ -552,7 +552,41 @@ Table of Contents
    The participant list is anchored in the cryptographic state of the
    room as described in Section 3.3.2.
 
-4.1.  Invites
+4.1.  Adds
+
+      *TODO*: We will probably want some kind of mechanism here that
+      allows the adder to signal that they are authorized (by the added
+      user) to add the added user to the room.
+
+   An _add_ is when a user adds another user to the list of participants
+   in the _join_ state.  The m.room.user event that effects this change
+   is typically sent as part of a commit that also adds the user's
+   clients to the room's MLS group.
+
+   1.  The adder generates an m.room.user (Section 4.7) event to add the
+       target user.
+
+   2.  The adder sends (Section 5.3.1) the m.room.user event to the hub
+       server.  If the adder is a client, the event is likely sent as
+       part of a ds.commit event.
+
+   3.  The hub server validates the event to ensure the following:
+
+       *  The target user of the add MUST NOT already be in the banned
+          or joined states.
+
+       *  The sender of the invite MUST already be in the joined state.
+
+   4.  If the event is invalid, it is rejected.  Otherwise, it is
+       forwarded by the hub to the servers of all participants in the
+       joined state.  This includes the server of the user added by the
+       event.
+
+   5.  The target user (or its server) can reject the addition by
+       sending an m.room.user event that proposes the removal of the
+       user and its clients (Section 4.4).
+
+4.2.  Invites
 
       *TODO*: For now, the invite flow implies that the user has to
       explicitly accept by adding one or more clients via external
@@ -572,7 +606,7 @@ Table of Contents
    Updating the target user's participation state is done using the
    following steps, and is visualized in Figure 1.
 
-   1.  The inviter's server generates an m.room.user (Section 4.6) event
+   1.  The inviter's server generates an m.room.user (Section 4.7) event
        to invite the target user.  Typically this begins with a client-
        initiated request to the server using the provider-specific API.
 
@@ -602,7 +636,7 @@ Table of Contents
    user can then accept or decline the invite.
 
    If the user declines the invite, they are removed from the
-   participant list.  Accepting is done by joining (Section 4.2) the
+   participant list.  Accepting is done by joining (Section 4.3) the
    room.
 
   +---+                            +-----+                         +---+
@@ -637,7 +671,7 @@ Table of Contents
 
                        Figure 1: Invite happy path
 
-4.2.  Joins
+4.3.  Joins
 
    Users join a room either in response to an invite (therefore
    accepting it) or after discovering it as a public room.  In both
@@ -664,7 +698,7 @@ Table of Contents
    The two-step flow looks as follows:
 
    1.  Option a: The joiner's server generates an m.room.user
-       (Section 4.6) event to add the user.
+       (Section 4.7) event to add the user.
 
        Option b: The joiner's client generates a commit that contains an
        m.room.user event, as well as an Add proposal for itself (this
@@ -693,11 +727,11 @@ Table of Contents
    group state via one or more ds.commit events after fetching the
    room's current information via a ds.fetch_group_info event.
 
-4.3.  Leaves/Kicks
+4.4.  Leaves/Kicks
 
    Leaving a room can signal a user declining an invite, voluntarily
    leaving the room, or being kicked (removed) from the room.  When the
-   sender and target of an m.room.user (Section 4.6) leave event are
+   sender and target of an m.room.user (Section 4.7) leave event are
    different, the target user is being kicked.  Otherwise the event
    represents a voluntary leave or declined invite (if the previous
    participation state was "invited").
@@ -705,7 +739,7 @@ Table of Contents
    Like with other participation/membership operations, a user's leave
    is initiated by updating their participation state first.  This is
    done by sending (Section 5.3.1) the relevant m.room.user
-   (Section 4.6) state event to the hub, which validates it as follows:
+   (Section 4.7) state event to the hub, which validates it as follows:
 
    *  If the target and sender are the same, the user MUST be in the
       invited, joined, or knocking participation state.
@@ -733,14 +767,14 @@ Table of Contents
    remove the affected clients, requiring that those changes be
    confirmed/accepted by a client remaining in the group promptly.
 
-   As mentioned in Section 4.2, a user already in the join participation
+   As mentioned in Section 4.3, a user already in the join participation
    state MAY add and remove their own clients from the cryptographic
    state at will.
 
-4.4.  Bans
+4.5.  Bans
 
-   Bans imply kick, and are operated the same way as Section 4.3, though
-   with the m.room.user (Section 4.6) state event using a ban
+   Bans imply kick, and are operated the same way as Section 4.4, though
+   with the m.room.user (Section 4.7) state event using a ban
    participation state.
 
    In contrast to leaving users, banned users remain on the participant
@@ -751,12 +785,12 @@ Table of Contents
    state to allow the participation state change.
 
    Unbans can be performed by removing a user in the banned
-   participation state from the participant list Section 4.3.
+   participation state from the participant list Section 4.4.
 
-4.5.  Knocks
+4.6.  Knocks
 
    In this state, the sender of a knock is requesting an invite
-   (Section 4.1) to the room.  They do not have access to the
+   (Section 4.2) to the room.  They do not have access to the
    cryptographic state.
 
       *TODO*: Discuss if this participation state is desirable, and
@@ -767,7 +801,7 @@ Table of Contents
       "Invites" section, an "Add" would probably be the response to a
       knock.
 
-4.6.  m.room.user
+4.7.  m.room.user
 
    *Event type*: m.room.user
 
@@ -818,8 +852,8 @@ Table of Contents
 
    *Additional validation rules*:
 
-   *  Rules described by Section 4.1, Section 4.2, Section 4.3,
-      Section 4.4, Section 4.5.
+   *  Rules described by Section 4.2, Section 4.3, Section 4.4,
+      Section 4.5, Section 4.6.
 
    *  The proposal MUST be authenticated as an MLS message based on the
       room's underlying MLS group.
@@ -830,27 +864,7 @@ Table of Contents
 
    Each m.room.user event is fanned out as normal (Section 5.3.1.1).
    The event MAY be sent to additional servers, as required by
-   Section 4.1, Section 4.2, Section 4.3, Section 4.4, Section 4.5.
-
-4.7.  m.room.participant_list
-
-      *TODO*: We probably won't need this event, as ds.fetch_group_info
-      contains all the info clients need.
-
-   Used by a follower server to request the user participation list from
-   the hub server.  The event is sent via Section 5.3.1 _without_ a
-   users list, and is returned by the hub in the same request _with_ a
-   users list.
-
-   *Event type*: m.room.participant_list
-
-   *Additional event fields*:
-
-struct {
-   // The users which are currently participating in the room. This is populated
-   // in response to `/send`ing the event. This field is otherwise ignored.
-   UserEvent [[users]]<V>;
-} ParticipantListEvent;
+   Section 4.2, Section 4.3, Section 4.4, Section 4.5, Section 4.6.
 
    *Additional validation rules*:
 
