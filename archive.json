@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-02T00:03:36.671382+00:00",
+  "timestamp": "2023-11-05T00:03:42.596960+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -62,9 +62,9 @@
         "kkohbrok"
       ],
       "labels": [],
-      "body": "Tasks:\r\n\r\n- [ ] #7\r\n- [ ] Split MIMI DS operations into multiple events\r\n- [ ] Go over introduction and abstract\r\n- [ ] Change event naming scheme away from `m.xxx.yyy`?\r\n- [ ] Merge m.room.create event and m.room.participant_list into single event?\r\n- [ ] Change language in Section on \"Invites\" to reflect that atomic operations are possible\r\n- [ ] Define struct to use for fan-out messages, or better even a general MIMI message struct, which can contain an event or a fan-out message\r\n- [ ] Update #3 by replacing the individual structs with links to various parts of the document\r\n\r\nMaybe move to after IETF 118\r\n- [ ] Add section on Adds (representing a \"forced join\")\r\n- [ ] Allow patch-style operation instead of the current one-change-at-a time mechanism in m.room.user event\r\n- [ ] Figure out if KeyPackage retrieval should be tied to a room (at least optionally)",
+      "body": "Tasks:\r\n\r\n- [x] #7\r\n- [x] #9\r\n- [ ] Merge m.room.create event and m.room.participant_list into single event?\r\n- [ ] #11\r\n- [ ] Define struct to use for fan-out messages, or better even a general MIMI message struct, which can contain an event or a fan-out message\r\n- [ ] Update #3 by replacing the individual structs with links to various parts of the document\r\n- [ ] Go over introduction and abstract\r\n\r\nMaybe move to after IETF 118\r\n- [ ] Change event naming scheme away from `m.xxx.yyy`?\r\n- [ ] Add section on Adds (representing a \"forced join\")\r\n- [ ] Allow patch-style operation instead of the current one-change-at-a time mechanism in m.room.user event\r\n- [ ] Figure out if KeyPackage retrieval should be tied to a room (at least optionally)",
       "createdAt": "2023-11-01T13:26:46Z",
-      "updatedAt": "2023-11-01T14:01:54Z",
+      "updatedAt": "2023-11-03T10:25:57Z",
       "closedAt": null,
       "comments": []
     },
@@ -73,14 +73,48 @@
       "id": "I_kwDOKZ8QO851kCSU",
       "title": "Move to MLS proposals as struct for room-state changing events",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/7",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "kkohbrok",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-11-01T13:26:53Z",
-      "updatedAt": "2023-11-01T13:26:53Z",
+      "updatedAt": "2023-11-02T14:48:17Z",
+      "closedAt": "2023-11-02T14:48:17Z",
+      "comments": []
+    },
+    {
+      "number": 9,
+      "id": "I_kwDOKZ8QO851plgi",
+      "title": "Split MIMI DS operations into multiple events",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/9",
+      "state": "CLOSED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-02T09:24:25Z",
+      "updatedAt": "2023-11-03T10:25:28Z",
+      "closedAt": "2023-11-03T10:25:28Z",
+      "comments": []
+    },
+    {
+      "number": 11,
+      "id": "I_kwDOKZ8QO851qU9n",
+      "title": "Change language in Section on \"Invites\" to reflect that atomic operations are possible",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/11",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-02T11:17:26Z",
+      "updatedAt": "2023-11-02T11:17:26Z",
       "closedAt": null,
       "comments": []
     }
@@ -489,7 +523,7 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-10-29T16:25:57Z",
-      "updatedAt": "2023-10-31T19:30:54Z",
+      "updatedAt": "2023-11-03T21:17:58Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
@@ -637,6 +671,66 @@
               "updatedAt": "2023-10-31T19:29:41Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIpGE",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T21:15:48Z",
+          "updatedAt": "2023-11-03T21:15:49Z",
+          "comments": [
+            {
+              "originalPosition": 25,
+              "body": "Whether we address it or not, that step needs to happen, and an example flow needs to acknowledge that.",
+              "createdAt": "2023-11-03T21:15:48Z",
+              "updatedAt": "2023-11-03T21:15:49Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIpeM",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T21:17:36Z",
+          "updatedAt": "2023-11-03T21:17:36Z",
+          "comments": [
+            {
+              "originalPosition": 27,
+              "body": "We should document the most common flow *first* (Alice adds Bob), because with most messengers, if Alice \"adds\" Bob, she can send a message immediately which Bob can read after coming online (without any history passing mechanism).",
+              "createdAt": "2023-11-03T21:17:36Z",
+              "updatedAt": "2023-11-03T21:17:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIpjO",
+          "commit": {
+            "abbreviatedOid": "1036847"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T21:17:57Z",
+          "updatedAt": "2023-11-03T21:17:58Z",
+          "comments": [
+            {
+              "originalPosition": 32,
+              "body": "good point. it could be either.",
+              "createdAt": "2023-11-03T21:17:57Z",
+              "updatedAt": "2023-11-03T21:17:58Z"
+            }
+          ]
         }
       ]
     },
@@ -755,7 +849,7 @@
       "id": "PR_kwDOKZ8QO85eVXVp",
       "title": "events via MLS proposals",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/5",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "kkohbrok",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -764,17 +858,19 @@
       "labels": [],
       "body": "",
       "createdAt": "2023-11-01T13:19:55Z",
-      "updatedAt": "2023-11-01T17:45:19Z",
+      "updatedAt": "2023-11-02T15:28:56Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "1036c881ded6fcf48fa724e1f83516e925818b13",
       "headRepository": "bifurcation/ietf-mimi-protocol",
       "headRefName": "konrad/mls_proposals",
-      "headRefOid": "ddfa7814f1f926762bf9fb458cf040cab8e71c20",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "eaccd9007a1fc919618652c189d4aa1f55c44789",
+      "closedAt": "2023-11-02T14:48:16Z",
+      "mergedAt": "2023-11-02T14:48:16Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "966cd0bd15b7a128de24efb8e0a9383123e39f7a"
+      },
       "comments": [],
       "reviews": [
         {
@@ -818,6 +914,471 @@
               "body": "accidental edit?\r\n```suggestion\r\n   ParticipationState state;\r\n```",
               "createdAt": "2023-11-01T17:43:08Z",
               "updatedAt": "2023-11-01T17:45:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85l5jQz",
+          "commit": {
+            "abbreviatedOid": "eaccd90"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "Thanks for the review and the suggestions! I'll leave this open for a bit longer before merging, but I think it's decent enough to start building the next PR on top of it.",
+          "createdAt": "2023-11-02T07:16:47Z",
+          "updatedAt": "2023-11-02T07:18:05Z",
+          "comments": [
+            {
+              "originalPosition": 182,
+              "body": "Kind of. It's for the follower server to be able to send signaling messages at all (or rather for everyone else to be able to authenticate them). This is a limitation stemming from the way that proposals from external senders (i.e. senders who are not group members) are authenticated. My thinking was that if a user is part of a room, its server might want to be able to send signaling messages independent of the user's clients. If it wants to do that, it needs to be added to the list. This has to happen before the server can send any signaling messages (or at least those implemented by MLS proposals) and it can only happen via commit by a client.",
+              "createdAt": "2023-11-02T07:16:47Z",
+              "updatedAt": "2023-11-02T07:18:05Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85l801g",
+          "commit": {
+            "abbreviatedOid": "eaccd90"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-02T14:27:20Z",
+          "updatedAt": "2023-11-02T14:47:09Z",
+          "comments": [
+            {
+              "originalPosition": 21,
+              "body": "```suggestion\r\nmessages, for example, to\r\n```",
+              "createdAt": "2023-11-02T14:27:20Z",
+              "updatedAt": "2023-11-02T14:47:09Z"
+            },
+            {
+              "originalPosition": 37,
+              "body": "```suggestion\r\n         Proposal user_event_proposal; // see later in doc\r\n```",
+              "createdAt": "2023-11-02T14:27:58Z",
+              "updatedAt": "2023-11-02T14:47:09Z"
+            },
+            {
+              "originalPosition": 79,
+              "body": "This is still very awkward. I'd just add a TODO to reword it and I can work on some proposed text later.",
+              "createdAt": "2023-11-02T14:30:22Z",
+              "updatedAt": "2023-11-02T14:47:09Z"
+            },
+            {
+              "originalPosition": 87,
+              "body": "Isn't the DS supposed to be spread across all the clients and all the providers?  Maybe something like the \"the arbiter of the delivery service (DS)\"?\r\n\r\nFeel free to ignore this comment until later.",
+              "createdAt": "2023-11-02T14:43:18Z",
+              "updatedAt": "2023-11-02T14:47:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85l9beo",
+          "commit": {
+            "abbreviatedOid": "eaccd90"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-02T15:28:56Z",
+          "updatedAt": "2023-11-02T15:28:56Z",
+          "comments": [
+            {
+              "originalPosition": 87,
+              "body": "Fair point. I'll clarify that in the next PR.",
+              "createdAt": "2023-11-02T15:28:56Z",
+              "updatedAt": "2023-11-02T15:28:56Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 8,
+      "id": "PR_kwDOKZ8QO85eaNNw",
+      "title": "Split DS event into multiple events",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/8",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "This PR restructures the MIMI DS section and splits the DSEvent struct into multiple events. ",
+      "createdAt": "2023-11-02T09:07:24Z",
+      "updatedAt": "2023-11-02T15:01:09Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "konrad/mls_proposals",
+      "baseRefOid": "eaccd9007a1fc919618652c189d4aa1f55c44789",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/multiple_ds_events",
+      "headRefOid": "8c9d38de6e9bf08e7c433920a450bbd2e6e7f324",
+      "closedAt": "2023-11-02T15:01:08Z",
+      "mergedAt": "2023-11-02T15:01:08Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "c21cb9292e6edb0ef3753b00917e98654b13b09e"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85l9FPf",
+          "commit": {
+            "abbreviatedOid": "78aea2a"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-02T14:55:30Z",
+          "updatedAt": "2023-11-02T15:00:07Z",
+          "comments": [
+            {
+              "originalPosition": 113,
+              "body": "```suggestion\r\n  DSRequest commitBundle;\r\n```",
+              "createdAt": "2023-11-02T14:55:30Z",
+              "updatedAt": "2023-11-02T15:00:07Z"
+            },
+            {
+              "originalPosition": 146,
+              "body": "providers can`t use KeyPackages\r\n\r\n```suggestion\r\nGroup members can use this event to request a\r\nKeyPackage from the Hub or another follower server.\r\n```",
+              "createdAt": "2023-11-02T14:59:24Z",
+              "updatedAt": "2023-11-02T15:00:07Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 10,
+      "id": "PR_kwDOKZ8QO85ea59c",
+      "title": "Adapt flows to previous changes",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/10",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-02T11:07:23Z",
+      "updatedAt": "2023-11-03T21:03:02Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "konrad/multiple_ds_events",
+      "baseRefOid": "78aea2a254313dc70104ceb4341ec01ccf21cf2c",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/invite_flow",
+      "headRefOid": "cde6ff2dd079f55356604dc6080d0e78bc8f0d14",
+      "closedAt": "2023-11-03T21:03:02Z",
+      "mergedAt": "2023-11-03T21:03:02Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "721df0de2d710830d652d5ae61014859bbe08e54"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85l9guD",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "",
+          "createdAt": "2023-11-02T15:37:58Z",
+          "updatedAt": "2023-11-02T15:41:36Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "This is the opposite of the normal flow in most messengers. We need an Add flow and it should be first.",
+              "createdAt": "2023-11-02T15:37:59Z",
+              "updatedAt": "2023-11-02T15:41:36Z"
+            },
+            {
+              "originalPosition": 185,
+              "body": "Just delete the section please",
+              "createdAt": "2023-11-02T15:41:27Z",
+              "updatedAt": "2023-11-02T15:41:36Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mAlWe",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-02T23:51:19Z",
+          "updatedAt": "2023-11-02T23:51:20Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "The user visible behavior is that Alice adds Bob and immediately sends a message. The expectation in most messengers is that Bob's clients can view the message that Alice just sent.",
+              "createdAt": "2023-11-02T23:51:19Z",
+              "updatedAt": "2023-11-02T23:51:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mDvHA",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T10:07:11Z",
+          "updatedAt": "2023-11-03T10:07:11Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "There are two distinct flows here that I think we should cover.\r\n\r\n1. The \"invite\" flow, where Alice invites Bob and Bob only becomes part of the room once he has accepted the invitation, and\r\n2. the \"add\" flow, where Alice adds Bob and Bob immediately becomes a part of the room without any additional involvement by Bob.\r\n\r\nFlow 1 would be based on external commit and corresponds, for example, to Signal's flow with invite links. Flow 2 is the flow you allude to, based on Welcome, and is based on Signal's flow, where once Alice has a connection with Bob, she can add him to other groups without Bob's involvement.",
+              "createdAt": "2023-11-03T10:07:11Z",
+              "updatedAt": "2023-11-03T10:07:20Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mDxHb",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T10:12:17Z",
+          "updatedAt": "2023-11-03T10:12:17Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "The issue I see with the \"Add\" flow is that we probably want to add some degree of consent signaling, s.t. the Hub and other participants can verify that Alice has Bob's permission to Add Bob to the room. ",
+              "createdAt": "2023-11-03T10:12:17Z",
+              "updatedAt": "2023-11-03T10:12:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mD2xE",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T10:25:05Z",
+          "updatedAt": "2023-11-03T10:25:06Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "I've added an \"Add\" flow. Let me know what you think.",
+              "createdAt": "2023-11-03T10:25:05Z",
+              "updatedAt": "2023-11-03T10:25:06Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIM1S",
+          "commit": {
+            "abbreviatedOid": "cde6ff2"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-03T19:43:35Z",
+          "updatedAt": "2023-11-03T19:43:35Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mINGA",
+          "commit": {
+            "abbreviatedOid": "06c2fd5"
+          },
+          "author": "rohanmahy",
+          "authorAssociation": "NONE",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T19:44:28Z",
+          "updatedAt": "2023-11-03T19:44:28Z",
+          "comments": [
+            {
+              "originalPosition": 13,
+              "body": "looks good",
+              "createdAt": "2023-11-03T19:44:28Z",
+              "updatedAt": "2023-11-03T19:44:28Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIl49",
+          "commit": {
+            "abbreviatedOid": "cde6ff2"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-03T21:02:50Z",
+          "updatedAt": "2023-11-03T21:02:50Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 12,
+      "id": "PR_kwDOKZ8QO85eii29",
+      "title": "Generalize framing and add Response struct",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/12",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-03T13:46:29Z",
+      "updatedAt": "2023-11-03T21:07:01Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "konrad/invite_flow",
+      "baseRefOid": "cde6ff2dd079f55356604dc6080d0e78bc8f0d14",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/fan_out_framing",
+      "headRefOid": "00e90a1bb8df6d8817771b32438236844286eb94",
+      "closedAt": "2023-11-03T21:07:01Z",
+      "mergedAt": "2023-11-03T21:07:01Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "5d7c78c1d7b7e62769acf4d1226455e2f8322563"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mIm7a",
+          "commit": {
+            "abbreviatedOid": "00e90a1"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-03T21:06:33Z",
+          "updatedAt": "2023-11-03T21:06:33Z",
+          "comments": [
+            {
+              "originalPosition": 119,
+              "body": "In general, I think we need to handle \"provisional\" messages that are sent to the hub, and fanned out messages differently. The meaning of an error response to a fanout message means \"something happened and I can't deal with this fanout message now\" but the hub is at that point fully \"committed\" and could reach other clients. Whereas a message en route to the hub could be rejected and won't make it to any clients.",
+              "createdAt": "2023-11-03T21:06:33Z",
+              "updatedAt": "2023-11-03T21:06:33Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mIm-W",
+          "commit": {
+            "abbreviatedOid": "00e90a1"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-03T21:06:39Z",
+          "updatedAt": "2023-11-03T21:06:39Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 13,
+      "id": "PR_kwDOKZ8QO85eio-K",
+      "title": "Split MIMI DS event",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/13",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "Re-creating this PR, because it got lost due to weird merge ordering.",
+      "createdAt": "2023-11-03T14:00:56Z",
+      "updatedAt": "2023-11-03T14:01:03Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "966cd0bd15b7a128de24efb8e0a9383123e39f7a",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/mls_proposals",
+      "headRefOid": "c21cb9292e6edb0ef3753b00917e98654b13b09e",
+      "closedAt": "2023-11-03T14:01:03Z",
+      "mergedAt": "2023-11-03T14:01:03Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "c20afb858a2e72342e12facb3322bff732f8d2d2"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 14,
+      "id": "PR_kwDOKZ8QO85ejHdz",
+      "title": "Adapt Alice - Bob flow",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/14",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "This PR changes the Alice Bob flow in #3 to the current state of the document.\r\n\r\nIt changes from an Add based flow to the invite-based flow we discussed in the last interim. This is just to simplify things for the IETF 118 meeting.",
+      "createdAt": "2023-11-03T15:13:18Z",
+      "updatedAt": "2023-11-03T21:14:37Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "c20afb858a2e72342e12facb3322bff732f8d2d2",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/patch_basic_operations",
+      "headRefOid": "0fca48f4ffc306e0136c2bed32fa12ad6b964eee",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mInk0",
+          "commit": {
+            "abbreviatedOid": "0fca48f"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "I suggest we commit PR #3 and modify it to use the correct structs and have the same issues and TODOs. I am willing to do the work to make that happen on the flight to Prague tomorrow",
+          "createdAt": "2023-11-03T21:09:12Z",
+          "updatedAt": "2023-11-03T21:14:37Z",
+          "comments": [
+            {
+              "originalPosition": 62,
+              "body": "```suggestion\r\nAlice obtains Bob's internal identifier. \r\n\r\n**ISSUE** In the course of discovering Bob, Alice might or might not\r\nobtain a list of Bob's clients.\r\n```",
+              "createdAt": "2023-11-03T21:09:12Z",
+              "updatedAt": "2023-11-03T21:14:37Z"
+            },
+            {
+              "originalPosition": 135,
+              "body": "The add case is *much* more common than the invite case. We need to support both, but the example should start with the add case, and can optionally include the invite case (for example, to invite Cathy).",
+              "createdAt": "2023-11-03T21:12:44Z",
+              "updatedAt": "2023-11-03T21:14:37Z"
             }
           ]
         }
