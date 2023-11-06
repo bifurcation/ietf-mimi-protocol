@@ -1359,10 +1359,20 @@ described in BCP 14 <span>[<a href="#RFC2119" class="cite xref">RFC2119</a>]</s
 appear in all capitals, as shown here.<a href="#section-2-1" class="pilcrow">¶</a></p>
 <p id="section-2-2">Terms and definitions are inherited from <span>[<a href="#I-D.barnes-mimi-arch" class="cite xref">I-D.barnes-mimi-arch</a>]</span>.<a href="#section-2-2" class="pilcrow">¶</a></p>
 <p id="section-2-3">Throughout this document, the examples use the TLS Presentation Language
-<span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> and the semantics of HTTP <span>[<a href="#RFC7231" class="cite xref">RFC7231</a>]</span>. It is still an
-open issue what binary encoding the MIMI transport protocol will use,
-and there is at least one member of the design team who believes that
-HTTP semantics are not-appropriate.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<span>[<a href="#RFC8446" class="cite xref">RFC8446</a>]</span> and the semantics of HTTP <span>[<a href="#RFC7231" class="cite xref">RFC7231</a>]</span> respectively as
+placeholder a set of binary encoding mechanism and transport semantics.<a href="#section-2-3" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-2-4.1">
+          <p id="section-2-4.1.1"><strong>ISSUE</strong>: Come to consensus on a specific binary encoding for the MIMI
+transport protocol.<a href="#section-2-4.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-2-5.1">
+          <p id="section-2-5.1.1"><strong>ISSUE</strong>: Come to consensus on a specific set of MIMI transport protocol
+semantics.<a href="#section-2-5.1.1" class="pilcrow">¶</a></p>
+</li>
+      </ul>
 </section>
 </div>
 <div id="example-protocol-flow">
@@ -1372,7 +1382,8 @@ HTTP semantics are not-appropriate.<a href="#section-2-3" class="pilcrow">¶</a>
       </h2>
 <p id="section-3-1">This section shows how three users (Alice, Bob and Cathy) from different
 providers can use the protocol specified in this document to join the same room
-and send messages to one-another:<a href="#section-3-1" class="pilcrow">¶</a></p>
+and send messages to one-another. (Not all of these steps are part of the MIMI
+transport protocol):<a href="#section-3-1" class="pilcrow">¶</a></p>
 <ul class="normal">
 <li class="normal" id="section-3-2.1">
           <p id="section-3-2.1.1">Alice get the internal identifier for Bob<a href="#section-3-2.1.1" class="pilcrow">¶</a></p>
@@ -1541,11 +1552,14 @@ start optimizing.<a href="#section-3.2-6.1.1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-3.3-1">Creating a room is done between a client and its local provider and is out of
 scope of MIMI. Since Alice creates the room on the server of her local provider,
-it becomes the Hub for the room.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+it becomes the Hub for the room. However, the room policy format is in scope for MIMI.
+We assume that this room is a members-only room, and that only users who have
+the admin or owner role can add and remove users.<a href="#section-3.3-1" class="pilcrow">¶</a></p>
+<p id="section-3.3-2">We also assume that Alice has both the <code>owner</code> and <code>admin</code> roles within the room.<a href="#section-3.3-2" class="pilcrow">¶</a></p>
 <ul class="normal ulEmpty">
-<li class="normal ulEmpty" id="section-3.3-2.1">
-            <p id="section-3.3-2.1.1"><strong>TODO</strong>: Add information on room policy here once we have consensus on what
-that looks like.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
+<li class="normal ulEmpty" id="section-3.3-3.1">
+            <p id="section-3.3-3.1.1"><strong>TODO</strong>: Add information on room policy here once we have consensus on what
+that looks like.<a href="#section-3.3-3.1.1" class="pilcrow">¶</a></p>
 </li>
         </ul>
 </section>
@@ -1557,16 +1571,16 @@ that looks like.<a href="#section-3.3-2.1.1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-3.4-1">Management of the participants list (i.e. the list of users in the room) is done
 through <code>m.room.user</code> events. To add Bob to the room, Alice creates an
-<code>m.room.user</code> event. See {ev-mroomuser} for more information on user state
+<code>m.room.user</code> event. See <a href="#ev-mroomuser" class="auto internal xref">Section 6.7</a> for more information on user state
 changes.<a href="#section-3.4-1" class="pilcrow">¶</a></p>
 <p id="section-3.4-2">Room state is anchored in the room's underlying MLS group through a GroupContext
 Extension, which mirrors all of the room's state variables.<a href="#section-3.4-2" class="pilcrow">¶</a></p>
 <p id="section-3.4-3"><code>m.room.user</code> events are MLS proposals, which change the room state outside of
 the MLS group immediately upon reception and align the mirror of the room state
 in the extension (which is part of the group state) upon the next <code>ds.commit</code>
-event. This reflects MLS' proposal-commit paradigm that allows members and
+event. This reflects the MLS proposal-commit paradigm that allows members and
 external parties to propose changes, but only members to commit them. See
-{anchoring} for more information on how the room state is cryptographically
+<a href="#anchoring" class="auto internal xref">Section 5.3.2</a> for more information on how the room state is cryptographically
 anchored.<a href="#section-3.4-3" class="pilcrow">¶</a></p>
 <p id="section-3.4-4">Alice does not only want to add Bob as a participant, but also Bob's client. To
 do that, she sends a <code>ds.commit</code> event (<a href="#ev-commitupdate" class="auto internal xref">Section 5.3.4.2</a>) to the group. As
@@ -1595,7 +1609,7 @@ Welcome.<a href="#section-3.4-7.1.1" class="pilcrow">¶</a></p>
         </h3>
 <p id="section-3.5-1">After Bob has joined the room, Alice creates a message using the MIMI content
 format <span>[<a href="#I-D.ietf-mimi-content" class="cite xref">I-D.ietf-mimi-content</a>]</span>, and sends a <code>ds.send_message</code>
-({ev-sendmessage}) event to the Hub.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
+(<a href="#ev-sendmessage" class="auto internal xref">Section 5.3.4.5</a>) event to the Hub.<a href="#section-3.5-1" class="pilcrow">¶</a></p>
 </section>
 </div>
 <div id="the-hubowning-provider-fans-out-the-message">
@@ -1990,7 +2004,7 @@ group updates without proposing them separately through the <code>ds.proposal</c
 event.<a href="#section-5.3.4.2-2" class="pilcrow">¶</a></p>
 <p id="section-5.3.4.2-3">Note that this event can also be used by a client to add itself to the group. To
 do that, the sender requires the current group information (see
-{ev-fetchgroupinfo}).<a href="#section-5.3.4.2-3" class="pilcrow">¶</a></p>
+<a href="#ev-fetchgroupinfo" class="auto internal xref">Section 5.3.4.4</a>).<a href="#section-5.3.4.2-3" class="pilcrow">¶</a></p>
 <div class="lang-tls sourcecode" id="section-5.3.4.2-4">
 <pre>
 struct {
