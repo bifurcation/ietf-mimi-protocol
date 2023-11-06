@@ -178,13 +178,13 @@ Table of Contents
    different providers can use the protocol specified in this document
    to join the same room and send messages to one-another:
 
-   *  Alice get the internal identifier for Bob †
+   *  Alice get the internal identifier for Bob
 
-   *  Alice gains consent to talk to Bob ††
+   *  Alice gains consent to talk to Bob
 
    *  Alice fetches initial keying material for Bob's clients
 
-   *  (Alice create a room) †††
+   *  (Alice create a room) †
 
    *  Alice adds Bob to a room
 
@@ -211,12 +211,7 @@ Table of Contents
    section, it is implied that they are communicating with their
    respective servers, which then communicate with one-another.
 
-   † is a placeholder for a later discovery mechanism.
-
-   †† there is no consensus in the design team about the full extent of
-   consent requirements, but there is agreement that they will exist.
-
-   ††† as mentioned in the text, creating a room is a local provider
+   † as mentioned in the text, creating a room is a local provider
    action, which is out of scope of MIMI.
 
 3.1.  Get internal identifier for Bob
