@@ -2,7 +2,7 @@
 
 
 
-More Instant Messaging Interoperability                  T. Ralston, Ed.
+More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
 Intended status: Standards Track                              K. Kohbrok
 Expires: 9 May 2024                                            R. Robert
@@ -1487,7 +1487,7 @@ Contributors
 
 Authors' Addresses
 
-   Travis Ralston (editor)
+   Travis Ralston
    The Matrix.org Foundation C.I.C.
    Email: travisr@matrix.org
 
