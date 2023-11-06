@@ -27,7 +27,7 @@ About This Document
    This note is to be removed before publishing as an RFC.
 
    The latest revision of this draft can be found at
-   https://turt2live.github.io/ietf-mimi-protocol/draft-ralston-mimi-
+   https://bifurcation.github.io/ietf-mimi-protocol/draft-ralston-mimi-
    protocol.html.  Status information for this document may be found at
    https://datatracker.ietf.org/doc/draft-ralston-mimi-protocol/.
 
@@ -37,7 +37,7 @@ About This Document
    Subscribe at https://www.ietf.org/mailman/listinfo/mimi/.
 
    Source for this draft and an issue tracker can be found at
-   https://github.com/turt2live/ietf-mimi-protocol.
+   https://github.com/bifurcation/ietf-mimi-protocol.
 
 Status of This Memo
 
