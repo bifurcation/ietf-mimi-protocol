@@ -4,8 +4,8 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         3 November 2023
-Expires: 6 May 2024
+Intended status: Standards Track                         6 November 2023
+Expires: 9 May 2024
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -54,7 +54,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 May 2024.
+   This Internet-Draft will expire on 9 May 2024.
 
 Copyright Notice
 
@@ -466,7 +466,7 @@ Table of Contents
    information (see {ev-fetchgroupinfo}).
 
    struct {
-     DSRequest commit;
+     DSRequest commitBundle;
    } DSCommit
 
    *Additional validation rules*:
@@ -483,8 +483,8 @@ Table of Contents
    future.  If it does change, this event needs an additional
    authentication mechanism.
 
-   Group members, the Hub or follower servers can use this event to
-   request a KeyPackage from the Hub or another follower server.
+   Group members can use this event to request a KeyPackage from the Hub
+   or another follower server.
 
    struct {
      DSRequest fetch_key_package;
