@@ -4,8 +4,12 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         6 November 2023
-Expires: 9 May 2024
+Intended status: Standards Track                              K. Kohbrok
+Expires: 9 May 2024                                            R. Robert
+                                                             Phoenix R&D
+                                                              M. Hodgson
+                                        The Matrix.org Foundation C.I.C.
+                                                         6 November 2023
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -122,7 +126,8 @@ Table of Contents
      10.1.  Normative References
      10.2.  Informative References
    Acknowledgments
-   Author's Address
+   Contributors
+   Authors' Addresses
 
 1.  Introduction
 
@@ -1460,8 +1465,30 @@ Acknowledgments
    [I-D.barnes-mimi-arch] was additionally used throughout the writing
    of this document.
 
-Author's Address
+Contributors
+
+   Rohan Mahy
+   Wire
+   Email: rohan.mahy@wire.com
+
+
+Authors' Addresses
 
    Travis Ralston (editor)
    The Matrix.org Foundation C.I.C.
    Email: travisr@matrix.org
+
+
+   Konrad Kohbrok
+   Phoenix R&D
+   Email: konrad.kohbrok@datashrine.de
+
+
+   Raphael Robert
+   Phoenix R&D
+   Email: ietf@raphaelrobert.com
+
+
+   Matthew Hodgson
+   The Matrix.org Foundation C.I.C.
+   Email: matthew@matrix.org
