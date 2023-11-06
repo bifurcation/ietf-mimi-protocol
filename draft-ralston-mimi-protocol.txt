@@ -283,8 +283,8 @@ Table of Contents
      IdentifierUri uri;
    } IdentifierResponse;
 
-   *ISSUE* In the course of discovering Bob, Alice might or might not
-   obtain a list of Bob's clients.
+      *ISSUE*: In the course of discovering Bob, Alice might or might
+      not obtain a list of Bob's clients.
 
 3.2.  Fetch initial key material for Bob
 
@@ -691,8 +691,8 @@ Table of Contents
    message, as well as information to which clients messages should be
    fanned out to.
 
-   TODO: Update the MIMI DS doc to allow for messages to contain more
-   than one proposal and a generic "commit" action.
+      *TODO*: Update the MIMI DS doc to allow for messages to contain
+      more than one proposal and a generic "commit" action.
 
 5.3.4.1.  Propose group update
 
@@ -739,10 +739,10 @@ Table of Contents
 
    *Event type*: ds.fetch_key_packages
 
-   TODO: For now, we assume that KeyPackages are fetched directly, i.e.
-   not in the context of a room and via a Hub. This might change in the
-   future.  If it does change, this event needs an additional
-   authentication mechanism.
+      *TODO*: For now, we assume that KeyPackages are fetched directly,
+      i.e. not in the context of a room and via a Hub. This might change
+      in the future.  If it does change, this event needs an additional
+      authentication mechanism.
 
    Group members can use this event to request a KeyPackage from the Hub
    or another follower server.
@@ -777,9 +777,9 @@ Table of Contents
 
    *Event type*: ds.send_message
 
-   TODO: This is not a proposal and there is no way for the Hub or
-   follower servers to authenticate this event at the moment.  We might
-   want to a way to do that later.
+      *TODO*: This is not a proposal and there is no way for the Hub or
+      follower servers to authenticate this event at the moment.  We
+      might want to a way to do that later.
 
    Group members can use this event to request to send an encrypted
    (application) message to the other group members.
@@ -803,7 +803,7 @@ Table of Contents
    *  An m.room.info (Section 5.4.1) event describing the encryption and
       policy details for the room.
 
-   *  A universally unique room ID (represented by the create event).
+   *  A universally unique room ID (represented by the room info event).
 
    *  An m.room.user (Section 6.7) event which invites the desired user.
 
@@ -838,7 +838,7 @@ Table of Contents
    *Fanout considerations*:
 
    InfoEvent is _unsigned_ in all cases it is used, but authenticated
-   implicitly through the transport layer (Section 7).  The room into
+   implicitly through the transport layer (Section 7).  The room info
    event is used during invites to ensure the server is capable of
    participating in the room and is not fanned out more generally.  See
    Section 7.3.2 for usage.
@@ -848,7 +848,7 @@ Table of Contents
    In a MIMI room, users are _participants_ with an associated
    _participation state_ whereas clients of those users are _members_ of
    the cryptographic state.  The user's participation state is updated
-   before changes to the cryptographic state are made.
+   concurrent to or before changes are made to the cryptographic state.
 
    Users will always exist in one of the following participation states:
 

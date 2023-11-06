@@ -1505,8 +1505,12 @@ struct {
 } IdentifierResponse;
 </pre><a href="#section-3.1-10" class="pilcrow">¶</a>
 </div>
-<p id="section-3.1-11"><strong>ISSUE</strong> In the course of discovering Bob, Alice might or might not
-obtain a list of Bob's clients.<a href="#section-3.1-11" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-3.1-11.1">
+            <p id="section-3.1-11.1.1"><strong>ISSUE</strong>: In the course of discovering Bob, Alice might or might not
+obtain a list of Bob's clients.<a href="#section-3.1-11.1.1" class="pilcrow">¶</a></p>
+</li>
+        </ul>
 </section>
 </div>
 <div id="fetch-initial-key-material-for-bob">
@@ -1962,8 +1966,12 @@ Welcome messages for fan-out to individual follower servers.<a href="#section-5.
 requested data (e.g. group information required for joins), or an error message.<a href="#section-5.3.4-3" class="pilcrow">¶</a></p>
 <p id="section-5.3.4-4">Messages meant for fan-out are DSFanoutRequests, which contain an MLS message,
 as well as information to which clients messages should be fanned out to.<a href="#section-5.3.4-4" class="pilcrow">¶</a></p>
-<p id="section-5.3.4-5">TODO: Update the MIMI DS doc to allow for messages to contain more than one
-proposal and a generic "commit" action.<a href="#section-5.3.4-5" class="pilcrow">¶</a></p>
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.3.4-5.1">
+              <p id="section-5.3.4-5.1.1"><strong>TODO</strong>: Update the MIMI DS doc to allow for messages to contain more than one
+proposal and a generic "commit" action.<a href="#section-5.3.4-5.1.1" class="pilcrow">¶</a></p>
+</li>
+          </ul>
 <div id="ev-proposeupdate">
 <section id="section-5.3.4.1">
             <h5 id="name-propose-group-update">
@@ -2026,9 +2034,13 @@ participant list and in the <code>join</code> state.<a href="#section-5.3.4.2-6.
 <a href="#section-5.3.4.3" class="section-number selfRef">5.3.4.3. </a><a href="#name-fetch-keypackage" class="section-name selfRef">Fetch KeyPackage</a>
             </h5>
 <p id="section-5.3.4.3-1"><strong>Event type</strong>: <code>ds.fetch_key_packages</code><a href="#section-5.3.4.3-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.4.3-2">TODO: For now, we assume that KeyPackages are fetched directly, i.e. not in the
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.3.4.3-2.1">
+                <p id="section-5.3.4.3-2.1.1"><strong>TODO</strong>: For now, we assume that KeyPackages are fetched directly, i.e. not in the
 context of a room and via a Hub. This might change in the future. If it does
-change, this event needs an additional authentication mechanism.<a href="#section-5.3.4.3-2" class="pilcrow">¶</a></p>
+change, this event needs an additional authentication mechanism.<a href="#section-5.3.4.3-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 <p id="section-5.3.4.3-3">Group members can use this event to request a
 KeyPackage from the Hub or another follower server.<a href="#section-5.3.4.3-3" class="pilcrow">¶</a></p>
 <div class="lang-tls sourcecode" id="section-5.3.4.3-4">
@@ -2069,9 +2081,13 @@ struct {
 <a href="#section-5.3.4.5" class="section-number selfRef">5.3.4.5. </a><a href="#name-send-message" class="section-name selfRef">Send Message</a>
             </h5>
 <p id="section-5.3.4.5-1"><strong>Event type</strong>: <code>ds.send_message</code><a href="#section-5.3.4.5-1" class="pilcrow">¶</a></p>
-<p id="section-5.3.4.5-2">TODO: This is not a proposal and there is no way for the Hub or follower servers
+<ul class="normal ulEmpty">
+<li class="normal ulEmpty" id="section-5.3.4.5-2.1">
+                <p id="section-5.3.4.5-2.1.1"><strong>TODO</strong>: This is not a proposal and there is no way for the Hub or follower servers
 to authenticate this event at the moment. We might want to a way to do that
-later.<a href="#section-5.3.4.5-2" class="pilcrow">¶</a></p>
+later.<a href="#section-5.3.4.5-2.1.1" class="pilcrow">¶</a></p>
+</li>
+            </ul>
 <p id="section-5.3.4.5-3">Group members can use this event to request to send an encrypted (application)
 message to the other group members.<a href="#section-5.3.4.5-3" class="pilcrow">¶</a></p>
 <div class="lang-tls sourcecode" id="section-5.3.4.5-4">
@@ -2104,7 +2120,7 @@ protocol, such as with an explicit invite to another user, the creating server
 and policy details for the room.<a href="#section-5.4-2.1.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.4-2.2">
-            <p id="section-5.4-2.2.1">A universally unique room ID (represented by the create event).<a href="#section-5.4-2.2.1" class="pilcrow">¶</a></p>
+            <p id="section-5.4-2.2.1">A universally unique room ID (represented by the room info event).<a href="#section-5.4-2.2.1" class="pilcrow">¶</a></p>
 </li>
           <li class="normal" id="section-5.4-2.3">
             <p id="section-5.4-2.3.1">An <code>m.room.user</code> (<a href="#ev-mroomuser" class="auto internal xref">Section 6.7</a>) event which invites the desired user.<a href="#section-5.4-2.3.1" class="pilcrow">¶</a></p>
@@ -2144,7 +2160,7 @@ ID" in ralston-mimi-signaling).<a href="#section-5.4.1-5.1.1" class="pilcrow">¶
           </ul>
 <p id="section-5.4.1-6"><strong>Fanout considerations</strong>:<a href="#section-5.4.1-6" class="pilcrow">¶</a></p>
 <p id="section-5.4.1-7"><code>InfoEvent</code> is <em>unsigned</em> in all cases it is used, but authenticated implicitly
-through the transport layer (<a href="#transport" class="auto internal xref">Section 7</a>). The room into event is used during
+through the transport layer (<a href="#transport" class="auto internal xref">Section 7</a>). The room info event is used during
 invites to ensure the server is capable of participating in the room and is not
 fanned out more generally. See <a href="#op-check" class="auto internal xref">Section 7.3.2</a> for usage.<a href="#section-5.4.1-7" class="pilcrow">¶</a></p>
 </section>
@@ -2160,8 +2176,8 @@ fanned out more generally. See <a href="#op-check" class="auto internal xref">Se
       </h2>
 <p id="section-6-1">In a MIMI room, users are <em>participants</em> with an associated
 <em>participation state</em> whereas clients of those users are <em>members</em> of the
-cryptographic state. The user's participation state is updated before changes
-to the cryptographic state are made.<a href="#section-6-1" class="pilcrow">¶</a></p>
+cryptographic state. The user's participation state is updated concurrent to or
+before changes are made to the cryptographic state.<a href="#section-6-1" class="pilcrow">¶</a></p>
 <p id="section-6-2">Users will always exist in one of the following participation states:<a href="#section-6-2" class="pilcrow">¶</a></p>
 <div class="alignLeft art-text artwork" id="section-6-3">
 <pre>
