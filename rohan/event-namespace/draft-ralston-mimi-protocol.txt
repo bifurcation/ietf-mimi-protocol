@@ -4,8 +4,12 @@
 
 More Instant Messaging Interoperability                  T. Ralston, Ed.
 Internet-Draft                          The Matrix.org Foundation C.I.C.
-Intended status: Standards Track                         6 November 2023
-Expires: 9 May 2024
+Intended status: Standards Track                              K. Kohbrok
+Expires: 9 May 2024                                            R. Robert
+                                                             Phoenix R&D
+                                                              M. Hodgson
+                                        The Matrix.org Foundation C.I.C.
+                                                         6 November 2023
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -100,7 +104,7 @@ Table of Contents
        5.3.3.  Authenticating proposals
        5.3.4.  MIMI DS events
      5.4.  Creation
-       5.4.1.  room.create
+       5.4.1.  room.info
    6.  User Participation and Client Membership
      6.1.  Adds
      6.2.  Invites
@@ -122,7 +126,8 @@ Table of Contents
      10.1.  Normative References
      10.2.  Informative References
    Acknowledgments
-   Author's Address
+   Contributors
+   Authors' Addresses
 
 1.  Introduction
 
@@ -472,7 +477,7 @@ Table of Contents
    (Section 3 of [RFC8446]):
 
    // See the "MIMI Event Types" IANA registry for values.
-   // Example: "room.create"
+   // Example: "room.info"
    opaque EventType;
 
    struct {
@@ -782,7 +787,7 @@ Table of Contents
    invite to another user, the creating server MUST produce the
    following details:
 
-   *  An room.create (Section 5.4.1) event describing the encryption and
+   *  An room.info (Section 5.4.1) event describing the encryption and
       policy details for the room.
 
    *  A universally unique room ID (represented by the create event).
@@ -798,27 +803,30 @@ Table of Contents
    configuration of the room's policy, adding the creator's other
    clients to the MLS group state, etc.
 
-5.4.1.  room.create
+5.4.1.  room.info
 
-   *Event type*: room.create
+   The room.info event contains the current room state, thus allowing
+   servers to bootstrap the room.  Note that this event does not contain
+   any of the cryptographic state of the underlying MIMI DS group.
+   Clients that want to join a room need to use a ds.fetch_group_info
+   event to obtain the information required to join the room.
+
+   *Event type*: room.info
 
    *Additional event fields*:
 
    struct {
-      // TODO
-   } CreateEvent;
+     RoomState room_state;
+   } InfoEvent;
 
       *TODO*: Include fields for policy information (previously called a
       "policy ID" in ralston-mimi-signaling).
 
-      *TODO*: Include fields for encryption information.  Possibly
-      ciphersuite and similar so a server can check to ensure it
-      supports the MLS dialect?
-
    *Fanout considerations*:
 
-   CreateEvent is _unsigned_ in all cases it is used.  The create event
-   is used during invites to ensure the server is capable of
+   InfoEvent is _unsigned_ in all cases it is used, but authenticated
+   implicitly through the transport layer (Section 7).  The room into
+   event is used during invites to ensure the server is capable of
    participating in the room and is not fanned out more generally.  See
    Section 7.3.2 for usage.
 
@@ -1286,7 +1294,7 @@ Table of Contents
    appear spammy in nature and if the inviter already has a connection
    with the invitee.
 
-   If the server does not recognize the event format of the CreateEvent
+   If the server does not recognize the event format of the InfoEvent
    (Section 5.4.1) event, or does not understand the policy/encryption
    configuration contained within, it MUST reject the request.
 
@@ -1299,7 +1307,7 @@ Table of Contents
       Event invite;
 
       // The room creation information.
-      CreateEvent roomCreate;
+      InfoEvent roomInfo;
    } CheckInviteRequest;
 
       *TODO*: If we plan to keep this as an independent request, it will
@@ -1344,7 +1352,7 @@ status code, not the response body.
    affected (typically just "room"), then a number of descriptor
    strings.
 
-   Example: room.create
+   Example: room.info
 
       *TODO*: Does IANA need any other information for legal event
       types?
@@ -1457,8 +1465,30 @@ Acknowledgments
    [I-D.barnes-mimi-arch] was additionally used throughout the writing
    of this document.
 
-Author's Address
+Contributors
+
+   Rohan Mahy
+   Wire
+   Email: rohan.mahy@wire.com
+
+
+Authors' Addresses
 
    Travis Ralston (editor)
    The Matrix.org Foundation C.I.C.
    Email: travisr@matrix.org
+
+
+   Konrad Kohbrok
+   Phoenix R&D
+   Email: konrad.kohbrok@datashrine.de
+
+
+   Raphael Robert
+   Phoenix R&D
+   Email: ietf@raphaelrobert.com
+
+
+   Matthew Hodgson
+   The Matrix.org Foundation C.I.C.
+   Email: matthew@matrix.org
