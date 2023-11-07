@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-05T00:03:42.596960+00:00",
+  "timestamp": "2023-11-07T00:03:33.367216+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -153,7 +153,7 @@
             "abbreviatedOid": "1e7fb57"
           },
           "author": "kkohbrok",
-          "authorAssociation": "NONE",
+          "authorAssociation": "COLLABORATOR",
           "state": "COMMENTED",
           "body": "",
           "createdAt": "2023-10-27T06:28:54Z",
@@ -516,24 +516,26 @@
       "id": "PR_kwDOKZ8QO85eDRbJ",
       "title": "Add Basic Operations section with Alice and Bob flow.",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/3",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "rohan-wire",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "",
       "createdAt": "2023-10-29T16:25:57Z",
-      "updatedAt": "2023-11-03T21:17:58Z",
+      "updatedAt": "2023-11-06T11:31:45Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
-      "baseRefOid": "f0422982ac7e16a31ff320843b6af8f082278e46",
+      "baseRefOid": "d7858010d4cda7f568abbae3fc59e53cc4db6f1f",
       "headRepository": "bifurcation/ietf-mimi-protocol",
       "headRefName": "rohan/basic-operations",
-      "headRefOid": "1036847db58ca0c1280cad69a9b4a948e06e140a",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b07d56bb904b3c5efda5de4aa633f087c31cdf65",
+      "closedAt": "2023-11-06T11:31:45Z",
+      "mergedAt": "2023-11-06T11:31:45Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "8ab7addb6d4b6ed4b67737225e1418200a195203"
+      },
       "comments": [
         {
           "author": "turt2live",
@@ -731,6 +733,19 @@
               "updatedAt": "2023-11-03T21:17:58Z"
             }
           ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mN3Cz",
+          "commit": {
+            "abbreviatedOid": "b07d56b"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "We will merge this PR as is and any changes will follow as part of #14.",
+          "createdAt": "2023-11-06T11:31:34Z",
+          "updatedAt": "2023-11-06T11:31:34Z",
+          "comments": []
         }
       ]
     },
@@ -1336,24 +1351,26 @@
       "id": "PR_kwDOKZ8QO85ejHdz",
       "title": "Adapt Alice - Bob flow",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/14",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "kkohbrok",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
       "labels": [],
       "body": "This PR changes the Alice Bob flow in #3 to the current state of the document.\r\n\r\nIt changes from an Add based flow to the invite-based flow we discussed in the last interim. This is just to simplify things for the IETF 118 meeting.",
       "createdAt": "2023-11-03T15:13:18Z",
-      "updatedAt": "2023-11-03T21:14:37Z",
+      "updatedAt": "2023-11-06T15:02:49Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
-      "baseRefOid": "c20afb858a2e72342e12facb3322bff732f8d2d2",
+      "baseRefOid": "d7858010d4cda7f568abbae3fc59e53cc4db6f1f",
       "headRepository": "bifurcation/ietf-mimi-protocol",
       "headRefName": "konrad/patch_basic_operations",
-      "headRefOid": "0fca48f4ffc306e0136c2bed32fa12ad6b964eee",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "headRefOid": "b7d9f2038e0188cb2ef603cf8e73471d3913f70c",
+      "closedAt": "2023-11-06T15:02:49Z",
+      "mergedAt": "2023-11-06T15:02:49Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "7df540142940a03925fc66b7727c31301e6b7747"
+      },
       "comments": [],
       "reviews": [
         {
@@ -1379,6 +1396,488 @@
               "body": "The add case is *much* more common than the invite case. We need to support both, but the example should start with the add case, and can optionally include the invite case (for example, to invite Cathy).",
               "createdAt": "2023-11-03T21:12:44Z",
               "updatedAt": "2023-11-03T21:14:37Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mPs3V",
+          "commit": {
+            "abbreviatedOid": "2273474"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:49:12Z",
+          "updatedAt": "2023-11-06T14:49:13Z",
+          "comments": [
+            {
+              "originalPosition": 61,
+              "body": "```suggestion\r\n\r\nAlice fetches the internal identifier for some field of Bob's, in\r\nthis example his handle.\r\n\r\n~~~\r\nGET /identifierDiscovery/{domain}\r\n~~~\r\n\r\nThe request body is described as:\r\n\r\n~~~ tls\r\nenum {\r\n  reserved(0),\r\n  handle(1),\r\n  nick(2),\r\n  email(3),\r\n  phone(4),\r\n  partialName(5),\r\n  wholeProfile(6),\r\n  oidcStdClaim(7),\r\n  vcardField(8),\r\n  (255)\r\n} IdentifierType;\r\n\r\nstruct {\r\n  IdentifierType type;\r\n  string searchValue;\r\n  select(type) {\r\n     case oidcStdClaim:\r\n       string claimName;\r\n    case vcardField:\r\n       string fieldName;\r\n  };\r\n} IdentifierRequest;\r\n\r\n~~~\r\n\r\nThe response body is described as:\r\n\r\n~~~ tls\r\nenum {\r\n  success(0),\r\n  notFound(1),\r\n  ambiguous(2),\r\n  forbidden(3),\r\n  unsupportedField(4),\r\n  (255)\r\n} IdentifierDiscoveryCode;\r\n\r\nstruct {\r\n  IdentifierDiscoverCode responseCode;\r\n  IdentifierUri uri;\r\n} IdentifierResponse;\r\n~~~\r\n\r\n```",
+              "createdAt": "2023-11-06T14:49:13Z",
+              "updatedAt": "2023-11-06T14:49:13Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mPuFm",
+          "commit": {
+            "abbreviatedOid": "2273474"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:51:13Z",
+          "updatedAt": "2023-11-06T14:51:14Z",
+          "comments": [
+            {
+              "originalPosition": 54,
+              "body": "```suggestion\r\n\r\nThis is an example/placeholder for a possibly more sophisticated discovery\r\nmechanism. It is not intended to be directly implemented.\r\n\r\n> **TODO**: Replace with or reference a discovery mechanism with WG consensus\r\n\r\n```",
+              "createdAt": "2023-11-06T14:51:14Z",
+              "updatedAt": "2023-11-06T14:51:14Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mPv6_",
+          "commit": {
+            "abbreviatedOid": "2273474"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T14:53:51Z",
+          "updatedAt": "2023-11-06T14:53:51Z",
+          "comments": []
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mPxkt",
+          "commit": {
+            "abbreviatedOid": "2273474"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T14:56:37Z",
+          "updatedAt": "2023-11-06T14:57:16Z",
+          "comments": [
+            {
+              "originalPosition": 50,
+              "body": "```suggestion\r\n\u2020 as mentioned in the text, creating a room is a local provider\r\n```",
+              "createdAt": "2023-11-06T14:56:38Z",
+              "updatedAt": "2023-11-06T14:57:16Z"
+            },
+            {
+              "originalPosition": 27,
+              "body": "```suggestion\r\n- Alice get the internal identifier for Bob\r\n- Alice gains consent to talk to Bob\r\n- Alice fetches initial keying material for Bob's clients\r\n- (Alice create a room) \u2020\r\n```",
+              "createdAt": "2023-11-06T14:56:55Z",
+              "updatedAt": "2023-11-06T14:57:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mPy2y",
+          "commit": {
+            "abbreviatedOid": "5db00f0"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T14:58:42Z",
+          "updatedAt": "2023-11-06T14:58:42Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 15,
+      "id": "PR_kwDOKZ8QO85epewm",
+      "title": "Re-merge PR due to wrong merge order ",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/15",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T06:31:34Z",
+      "updatedAt": "2023-11-06T06:32:15Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "c20afb858a2e72342e12facb3322bff732f8d2d2",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/fan_out_framing",
+      "headRefOid": "3f338070cfd33cbd8cf2de26c1f69901a7bd7835",
+      "closedAt": "2023-11-06T06:32:15Z",
+      "mergedAt": "2023-11-06T06:32:15Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "d7858010d4cda7f568abbae3fc59e53cc4db6f1f"
+      },
+      "comments": [],
+      "reviews": []
+    },
+    {
+      "number": 16,
+      "id": "PR_kwDOKZ8QO85eqDsi",
+      "title": "Update links and metadata for new repo location",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/16",
+      "state": "MERGED",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T08:22:28Z",
+      "updatedAt": "2023-11-06T19:46:37Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "d7858010d4cda7f568abbae3fc59e53cc4db6f1f",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "travis/metadata",
+      "headRefOid": "e93168538d8f509f7b8875d2146a176fe51d2481",
+      "closedAt": "2023-11-06T10:57:32Z",
+      "mergedAt": "2023-11-06T10:57:32Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "56ed1ca1a0b5f1cca20a1155ea66f5333fafe63d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mNNOH",
+          "commit": {
+            "abbreviatedOid": "e931685"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T10:20:40Z",
+          "updatedAt": "2023-11-06T10:20:40Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 17,
+      "id": "PR_kwDOKZ8QO85erDAl",
+      "title": "Rename create event and add more information",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/17",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T10:56:41Z",
+      "updatedAt": "2023-11-06T15:10:38Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "d7858010d4cda7f568abbae3fc59e53cc4db6f1f",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/create_rename",
+      "headRefOid": "35a5fba63511c7cff68d4ecebdcd1b90c110dc48",
+      "closedAt": "2023-11-06T15:10:38Z",
+      "mergedAt": "2023-11-06T15:10:38Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "26a85ec49f9f387b7667660725620cff666c0659"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mP20q",
+          "commit": {
+            "abbreviatedOid": "35a5fba"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "I'm still not convinced we need this event, but info is a better name.",
+          "createdAt": "2023-11-06T15:05:26Z",
+          "updatedAt": "2023-11-06T15:05:26Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 18,
+      "id": "PR_kwDOKZ8QO85eswpF",
+      "title": "Rewrite abstract and intro",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/18",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T14:49:00Z",
+      "updatedAt": "2023-11-06T15:03:07Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "8ab7addb6d4b6ed4b67737225e1418200a195203",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/intro_abstract",
+      "headRefOid": "a5b994ac8fae41dfbf14ab623285086426a7e291",
+      "closedAt": "2023-11-06T15:03:07Z",
+      "mergedAt": "2023-11-06T15:03:06Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "46f4a959473dc32dba7a90dca218f914c67b3422"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mP0f7",
+          "commit": {
+            "abbreviatedOid": "a5b994a"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T15:01:35Z",
+          "updatedAt": "2023-11-06T15:01:35Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 19,
+      "id": "PR_kwDOKZ8QO85es3c2",
+      "title": "Authors and contributors",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/19",
+      "state": "MERGED",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T15:03:55Z",
+      "updatedAt": "2023-11-06T15:11:29Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "46f4a959473dc32dba7a90dca218f914c67b3422",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/authors_and_contributors",
+      "headRefOid": "2b9271acbd4dc829963cab0d57693dbc8dc139bf",
+      "closedAt": "2023-11-06T15:11:29Z",
+      "mergedAt": "2023-11-06T15:11:29Z",
+      "mergedBy": "rohan-wire",
+      "mergeCommit": {
+        "oid": "60b7abc90a11256e3ba71ba39c562ebc29f6595d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mP6a-",
+          "commit": {
+            "abbreviatedOid": "2b9271a"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T15:11:21Z",
+          "updatedAt": "2023-11-06T15:11:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 20,
+      "id": "PR_kwDOKZ8QO85es6P4",
+      "title": "Remove extraneous m. in front of room events",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/20",
+      "state": "OPEN",
+      "author": "rohan-wire",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "globally replace `m.room.` with `room.` in event names.",
+      "createdAt": "2023-11-06T15:09:57Z",
+      "updatedAt": "2023-11-06T21:40:08Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "cf29470de209e35fbdb7db010a572fe59adaec54",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "rohan/event-namespace",
+      "headRefOid": "b2d8061fba74b709538b2d0ebd8e36a7d41fb1c5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [
+        {
+          "author": "bifurcation",
+          "authorAssociation": "OWNER",
+          "body": "Yeah, I'm inclined to leave this for the WG to comment on.  The traditional IETF approach to something like this would be to have an IANA registry where certain values are registered (those that would be `m.` here) and certain values would be vendor space (I believe the Matrix pattern for these is `com.example.foo`).  If we were talking about numerical code points, the analogy would be exact, since if you know the range of numbers reserved for vendor usage (\u2248 non-`m.` here), you can look at a value and tell if it's registered or vendor.\r\n\r\nFor text-like registries, things are a little less clear.  Traditionally, these registries don't have an explicit vendor reservation, since space is not constrained.  (See, e.g., the [ACME directory metadata fields registry](https://www.iana.org/assignments/acme/acme.xhtml#acme-directory-metadata-fields).)  If you want a value for some proprietary thing, you just choose one and use it, and if some official thing later collides with it, oh well.  And in cases where there were explicit affordances for experimental (e.g., `X-` and `P-` in HTTP/SIP headers), those affordances [are now deprecated](https://datatracker.ietf.org/doc/html/rfc6648).\r\n\r\nSo it's not immediately clear to me what the right answer is here, and how to do extensibility seems like a good question for the WG to weigh in on.",
+          "createdAt": "2023-11-06T20:12:25Z",
+          "updatedAt": "2023-11-06T20:12:25Z"
+        }
+      ],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mShQi",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "CHANGES_REQUESTED",
+          "body": "see threaded comment",
+          "createdAt": "2023-11-06T19:54:09Z",
+          "updatedAt": "2023-11-06T19:54:27Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "The prefix exists to ensure namespacing is possible, as folks may want to add their own event types to the protocol. For example, to accomplish DoubleRatchet use cases. \r\n\r\nIt was my intention to also prefix the DS events with `m.` for consistency and building the official namespace. The namespace needs to be codified in the IANA registry still, but that was largely assumed to be a later problem.\r\n\r\n`m.` is shorthand for `mimi.`, which we can expand if needed.",
+              "createdAt": "2023-11-06T19:54:09Z",
+              "updatedAt": "2023-11-06T19:54:27Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mTHFe",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T21:37:40Z",
+          "updatedAt": "2023-11-06T21:37:40Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "I propose we use `private.` and a reverse domain name label for namespacing of private events. \r\nMIMI  events then can use room for room events, ds for ds events, etc. ",
+              "createdAt": "2023-11-06T21:37:40Z",
+              "updatedAt": "2023-11-06T21:37:40Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mTKyd",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T21:40:08Z",
+          "updatedAt": "2023-11-06T21:40:08Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "To clarify, you're suggesting the protocol document use `room.user`, and others use `private.org.example.dr.whatever`?",
+              "createdAt": "2023-11-06T21:40:08Z",
+              "updatedAt": "2023-11-06T21:40:09Z"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "number": 21,
+      "id": "PR_kwDOKZ8QO85euxri",
+      "title": "Consistently identify authors",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/21",
+      "state": "MERGED",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Per https://github.com/bifurcation/ietf-mimi-protocol/pull/19",
+      "createdAt": "2023-11-06T19:40:55Z",
+      "updatedAt": "2023-11-06T20:08:48Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "790b99e249d98851ca8b478db9cafbcc15f123b0",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "travis/authors",
+      "headRefOid": "735045dac03d86291c0848c1385d010533444aa4",
+      "closedAt": "2023-11-06T20:08:44Z",
+      "mergedAt": "2023-11-06T20:08:44Z",
+      "mergedBy": "turt2live",
+      "mergeCommit": {
+        "oid": "a4ea56cb0a9ddc5aab3050f9cdec61505ae58876"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mSmIv",
+          "commit": {
+            "abbreviatedOid": "735045d"
+          },
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "",
+          "createdAt": "2023-11-06T20:07:21Z",
+          "updatedAt": "2023-11-06T20:07:21Z",
+          "comments": []
+        }
+      ]
+    },
+    {
+      "number": 22,
+      "id": "PR_kwDOKZ8QO85evDJc",
+      "title": "Formatting consistency and typo fixes",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/22",
+      "state": "MERGED",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "",
+      "createdAt": "2023-11-06T20:33:27Z",
+      "updatedAt": "2023-11-06T20:34:44Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "a4ea56cb0a9ddc5aab3050f9cdec61505ae58876",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "travis/editorial",
+      "headRefOid": "6d8e23d3629f14244501966b4ae581e1ce6ce96b",
+      "closedAt": "2023-11-06T20:34:13Z",
+      "mergedAt": "2023-11-06T20:34:13Z",
+      "mergedBy": "turt2live",
+      "mergeCommit": {
+        "oid": "4142c96d80511a35880c2c536031928072dbc20d"
+      },
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85mSwyP",
+          "commit": {
+            "abbreviatedOid": "6d8e23d"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-06T20:34:02Z",
+          "updatedAt": "2023-11-06T20:34:02Z",
+          "comments": [
+            {
+              "originalPosition": 73,
+              "body": "calling this out specifically as something we discussed in the design team and was relatively easy to add here. Wording may need further adjustment.",
+              "createdAt": "2023-11-06T20:34:02Z",
+              "updatedAt": "2023-11-06T20:34:03Z"
             }
           ]
         }
