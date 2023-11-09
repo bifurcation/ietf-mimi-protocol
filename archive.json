@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-07T00:03:33.367216+00:00",
+  "timestamp": "2023-11-09T00:03:30.466477+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -1709,7 +1709,7 @@
       "labels": [],
       "body": "globally replace `m.room.` with `room.` in event names.",
       "createdAt": "2023-11-06T15:09:57Z",
-      "updatedAt": "2023-11-06T21:40:08Z",
+      "updatedAt": "2023-11-07T14:21:16Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "cf29470de209e35fbdb7db010a572fe59adaec54",
@@ -1787,6 +1787,86 @@
               "body": "To clarify, you're suggesting the protocol document use `room.user`, and others use `private.org.example.dr.whatever`?",
               "createdAt": "2023-11-06T21:40:08Z",
               "updatedAt": "2023-11-06T21:40:09Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mV1sE",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-07T07:36:21Z",
+          "updatedAt": "2023-11-07T07:36:21Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "yes",
+              "createdAt": "2023-11-07T07:36:21Z",
+              "updatedAt": "2023-11-07T07:36:21Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mV3J6",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-07T07:38:25Z",
+          "updatedAt": "2023-11-07T07:38:26Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "and if we use an enum managed by IANA then we can use `room` and `dr` but the `dr` constant might be initially in the private range.",
+              "createdAt": "2023-11-07T07:38:25Z",
+              "updatedAt": "2023-11-07T07:38:26Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mYNR5",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "ara4n",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-07T13:00:17Z",
+          "updatedAt": "2023-11-07T13:00:17Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "> you're suggesting the protocol document use `room.user`, and others use `private.org.example.dr.whatever`?\r\n\r\nthis feels clunky in the extreme, imo. the privileged reversed-DNS namespace for 'official' specced types is a well understood pattern which works well for Java (`java.*`) and friends - while giving a warm branding fuzzy to everyone else who then goes off-spec on their own domain (`com.acme.*`) without having to beat them over the head with `private.` every time they send a message.  I'd just call it `m.room.foo` (which has the advantage that `m` can never become a gTLD,  unlike `mimi` or similar).\r\n\r\nI assume the rationale here (which seems to be missing on the PR?) is to save 2 bytes for all the `m.` prefixes flying around, frankly removing the namespace entirely for specced identifiers feels like a recipe for folks to fail to realise that a privileged space exists at all `m.`, and that they should go play in their own reverse-dns space.  Or to not realise that `private.com.foo` is a reverse-dns namespace in the first place like Java.",
+              "createdAt": "2023-11-07T13:00:17Z",
+              "updatedAt": "2023-11-07T13:00:17Z"
+            }
+          ]
+        },
+        {
+          "id": "PRR_kwDOKZ8QO85mY839",
+          "commit": {
+            "abbreviatedOid": "b2d8061"
+          },
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "state": "COMMENTED",
+          "body": "",
+          "createdAt": "2023-11-07T14:21:16Z",
+          "updatedAt": "2023-11-07T14:21:16Z",
+          "comments": [
+            {
+              "originalPosition": 1,
+              "body": "If we use an enum instead for the IANA registry then we get the best of both worlds",
+              "createdAt": "2023-11-07T14:21:16Z",
+              "updatedAt": "2023-11-07T14:21:16Z"
             }
           ]
         }
