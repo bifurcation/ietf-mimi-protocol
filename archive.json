@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-09T00:03:30.466477+00:00",
+  "timestamp": "2023-11-12T00:03:51.156563+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -47,6 +47,11 @@
       "name": "wontfix",
       "description": "This will not be worked on",
       "color": "ffffff"
+    },
+    {
+      "name": "consensus-required",
+      "description": "",
+      "color": "C2EE85"
     }
   ],
   "issues": [
@@ -115,6 +120,411 @@
       "body": "",
       "createdAt": "2023-11-02T11:17:26Z",
       "updatedAt": "2023-11-02T11:17:26Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 23,
+      "id": "I_kwDOKZ8QO852UXde",
+      "title": "Tracking arbitary state?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/23",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "Room name, etc",
+      "createdAt": "2023-11-09T08:05:59Z",
+      "updatedAt": "2023-11-10T14:44:08Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Do we want to support this? How arbitrary is arbitrary?",
+          "createdAt": "2023-11-09T12:55:44Z",
+          "updatedAt": "2023-11-09T12:55:44Z"
+        },
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Proposal would be to include a new event: `m.room.state`. That event carries a \"state key\" and arbitrary blob of data (with a limit?). The state key would be namespaced so we can add reserved values, like room name, topic, etc, as well as support metadata appended by messaging providers/clients/users. \r\n\r\nThe state included by `m.room.state` is shared in the same places a user participant list is shared, and would be subject to policy on who can add/update the arbitrary state. For example, when becoming involved in a room, the follower server would have visibility on it.\r\n\r\nOpen question on whether it should be encrypted or not. Suggestion is *optionally* encrypted, to more easily allow providers to attach provider-specific (but useful to others) metadata.",
+          "createdAt": "2023-11-10T09:09:29Z",
+          "updatedAt": "2023-11-10T09:09:29Z"
+        },
+        {
+          "author": "dkg",
+          "authorAssociation": "NONE",
+          "body": "We should clearly support encrypted room state.  Yes, that means that changing epochs will require some sort of update of the encrypted room state.\r\n\r\nIf we have arbitrary named attributes for room state (e.g. \"name\", \"avatar\", etc...), be aware that any non-encrypted attributes will be visible to the server.  Furthermore, if encryption is done on a per-attribute basis, the names themselves are likely to be visible to the server, which can itself be an unwanted leak.  Better to have one encrypted bundle for room metadata that has arbitrary named attributes within it.",
+          "createdAt": "2023-11-10T14:44:08Z",
+          "updatedAt": "2023-11-10T14:44:08Z"
+        }
+      ]
+    },
+    {
+      "number": 24,
+      "id": "I_kwDOKZ8QO852VBff",
+      "title": "Support external media requests",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/24",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "Where we assume the external attachment blob (\"media\") is stored on a follower server, another server/the hub needs a way to fetch that media on behalf of its local clients.\r\n\r\nWe do not want to support clients requesting the media directly.\r\n\r\nTODO: Discuss authentication/right to download.",
+      "createdAt": "2023-11-09T09:37:53Z",
+      "updatedAt": "2023-11-09T09:37:53Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 25,
+      "id": "I_kwDOKZ8QO852WF9h",
+      "title": "Binary encoding for MIMI transport",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/25",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **ISSUE**: Come to consensus on a specific binary encoding for the MIMI\r\n> transport protocol.\r\n\r\nCurrently we use TLS-serialized structs.",
+      "createdAt": "2023-11-09T12:17:51Z",
+      "updatedAt": "2023-11-10T13:43:12Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "anoadragon453",
+          "authorAssociation": "NONE",
+          "body": "The following four encoding options were mentioned in @rohan-wire's IETF 118 slides:\r\n\r\n* [TLS Presentation Language](https://datatracker.ietf.org/doc/html/rfc8446#section-3) (RFC8446)\r\n* [CBOR](https://datatracker.ietf.org/doc/html/rfc7049) (RFC7049)\r\n* [Protobuf](https://protobuf.dev/programming-guides/encoding/) (which [edition](https://protobuf.dev/editions/overview/)?)\r\n* [MessagePack](https://github.com/msgpack/msgpack/blob/master/spec.md)\r\n\r\n## Language support\r\n\r\nPart of our goals with MIMI is to create a protocol that is easy for people to implement in order to drive rapid adoption (and developer happiness!). A mature, well-tested encoding library ensures correctness and speed when deployed at scale.\r\n\r\n* TLS Presentation Language: library availability in programming languages is very underwhelming. Searching for \"TLS presentation language\" on crates.io, npm and PyPI yield zero relevant results. Presumably TLS libraries have support for this encoding, but it's unlikely that they'll expose that bit as a general interface.\r\n* CBOR: Healthy library support. Numerous libraries (some focusing on speed, others on correctness) appear on npm, PyPi and crates.io.\r\n* Protobuf: Healthy library support, with many implementations maintained by Google themselves.\r\n* MessagePack: Healthy library support. [msgpack-rust](https://github.com/3Hren/msgpack-rust) for Rust, [msgpackr](https://github.com/kriszyp/msgpackr) for JS and [msgpack](https://pypi.org/project/msgpack/) for Python.\r\n\r\n## Encoded output size and schema-required encodings\r\n\r\nEncoding schemes which do not include the structure as part of the encoded output will naturally have a small footprint. The downside is that the receiver must know the schema before decoding the payload.\r\n\r\nThis can cause issues in some areas regarding forwards-compatibility. For instance, if we have the following struct (taken from [draft-ietf-mimi-content-01](https://www.ietf.org/archive/id/draft-ietf-mimi-content-01.html#section-4.1)):\r\n\r\n```c++\r\nstruct MimiContent {\r\n    MessageId messageId;\r\n    uint64 timestamp;\r\n    MessageId replaces;\r\n    Octets topicId;\r\n    uint32 expires;\r\n    ReplyToInfo inReplyTo;\r\n    NestablePart body;\r\n};\r\n```\r\n\r\nand want to add a new field:\r\n\r\n```\r\n    std::vector<MessageId> lastSeen;\r\n```\r\n\r\n...old clients will not be able to deserialise a `MimiContent` struct with the new field. Adding new fields to top-level structs is likely to be an infrequent affair however. We can also scope these changes to a specific version of a chat room (similar to how Matrix [room versions](https://spec.matrix.org/v1.8/rooms/) specify which new features can be used in a room) in order to require clients to update to support the new schemas before participating in a chat room that uses them.\r\n\r\nI was initially more concerned about the extensibility of messaging content, as we would like to support vendors adding custom message types. This is also useful when testing new message types in real implementations before adding them to an upcoming MIMI protocol version.\r\n\r\nHowever, we can get around this by encoding message content using a separate schema struct. The current draft semantics already cover this, where a [`SinglePart`](https://www.ietf.org/archive/id/draft-ietf-mimi-content-01.html#section-4.4) looks like:\r\n\r\n```c++\r\nstruct SinglePart {\r\n    String contentType;   // An IANA media type {10}\r\n    Octets content;       // The actual content\r\n};\r\n```\r\n\r\nwith `content` being opaque to the top-level scheme. An client implementation can look at the `contentType` and check whether it recognises it. If so, it uses the schema it has for that `contentType` to decode `content`. Otherwise, it does not attend to decode it. This is similar to a client looking at a type and refusing to parse the associated JSON body - it doesn't understand the type, so why do so?\r\n\r\nThus I don't believe using an encoding which requires a schema (Protobuf, TLS Presentation Language) is an issue.\r\n\r\n## Types\r\n\r\nCBOR, Protobuf and MessagePack all have types such as `string`, `map`, `boolean` defined. TLS Presentation language does not define these, instead giving the user a `number`, `array`, `enum` and `struct` types to play with. You have the same functionality at the end, but the former are nicer to work with when designing a schema.\r\n\r\n## Field ordering\r\n\r\nWhile not important for deserialising a binary format, this *is* important for MIMI as being able to verify the signature of an encoded message when received at the server level is a useful property. Encodings such as CBOR and MessagePack may struggle here, as ordering of fields is not canonical (you'll end up with different binary representations of the same data). Protobuf's docs also [call this out](https://protobuf.dev/overview/#not-good-fit) as a shortcoming, stating \"You cannot compare two messages for equality without fully parsing them\". Parsing messages before verifying their contents came from the expected source is not efficient.\r\n\r\nWe ran into this problem in Matrix, which currently uses JSON, and solved it by defining [_Canonical_ JSON](https://spec.matrix.org/v1.8/appendices/#canonical-json), thus requiring JSON fields be sorted before sending them over the wire, and when verifying them.\r\n\r\nCBOR has [a suggestion for canonicalisation in the spec](https://datatracker.ietf.org/doc/html/rfc7049#section-3.9), which we could mandate. The `cbor-rust` library has [implemented support](https://github.com/enarx/ciborium/issues/28) for it.\r\n\r\nMessagePack appears to have support for canonical field ordering in [some libraries](https://py-algorand-sdk.readthedocs.io/en/latest/algosdk/encoding.html), but [not others](https://github.com/3Hren/msgpack-rust/issues/299).\r\n\r\nThe spec for TLS Presentation Language does not mandate field order, so library support (hah) for it may be spotty. But if we need to write libraries anyway, then we can mandate a canonical version.\r\n\r\n## Encoding and Decoding Speed\r\n\r\nThis is easy enough to test with a benchmark, but I suspect we should consider other merits initially. I don't believe any of these would be significantly faster or slower than the other.\r\n\r\nA note: I did start to write a micro-benchmark in Python. TLS Presentation Language was the hardest to support as it has no readily-available library!\r\n\r\n## Initial questions\r\n* Do we care about the encoding scheme being defined by an existing RFC?\r\n    * If this is a blocker, why are we considering options other than TLS Presentation Language or CBOR?\r\n    * Similarly, if this is a blocker, it severely limits our options. What would we need to do to use, say, Protobufs. Would we need to get the encoding spec into an I-D?\r\n* Is a canonical representation of the data on the wire a hard requirement?",
+          "createdAt": "2023-11-10T11:30:26Z",
+          "updatedAt": "2023-11-10T12:20:37Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "If I remember correctly, one of the considerations is that it must be defined either by the WG itself or elsewhere in the IETF.",
+          "createdAt": "2023-11-10T11:36:23Z",
+          "updatedAt": "2023-11-10T11:36:23Z"
+        },
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ideally elsewhere, if I remember correctly. While MIMI is specifying protocols for interoperability, it could be considered out of scope to also define an encoding specification.",
+          "createdAt": "2023-11-10T11:37:28Z",
+          "updatedAt": "2023-11-10T11:37:28Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Good point!",
+          "createdAt": "2023-11-10T11:38:07Z",
+          "updatedAt": "2023-11-10T11:38:07Z"
+        },
+        {
+          "author": "anoadragon453",
+          "authorAssociation": "NONE",
+          "body": "I've updated my comment above :)",
+          "createdAt": "2023-11-10T12:20:25Z",
+          "updatedAt": "2023-11-10T12:20:25Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks for putting this together! A few comments:\r\n\r\nForward compatibility: The way MLS solves this is by including a protocol version field in the highest level message struct, as well as in the room state, which I think is what you suggest, too. If there should be a need to change structs independent of protocol versions, we could do this via per-room extensions, which would be part of what would be called a room version in Matrix terminology.\r\n\r\nAvailability of libraries: I can't speak for other languages, but there is the `tls_codec` crate that implements the encoding of rust structs. It works quite well in OpenMLS and also (I believe) mls-rs.\r\n\r\nErgonomics: If we feel that it's useful, we should be able to extend the TLS presentation language to a certain degree. At least we've done so for MLS and it didn't turn out to be problematic.\r\n\r\nField order: The TLS presentation language does mandate field order. The way I read it, structs are just a convenient way of representing an (ordered) sequence of fields.\r\n\r\nYou already mentioned the requirement for fields to be ordered for signing and verification. At this point, I don't see an advantage in choosing something that is not ordered.\r\n\r\nI don't have a strong preference for the TLS presentation language, but it's served us well so far in TLS and MLS, so I'm somewhat biased towards that option. Also, MIMI stacks will either already have TLS presentation language encoding/decoding in their stack, because they use MLS, or they will have it in their stack at some point when they make the switch from DR. If we find a better performing option without significant drawbacks, I'm happy to change my mind, though.",
+          "createdAt": "2023-11-10T13:43:12Z",
+          "updatedAt": "2023-11-10T13:43:12Z"
+        }
+      ]
+    },
+    {
+      "number": 26,
+      "id": "I_kwDOKZ8QO852WHQd",
+      "title": "Transport semantics",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/26",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **ISSUE**: Come to consensus on a specific set of MIMI transport protocol\r\n> semantics.",
+      "createdAt": "2023-11-09T12:21:07Z",
+      "updatedAt": "2023-11-09T12:21:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 27,
+      "id": "I_kwDOKZ8QO852WOFo",
+      "title": "Notions of consent",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/27",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "Can Alice see Bob's clients? Under what conditions? Other forms of consent?",
+      "createdAt": "2023-11-09T12:37:37Z",
+      "updatedAt": "2023-11-09T12:37:37Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 28,
+      "id": "I_kwDOKZ8QO852WPWq",
+      "title": "Request key packages based on user ID? (or send many DSRequests)",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/28",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: For now, the event fetches key packages based on client identifiers,\r\n> not user identifiers. This is because KeyPackage fetching is part of MIMI DS,\r\n> which doesn't know what a user is. We could, however, send multiple MIMI DS\r\n> requests in a single MIMI protocol request.",
+      "createdAt": "2023-11-09T12:40:49Z",
+      "updatedAt": "2023-11-09T12:40:49Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 29,
+      "id": "I_kwDOKZ8QO852WP3r",
+      "title": "Shape of policy",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/29",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "Incorporate mahy-group-chat and ralston-policy documents, deduplicate ideas.",
+      "createdAt": "2023-11-09T12:42:09Z",
+      "updatedAt": "2023-11-09T12:44:06Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Related questions include how to communicate the policy to servers/users. This could be an IANA registry to contain descriptors for policy as a whole.",
+          "createdAt": "2023-11-09T12:44:06Z",
+          "updatedAt": "2023-11-09T12:44:06Z"
+        }
+      ]
+    },
+    {
+      "number": 30,
+      "id": "I_kwDOKZ8QO852WQ7n",
+      "title": "Clarify fanout throughout",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/30",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "turt2live"
+      ],
+      "labels": [],
+      "body": "Which events are sent to who, and how? Specifically DS Welcome events.",
+      "createdAt": "2023-11-09T12:44:45Z",
+      "updatedAt": "2023-11-09T12:47:10Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> **TODO**: Especially when adding new clients, we will want to forward a\r\n> `ds.commit` event selectively, as existing group members will only be\r\n> interested in the actual commit, whereas new group members only need the\r\n> Welcome.",
+          "createdAt": "2023-11-09T12:47:10Z",
+          "updatedAt": "2023-11-09T12:47:10Z"
+        }
+      ]
+    },
+    {
+      "number": 31,
+      "id": "I_kwDOKZ8QO852WSKb",
+      "title": "Security properties of GroupInfo",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/31",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: in the MLS case, what security properties are needed to protect a\r\n> GroupInfo object in the MIMI context are still under discussion. It is\r\n> possible that the requester only needs to prove possession of their private\r\n> key. The GroupInfo in another context might be sufficiently sensitive that it\r\n> should be encrypted from the end client to the hub provider (unreadable by the\r\n> local provider).",
+      "createdAt": "2023-11-09T12:47:50Z",
+      "updatedAt": "2023-11-10T09:33:56Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "The same security should probably apply to an `m.room.info` event proposed in #23.",
+          "createdAt": "2023-11-10T09:33:56Z",
+          "updatedAt": "2023-11-10T09:33:56Z"
+        }
+      ]
+    },
+    {
+      "number": 32,
+      "id": "I_kwDOKZ8QO852WSr7",
+      "title": "Event sender changes",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/32",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: Consider splitting `sender` into an object of `{type, identifier}`.\r\n\r\n> **TODO**: The `sender` field might be a bit redundant now that signaling is\r\n> largely handled through MLS proposals.",
+      "createdAt": "2023-11-09T12:49:07Z",
+      "updatedAt": "2023-11-09T12:49:07Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 33,
+      "id": "I_kwDOKZ8QO852WTGV",
+      "title": "Continue fetching key packages directly?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/33",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: For now, we assume that KeyPackages are fetched directly, i.e. not in the\r\n> context of a room and via a Hub. This might change in the future. If it does\r\n> change, this event needs an additional authentication mechanism.",
+      "createdAt": "2023-11-09T12:50:08Z",
+      "updatedAt": "2023-11-10T09:03:09Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "In previous discussions, the working group indicated that it's preferred to route everything through the hub: does this still hold true? \r\n\r\nProposal from my side would be to route traffic through the hub, though authentication of the proxied material may require direct pokes. This would likely apply for #24 as well (with authentication being a hash in the message, to prevent modified downloads)",
+          "createdAt": "2023-11-10T09:03:09Z",
+          "updatedAt": "2023-11-10T09:03:09Z"
+        }
+      ]
+    },
+    {
+      "number": 34,
+      "id": "I_kwDOKZ8QO852WTd9",
+      "title": "Fix `ds.send_message`",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/34",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: This is not a proposal and there is no way for the Hub or follower servers\r\n> to authenticate this event at the moment. We might want to a way to do that\r\n> later.\r\n\r\n(thoughts welcome)",
+      "createdAt": "2023-11-09T12:51:02Z",
+      "updatedAt": "2023-11-10T09:32:04Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Some context: Application messages are signed, but the sender data is encrypted to protect the associated metadata. Only clients can decrypt the sender data and thus authenticate the message.",
+          "createdAt": "2023-11-10T09:32:04Z",
+          "updatedAt": "2023-11-10T09:32:04Z"
+        }
+      ]
+    },
+    {
+      "number": 35,
+      "id": "I_kwDOKZ8QO852WTtP",
+      "title": "Do we need `m.room.info`?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/35",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [],
+      "body": "see title",
+      "createdAt": "2023-11-09T12:51:37Z",
+      "updatedAt": "2023-11-10T09:30:50Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "For context: If the room state is included fully (and not just as a hash) in the group state, it can be retrieved it via `ds.fetch_group_info`. `m.room.info` is thus somewhat redundant.",
+          "createdAt": "2023-11-10T09:30:49Z",
+          "updatedAt": "2023-11-10T09:30:49Z"
+        }
+      ]
+    },
+    {
+      "number": 36,
+      "id": "I_kwDOKZ8QO852WUF-",
+      "title": "`Add` authorization",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/36",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: We will probably want some kind of mechanism here that allows the\r\n> adder to signal that they are authorized (by the added user) to add the added\r\n> user to the room.",
+      "createdAt": "2023-11-09T12:52:31Z",
+      "updatedAt": "2023-11-09T12:52:31Z",
+      "closedAt": null,
+      "comments": []
+    },
+    {
+      "number": 37,
+      "id": "I_kwDOKZ8QO852WUZl",
+      "title": "Refactor invites?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/37",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: For now, the invite flow implies that the user has to explicitly\r\n> accept by adding one or more clients via external commit as part of the \"Join\"\r\n> flow. In the future, we can either make the \"Invite\" flow more versatile and\r\n> allow for Welcome based invitations, or create an additional \"Add\" flow, that\r\n> allows participants to add other users (and their clients) directly via\r\n> Welcome.",
+      "createdAt": "2023-11-09T12:53:14Z",
+      "updatedAt": "2023-11-10T09:29:28Z",
+      "closedAt": null,
+      "comments": [
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "That TODO is a bit outdated (meaning I forgot to remove it as part of the PR that added the Add flow). We now have an \"Add\" section in the document, so I think we can close this. ",
+          "createdAt": "2023-11-10T09:29:28Z",
+          "updatedAt": "2023-11-10T09:29:28Z"
+        }
+      ]
+    },
+    {
+      "number": 38,
+      "id": "I_kwDOKZ8QO852WU23",
+      "title": "Do we need knocks?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/38",
+      "state": "OPEN",
+      "author": "turt2live",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [],
+      "labels": [
+        "consensus-required"
+      ],
+      "body": "> **TODO**: Discuss if this participation state is desirable, and figure out\r\n> details for how it works. It'd likely just be an `m.room.user` state event\r\n> with no MLS interaction, like invites are.\r\n\r\n> **TODO**: If we have an Add event as discussed in a TODO in the \"Invites\"\r\n> section, an \"Add\" would probably be the response to a knock.",
+      "createdAt": "2023-11-09T12:54:20Z",
+      "updatedAt": "2023-11-09T12:54:20Z",
       "closedAt": null,
       "comments": []
     }
@@ -1706,10 +2116,12 @@
       "author": "rohan-wire",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
-      "labels": [],
+      "labels": [
+        "consensus-required"
+      ],
       "body": "globally replace `m.room.` with `room.` in event names.",
       "createdAt": "2023-11-06T15:09:57Z",
-      "updatedAt": "2023-11-07T14:21:16Z",
+      "updatedAt": "2023-11-09T12:56:03Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "cf29470de209e35fbdb7db010a572fe59adaec54",
