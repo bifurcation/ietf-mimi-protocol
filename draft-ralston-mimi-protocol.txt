@@ -5,11 +5,11 @@
 More Instant Messaging Interoperability                       T. Ralston
 Internet-Draft                          The Matrix.org Foundation C.I.C.
 Intended status: Standards Track                              K. Kohbrok
-Expires: 9 May 2024                                            R. Robert
+Expires: 17 May 2024                                           R. Robert
                                                              Phoenix R&D
                                                               M. Hodgson
                                         The Matrix.org Foundation C.I.C.
-                                                         6 November 2023
+                                                        14 November 2023
 
 
    More Instant Messaging Interoperability (MIMI) using HTTPS and MLS
@@ -63,7 +63,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 9 May 2024.
+   This Internet-Draft will expire on 17 May 2024.
 
 Copyright Notice
 
@@ -912,14 +912,6 @@ Table of Contents
 
 6.2.  Invites
 
-      *TODO*: For now, the invite flow implies that the user has to
-      explicitly accept by adding one or more clients via external
-      commit as part of the "Join" flow.  In the future, we can either
-      make the "Invite" flow more versatile and allow for Welcome based
-      invitations, or create an additional "Add" flow, that allows
-      participants to add other users (and their clients) directly via
-      Welcome.
-
    An _invite_ is when a user (or more specifically, a user's client)
    adds another user to the list of participants in the invite state.
 
@@ -1384,9 +1376,9 @@ status code, not the response body.
    [I-D.robert-mimi-delivery-service]
               Robert, R. and K. Kohbrok, "MIMI Delivery Service", Work
               in Progress, Internet-Draft, draft-robert-mimi-delivery-
-              service-05, 23 October 2023,
+              service-06, 6 November 2023,
               <https://datatracker.ietf.org/doc/html/draft-robert-mimi-
-              delivery-service-05>.
+              delivery-service-06>.
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
