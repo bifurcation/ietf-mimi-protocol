@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-12T00:03:51.156563+00:00",
+  "timestamp": "2023-11-14T00:03:27.497481+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -137,7 +137,7 @@
       ],
       "body": "Room name, etc",
       "createdAt": "2023-11-09T08:05:59Z",
-      "updatedAt": "2023-11-10T14:44:08Z",
+      "updatedAt": "2023-11-12T13:32:40Z",
       "closedAt": null,
       "comments": [
         {
@@ -160,6 +160,13 @@
           "body": "We should clearly support encrypted room state.  Yes, that means that changing epochs will require some sort of update of the encrypted room state.\r\n\r\nIf we have arbitrary named attributes for room state (e.g. \"name\", \"avatar\", etc...), be aware that any non-encrypted attributes will be visible to the server.  Furthermore, if encryption is done on a per-attribute basis, the names themselves are likely to be visible to the server, which can itself be an unwanted leak.  Better to have one encrypted bundle for room metadata that has arbitrary named attributes within it.",
           "createdAt": "2023-11-10T14:44:08Z",
           "updatedAt": "2023-11-10T14:44:08Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I think we should first have a discussion about what information goes into room policy and room state. \r\n\r\nwe also need to enumerate what information we are talking about and decide if it needs to be inspected by the hub, and if it needs to be inspected by other providers.",
+          "createdAt": "2023-11-12T13:32:40Z",
+          "updatedAt": "2023-11-12T13:32:40Z"
         }
       ]
     },
@@ -193,7 +200,7 @@
       ],
       "body": "> **ISSUE**: Come to consensus on a specific binary encoding for the MIMI\r\n> transport protocol.\r\n\r\nCurrently we use TLS-serialized structs.",
       "createdAt": "2023-11-09T12:17:51Z",
-      "updatedAt": "2023-11-10T13:43:12Z",
+      "updatedAt": "2023-11-13T06:32:32Z",
       "closedAt": null,
       "comments": [
         {
@@ -237,6 +244,27 @@
           "body": "Thanks for putting this together! A few comments:\r\n\r\nForward compatibility: The way MLS solves this is by including a protocol version field in the highest level message struct, as well as in the room state, which I think is what you suggest, too. If there should be a need to change structs independent of protocol versions, we could do this via per-room extensions, which would be part of what would be called a room version in Matrix terminology.\r\n\r\nAvailability of libraries: I can't speak for other languages, but there is the `tls_codec` crate that implements the encoding of rust structs. It works quite well in OpenMLS and also (I believe) mls-rs.\r\n\r\nErgonomics: If we feel that it's useful, we should be able to extend the TLS presentation language to a certain degree. At least we've done so for MLS and it didn't turn out to be problematic.\r\n\r\nField order: The TLS presentation language does mandate field order. The way I read it, structs are just a convenient way of representing an (ordered) sequence of fields.\r\n\r\nYou already mentioned the requirement for fields to be ordered for signing and verification. At this point, I don't see an advantage in choosing something that is not ordered.\r\n\r\nI don't have a strong preference for the TLS presentation language, but it's served us well so far in TLS and MLS, so I'm somewhat biased towards that option. Also, MIMI stacks will either already have TLS presentation language encoding/decoding in their stack, because they use MLS, or they will have it in their stack at some point when they make the switch from DR. If we find a better performing option without significant drawbacks, I'm happy to change my mind, though.",
           "createdAt": "2023-11-10T13:43:12Z",
           "updatedAt": "2023-11-10T13:43:12Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "> If I remember correctly, one of the considerations is that it must be defined either by the WG itself or elsewhere in the IETF.\r\n\r\nIt requires a \"stable reference\". Protobuf 3 probably does not qualify because it is still being changed. Protobuf 2 probably qualifies.",
+          "createdAt": "2023-11-12T13:40:37Z",
+          "updatedAt": "2023-11-12T13:40:37Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Cons of TLS:\r\nThis is less an issue for the transport protocol than for the content format, but I was unable to locate a javascript TLS presentation language parser that seems to be actively maintained. The most obvious TLS library for js, [forge](https://github.com/digitalbazaar/forge) still mentions Flash in its README and the last commit was in spring of 2022. \r\nAlso, TLS unfortunately does not have typedefs, so when you define a type for reuse or clarity, you have to access it through the type.\r\n\r\nFrankly, I think none of these 4 encodings is really focused on what we would need for a gatekeeper to gatekeeper implementation, which is parsing speed \u00fcber alles. Protobuf base-128 encodes all its integers. CBOR shares its type and length in many cases in the same byte. These are efficiencies for compactness which are undesirable in the MIMI case.",
+          "createdAt": "2023-11-13T06:24:17Z",
+          "updatedAt": "2023-11-13T06:24:17Z"
+        },
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Thanks Andrew for sending out a nice summary.\r\n\r\nAndrew said:\r\n>    Do we care about the encoding scheme being defined by an existing RFC?\r\n>        If this is a blocker, why are we considering options other than TLS Presentation Language or CBOR?\r\n>        Similarly, if this is a blocker, it severely limits our options. What would we need to do to use, say, Protobufs. Would we need to get the encoding spec into an I-D?\r\n\r\nIf we have a good reason to use non-IETF specs, we can as long as there is a stable reference. The key here is the requirements. \r\n\r\n>    Is a canonical representation of the data on the wire a hard requirement?\r\nYes, I think so.  I want to point out that a solution/compromise to this problem in CBOR is to define an array of the mandatory types (so those fields are always in order), and then a map of extensions (which could be empty). This allows safe extensions with only limited impact on speed (you only look for an extension when you need one). You can probably do this in TLS if you juggle the fields hard enough, but it is not especially natural.\r\n",
+          "createdAt": "2023-11-13T06:32:32Z",
+          "updatedAt": "2023-11-13T06:32:32Z"
         }
       ]
     },
@@ -404,7 +432,7 @@
       ],
       "body": "> **TODO**: For now, we assume that KeyPackages are fetched directly, i.e. not in the\r\n> context of a room and via a Hub. This might change in the future. If it does\r\n> change, this event needs an additional authentication mechanism.",
       "createdAt": "2023-11-09T12:50:08Z",
-      "updatedAt": "2023-11-10T09:03:09Z",
+      "updatedAt": "2023-11-13T17:31:24Z",
       "closedAt": null,
       "comments": [
         {
@@ -413,6 +441,41 @@
           "body": "In previous discussions, the working group indicated that it's preferred to route everything through the hub: does this still hold true? \r\n\r\nProposal from my side would be to route traffic through the hub, though authentication of the proxied material may require direct pokes. This would likely apply for #24 as well (with authentication being a hash in the message, to prevent modified downloads)",
           "createdAt": "2023-11-10T09:03:09Z",
           "updatedAt": "2023-11-10T09:03:09Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "NONE",
+          "body": "tl;dr: fetch KeyPackages from the Hub.\r\n\r\nConsider the case of expirable credentials (X509, VCs): they have to be rotated at some point.\r\n\r\nIf a KeyPackage is not fetched from the Hub consistently then a client might fetch a KeyPackage which corresponding private key has been deleted by the emitter. This would lead to the creation of a Welcome whose receiver would be unable to decrypt, becoming a ghost client.",
+          "createdAt": "2023-11-13T10:06:28Z",
+          "updatedAt": "2023-11-13T10:06:28Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "I don't see where the routing (i.e. via the Hub or directly) makes a difference in the context of KeyPackage or Credential expiration. In both cases the KeyPackage from Bob's server will reach Alice at almost the same time.\r\n\r\nFrom what I understood, the biggest concern is that direct fetching \"violates\" star-shaped topology and can thus lead to situations, where Alice wants to fetch a KeyPackage from Bob, but her provider doesn't allow direct contact. Alice would thus have to fetch through a Hub. However, if Alice and Bob can only connect through that Hub, the Alice probably shouldn't be able to obtain KeyPackages from Bob in the first place.\r\n\r\nFor authentication key material, I suggest (for now) we assume that the credential in each KeyPackage contains a full chain that everyone can verify against their local (web) root of trust.",
+          "createdAt": "2023-11-13T12:59:18Z",
+          "updatedAt": "2023-11-13T12:59:18Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "NONE",
+          "body": "Here is the scenario I have in mind. If we want to strictly prevent ghost clients we have to fetch KeyPackages from the Hub. We could relax that rule for Basic KeyPackages or in the presence of a `PreventGhostClients=false` RoomPolicy.\r\n\r\n```mermaid\r\nsequenceDiagram\r\n  participant B as Bob\r\n  participant HP as Hub Provider\r\n  participant GP as Guest Provider\r\n  participant A as Alice\r\n  B ->>+ HP: Replace its KeyPackages\r\n  HP ->>- B: Ok KeyPackages replaced\r\n  B ->> B: Deletes asociated private keys\r\n  A ->>+ GP: Fetch Bob (old) KeyPackage\r\n  GP ->>- A: Here is 1 KeyPackage from Bob\r\n  HP ->>+ GP: Bob's KeyPackage have changed\r\n  A ->> A: Create Add Commit + Welcome\r\n  A ->> GP: Send Welcome\r\n  GP ->> HP: Fanout Welcome\r\n  HP ->> B: Receive Welcome\r\n  B ->> B: Decryption error\r\n```",
+          "createdAt": "2023-11-13T14:37:16Z",
+          "updatedAt": "2023-11-13T14:37:16Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "What I don't understand is why the guest provider would buffer Bob's KeyPackages instead of just forwarding Alice's Query to Bob's server (which in this case is the Hub)? KeyPackages are (for the most part) single-use. Or are you talking about last-resort KeyPackages?",
+          "createdAt": "2023-11-13T15:22:46Z",
+          "updatedAt": "2023-11-13T15:22:46Z"
+        },
+        {
+          "author": "beltram",
+          "authorAssociation": "NONE",
+          "body": "You're right it does not make sense for Alice's Provider to buffer other Provider's KeyPackage. Let me redact my example. Here if the Hub is not responsible for the KeyPackages of the room, then it would validate the Add Commit of an already deleted KeyPackage. I concede this example is an edge-case but it could still occur.\r\n\r\n```mermaid\r\nsequenceDiagram\r\n  participant B as Bob\r\n  participant GPB as Guest Provider Bob\r\n  participant HP as Hub Provider\r\n  participant GPA as Guest Provider Alice\r\n  participant A as Alice\r\n  A ->>+ GPB: Fetch Bob KeyPackage\r\n  GPB ->>- A: Bob KeyPackage\r\n  A ->> A: Create Add Commit + Welcome\r\n  B ->>+ GPB: Replace its KeyPackages\r\n  A ->> HP: Send Add Commit + Welcome\r\n  GPB ->>- B: Ok KeyPackages replaced\r\n  B ->> B: Deletes asociated private keys\r\n  HP ->> GPB: Fanout Welcome\r\n  GPB ->> B: Receive Welcome\r\n  B ->> B: Decryption error\r\n```",
+          "createdAt": "2023-11-13T17:31:23Z",
+          "updatedAt": "2023-11-13T17:31:23Z"
         }
       ]
     },
@@ -524,9 +587,31 @@
       ],
       "body": "> **TODO**: Discuss if this participation state is desirable, and figure out\r\n> details for how it works. It'd likely just be an `m.room.user` state event\r\n> with no MLS interaction, like invites are.\r\n\r\n> **TODO**: If we have an Add event as discussed in a TODO in the \"Invites\"\r\n> section, an \"Add\" would probably be the response to a knock.",
       "createdAt": "2023-11-09T12:54:20Z",
-      "updatedAt": "2023-11-09T12:54:20Z",
+      "updatedAt": "2023-11-13T18:31:13Z",
       "closedAt": null,
-      "comments": []
+      "comments": [
+        {
+          "author": "rohan-wire",
+          "authorAssociation": "COLLABORATOR",
+          "body": "A response to a knock could be an Add or an Invite or a Ban IMO.",
+          "createdAt": "2023-11-12T13:28:35Z",
+          "updatedAt": "2023-11-12T13:28:35Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Just so we agree on what we're talking about: The knocking functionality is meant to allow a user (or its server) to request to be added to a given room, correct? In that context, do we really need an invite as additional step? I'd say an Add would be a positive response and a kick or ban the negative ones.",
+          "createdAt": "2023-11-13T12:30:42Z",
+          "updatedAt": "2023-11-13T12:30:42Z"
+        },
+        {
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Knocking is intended to be a \"please add me\" stage, yes. It could be argued to be pure signaling without group operations, similar to invites. \r\n\r\nThe requirement to be invited (accepted knock) is largely an artifact from Matrix, where the concept of an \"Add\" doesn't necessarily exist in the signaling flow. For MIMI, an Add is more appropriate (and if worded slightly differently, is an invite in terms of signaling anyways). \r\n\r\nThe question here is mostly whether we need a protocol feature for \"request Add\", or if this could be considered excess bulk.",
+          "createdAt": "2023-11-13T18:31:13Z",
+          "updatedAt": "2023-11-13T18:31:13Z"
+        }
+      ]
     }
   ],
   "pulls": [
@@ -2372,6 +2457,48 @@
               "updatedAt": "2023-11-06T20:34:03Z"
             }
           ]
+        }
+      ]
+    },
+    {
+      "number": 39,
+      "id": "PR_kwDOKZ8QO85fTFO3",
+      "title": "Remove outdated TODO",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/39",
+      "state": "OPEN",
+      "author": "kkohbrok",
+      "authorAssociation": "COLLABORATOR",
+      "assignees": [
+        "kkohbrok"
+      ],
+      "labels": [],
+      "body": "Closes #37.\r\n\r\nWe already have an Add and an Invite flow, which I think solves this TODO.",
+      "createdAt": "2023-11-13T13:04:41Z",
+      "updatedAt": "2023-11-13T18:24:56Z",
+      "baseRepository": "bifurcation/ietf-mimi-protocol",
+      "baseRefName": "main",
+      "baseRefOid": "4142c96d80511a35880c2c536031928072dbc20d",
+      "headRepository": "bifurcation/ietf-mimi-protocol",
+      "headRefName": "konrad/remove_todo",
+      "headRefOid": "3c5a1f54ef5fa04ec152444fd2ea9041ea785dd5",
+      "closedAt": null,
+      "mergedAt": null,
+      "mergedBy": null,
+      "mergeCommit": null,
+      "comments": [],
+      "reviews": [
+        {
+          "id": "PRR_kwDOKZ8QO85m_nOX",
+          "commit": {
+            "abbreviatedOid": "3c5a1f5"
+          },
+          "author": "turt2live",
+          "authorAssociation": "COLLABORATOR",
+          "state": "APPROVED",
+          "body": "thanks!",
+          "createdAt": "2023-11-13T18:24:56Z",
+          "updatedAt": "2023-11-13T18:24:56Z",
+          "comments": []
         }
       ]
     }
