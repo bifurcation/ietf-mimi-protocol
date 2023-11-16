@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-14T00:03:27.497481+00:00",
+  "timestamp": "2023-11-16T00:03:29.220667+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -432,7 +432,7 @@
       ],
       "body": "> **TODO**: For now, we assume that KeyPackages are fetched directly, i.e. not in the\r\n> context of a room and via a Hub. This might change in the future. If it does\r\n> change, this event needs an additional authentication mechanism.",
       "createdAt": "2023-11-09T12:50:08Z",
-      "updatedAt": "2023-11-13T17:31:24Z",
+      "updatedAt": "2023-11-14T07:33:02Z",
       "closedAt": null,
       "comments": [
         {
@@ -476,6 +476,13 @@
           "body": "You're right it does not make sense for Alice's Provider to buffer other Provider's KeyPackage. Let me redact my example. Here if the Hub is not responsible for the KeyPackages of the room, then it would validate the Add Commit of an already deleted KeyPackage. I concede this example is an edge-case but it could still occur.\r\n\r\n```mermaid\r\nsequenceDiagram\r\n  participant B as Bob\r\n  participant GPB as Guest Provider Bob\r\n  participant HP as Hub Provider\r\n  participant GPA as Guest Provider Alice\r\n  participant A as Alice\r\n  A ->>+ GPB: Fetch Bob KeyPackage\r\n  GPB ->>- A: Bob KeyPackage\r\n  A ->> A: Create Add Commit + Welcome\r\n  B ->>+ GPB: Replace its KeyPackages\r\n  A ->> HP: Send Add Commit + Welcome\r\n  GPB ->>- B: Ok KeyPackages replaced\r\n  B ->> B: Deletes asociated private keys\r\n  HP ->> GPB: Fanout Welcome\r\n  GPB ->> B: Receive Welcome\r\n  B ->> B: Decryption error\r\n```",
           "createdAt": "2023-11-13T17:31:23Z",
           "updatedAt": "2023-11-13T17:31:23Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "Ah, I see now what you mean, thanks! A few comments:\r\n\r\nIf we follow what I think you suggest, then Bob would have to upload KeyPackages to every Hub he is involved in and, more generally, Hubs would (have to) manage key material for every client that is in one of their groups. This introduces quite a bit of complexity as Bob now has to track where he uploaded which KeyPackages.\r\n\r\nEven if we implement that solution, we would still have the same problem in cases where Bob doesn't have any KeyPackages on Alice's Hub (because he is not a participant of any groups there). Then Alice has to fetch KeyPackages from Bob's server (through her Hub) and Bob can replace that KeyPackage while Alice is creating the Add, leading to the same situation.\r\n\r\nI don't think we can completely solve this issue. However, Bob can recover from this situation by doing an external commit. He may have missed a few messages, but he can recover. Also, Bob can mitigate this issue by keeping the key material around for a short while after replacing KeyPackages on the server. After all, Alice is not going to wait a very long time between fetching a KeyPackage and performing the Add operation.\r\n\r\nTo summarize, I don't think the problem is that bad, because there is a mitigation and a recovery mechanism. Instead of taking the complexity hit of keeping KeyPackages on every Hub, we should instead focus on a simpler solution (fetching via the Hub, or fetching directly from Bob's server).",
+          "createdAt": "2023-11-14T07:33:02Z",
+          "updatedAt": "2023-11-14T07:33:02Z"
         }
       ]
     },
@@ -552,7 +559,7 @@
       "id": "I_kwDOKZ8QO852WUZl",
       "title": "Refactor invites?",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/37",
-      "state": "OPEN",
+      "state": "CLOSED",
       "author": "turt2live",
       "authorAssociation": "COLLABORATOR",
       "assignees": [],
@@ -561,8 +568,8 @@
       ],
       "body": "> **TODO**: For now, the invite flow implies that the user has to explicitly\r\n> accept by adding one or more clients via external commit as part of the \"Join\"\r\n> flow. In the future, we can either make the \"Invite\" flow more versatile and\r\n> allow for Welcome based invitations, or create an additional \"Add\" flow, that\r\n> allows participants to add other users (and their clients) directly via\r\n> Welcome.",
       "createdAt": "2023-11-09T12:53:14Z",
-      "updatedAt": "2023-11-10T09:29:28Z",
-      "closedAt": null,
+      "updatedAt": "2023-11-14T07:21:15Z",
+      "closedAt": "2023-11-14T07:21:15Z",
       "comments": [
         {
           "author": "kkohbrok",
@@ -2465,7 +2472,7 @@
       "id": "PR_kwDOKZ8QO85fTFO3",
       "title": "Remove outdated TODO",
       "url": "https://github.com/bifurcation/ietf-mimi-protocol/pull/39",
-      "state": "OPEN",
+      "state": "MERGED",
       "author": "kkohbrok",
       "authorAssociation": "COLLABORATOR",
       "assignees": [
@@ -2474,17 +2481,19 @@
       "labels": [],
       "body": "Closes #37.\r\n\r\nWe already have an Add and an Invite flow, which I think solves this TODO.",
       "createdAt": "2023-11-13T13:04:41Z",
-      "updatedAt": "2023-11-13T18:24:56Z",
+      "updatedAt": "2023-11-14T07:21:14Z",
       "baseRepository": "bifurcation/ietf-mimi-protocol",
       "baseRefName": "main",
       "baseRefOid": "4142c96d80511a35880c2c536031928072dbc20d",
       "headRepository": "bifurcation/ietf-mimi-protocol",
       "headRefName": "konrad/remove_todo",
       "headRefOid": "3c5a1f54ef5fa04ec152444fd2ea9041ea785dd5",
-      "closedAt": null,
-      "mergedAt": null,
-      "mergedBy": null,
-      "mergeCommit": null,
+      "closedAt": "2023-11-14T07:21:14Z",
+      "mergedAt": "2023-11-14T07:21:14Z",
+      "mergedBy": "kkohbrok",
+      "mergeCommit": {
+        "oid": "af62be86e01834c228d8bfc068fb383c0cdd20b2"
+      },
       "comments": [],
       "reviews": [
         {
