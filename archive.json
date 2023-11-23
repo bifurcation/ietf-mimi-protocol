@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-21T00:03:38.851671+00:00",
+  "timestamp": "2023-11-23T00:03:32.583491+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -432,7 +432,7 @@
       ],
       "body": "> **TODO**: For now, we assume that KeyPackages are fetched directly, i.e. not in the\r\n> context of a room and via a Hub. This might change in the future. If it does\r\n> change, this event needs an additional authentication mechanism.",
       "createdAt": "2023-11-09T12:50:08Z",
-      "updatedAt": "2023-11-14T07:33:02Z",
+      "updatedAt": "2023-11-21T15:32:19Z",
       "closedAt": null,
       "comments": [
         {
@@ -483,6 +483,27 @@
           "body": "Ah, I see now what you mean, thanks! A few comments:\r\n\r\nIf we follow what I think you suggest, then Bob would have to upload KeyPackages to every Hub he is involved in and, more generally, Hubs would (have to) manage key material for every client that is in one of their groups. This introduces quite a bit of complexity as Bob now has to track where he uploaded which KeyPackages.\r\n\r\nEven if we implement that solution, we would still have the same problem in cases where Bob doesn't have any KeyPackages on Alice's Hub (because he is not a participant of any groups there). Then Alice has to fetch KeyPackages from Bob's server (through her Hub) and Bob can replace that KeyPackage while Alice is creating the Add, leading to the same situation.\r\n\r\nI don't think we can completely solve this issue. However, Bob can recover from this situation by doing an external commit. He may have missed a few messages, but he can recover. Also, Bob can mitigate this issue by keeping the key material around for a short while after replacing KeyPackages on the server. After all, Alice is not going to wait a very long time between fetching a KeyPackage and performing the Add operation.\r\n\r\nTo summarize, I don't think the problem is that bad, because there is a mitigation and a recovery mechanism. Instead of taking the complexity hit of keeping KeyPackages on every Hub, we should instead focus on a simpler solution (fetching via the Hub, or fetching directly from Bob's server).",
           "createdAt": "2023-11-14T07:33:02Z",
           "updatedAt": "2023-11-14T07:33:02Z"
+        },
+        {
+          "author": "dkasak",
+          "authorAssociation": "NONE",
+          "body": "It seems to me that the problem presented here would largely be avoided if instead of key package replacement we were talking about key package *replenishment*.\r\n\r\nReplacement implies we're dropping already published but supposedly unused key packages, which then turn out to have actually been used, triggering the issue. On the other hand, replenishment (up to a given max total) never drops already published key packages before they're used, only adds new ones. This then mostly avoids the problem of dropping key packages prematurely.\r\n\r\nUnder this view, the key package fetching operation is to be considered to be consuming the key package, thereby reducing the number of available key packages on the guest provider, instructing the user (Bob in the diagram above) to replenish a larger number of key packages in order to reach the max total.",
+          "createdAt": "2023-11-21T15:12:20Z",
+          "updatedAt": "2023-11-21T15:12:20Z"
+        },
+        {
+          "author": "kkohbrok",
+          "authorAssociation": "COLLABORATOR",
+          "body": "While it would certainly make things simpler, I don't think we can assume that clients will never need to remove/revoke KeyPackages. For example, if a client rotates its credential for some reason, it won't want to wait until all previously published KeyPackages have expired.",
+          "createdAt": "2023-11-21T15:20:08Z",
+          "updatedAt": "2023-11-21T15:20:08Z"
+        },
+        {
+          "author": "dkasak",
+          "authorAssociation": "NONE",
+          "body": "You're right, of course. A client could also simply lose its private key material for the published key packages due to an error or failure. This makes it obvious removal needs to be supported.\r\n\r\nHowever, I maintain that the default case should be to non-destructively replenish rather than replace, and for the fetching operation to be considered to be consuming (reducing the available total), which in practice makes this problem *much* less likely to occur.",
+          "createdAt": "2023-11-21T15:32:18Z",
+          "updatedAt": "2023-11-21T15:32:18Z"
         }
       ]
     },
