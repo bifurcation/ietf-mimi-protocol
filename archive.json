@@ -1,6 +1,6 @@
 {
   "magic": "E!vIA5L86J2I",
-  "timestamp": "2023-11-30T00:03:31.234720+00:00",
+  "timestamp": "2023-12-03T00:03:33.301103+00:00",
   "repo": "bifurcation/ietf-mimi-protocol",
   "labels": [
     {
@@ -640,6 +640,22 @@
           "updatedAt": "2023-11-13T18:31:13Z"
         }
       ]
+    },
+    {
+      "number": 40,
+      "id": "I_kwDOKZ8QO854hf7_",
+      "title": "XMPP compatibility?",
+      "url": "https://github.com/bifurcation/ietf-mimi-protocol/issues/40",
+      "state": "OPEN",
+      "author": "haansn08",
+      "authorAssociation": "NONE",
+      "assignees": [],
+      "labels": [],
+      "body": "I feel like it's a missed opportunity by the MIMI WG to essentially ignore the prior art created with the XMPP standard and make no effort to be compatible with the existing XMPP internet standard.\r\n\r\nI'm not sure why an entirely new transport protocol and message format that is not compatible with XMPP is being considered, instead of a XMPP protocol extension for MLS.\r\n\r\nThe advantages of Matrix were eventual consistency and more decentralized rooms, but the protocol proposal makes no mention of those features and the scaling issues Matrix has show that they're probably a bad idea too. Is it really worth breaking compatibility with XMPP just to replace XML with JSON?",
+      "createdAt": "2023-12-02T13:48:21Z",
+      "updatedAt": "2023-12-02T13:48:21Z",
+      "closedAt": null,
+      "comments": []
     }
   ],
   "pulls": [
